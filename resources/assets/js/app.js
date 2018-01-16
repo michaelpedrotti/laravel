@@ -236,6 +236,23 @@ APP.Crud.Remove = function(e){
     });
 };
 
+APP.Crud.Search = function(e){
+    
+    $('section.content')
+        .find('table.dataTable')
+            .DataTable()
+                .ajax
+                    .reload();
+};
+
+APP.Crud.Reset = function(e){
+    
+    var container = $('section.content');
+    
+    container.find('form.form-horizontal').get(0).reset();
+    container.find('table.dataTable').DataTable().ajax.reload();
+};
+
 $(document).ready(function() {
     
     $("table.dataTable").on('draw.dt', function(){
@@ -249,9 +266,10 @@ $(document).ready(function() {
     $('a[data-action=show], button[data-action=show]').click(APP.Crud.Show);
     $('a[data-action=create], button[data-action=create]').click(APP.Crud.Create);
     $('a[data-action=edit], button[data-action=create]').click(APP.Crud.Edit);
-    //$('a[data-action=remove], button[data-action=remove]').click(APP.Crud.Remove); 
+    $('a[data-action=search], button[data-action=search]').click(APP.Crud.Search);
+    $('a[data-action=reset], button[data-action=reset]').click(APP.Crud.Reset);
     
-    
+    //$('a[data-action=remove], button[data-action=remove]').click(APP.Crud.Remove);     
     $('a[data-action=remove], button[data-action=remove]').confirmation({
         rootSelector:'[data-action=create]',
         placement:'left',

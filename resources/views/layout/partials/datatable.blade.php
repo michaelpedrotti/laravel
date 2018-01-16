@@ -1,5 +1,30 @@
 @section('content')
 <div class="col-xs-12">
+	@if(View::hasSection('search'))
+		<!-- search.begin -->
+		<div class="box box-primary collapsed-box">
+			<div class="box-header">
+				<h3 class="box-title">Pesquisar</h3>
+				<div class="box-tools pull-right">
+					<button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="" data-original-title="Collapse">
+					  <i class="fa fa-plus"></i></button>
+				  </div>
+			</div>
+			<div class="box-body">
+				{{ Form::open(['class' => 'form-horizontal']) }}
+					@yield('search')
+				{{ Form::close() }}
+			</div>
+			<div class="box-footer">
+				<div class="box-tools">
+					<a href="javascript:void(0)" data-action="search" class="btn bg-purple"><i class="fa fa-search"></i> Consultar</a>
+					<a href="javascript:void(0)" data-action="reset" class="btn bg-olive"><i class="fa fa-eraser"></i> Limpar</a>
+				</div>
+			</div>
+		</div>
+		<!-- search.end -->
+    @endif
+	
 	<div class="box box-primary">
 		<div class="box-header">
 			<h3 class="box-title">Listagem</h3>
@@ -29,14 +54,20 @@
 <script type="text/javascript">
 $(function (){
 	$('table.dataTable').DataTable({
-	   ajax: {
-		   url:'{{ $url }}'
-	   },
-	   columns: [
-		   @foreach($columns as $key => $label)
-		   {data: '{{ $key }}', name: '{{ $key }}', className: 'text-center'},
-		   @endforeach
-	   ]
+		ajax: {
+		   url:'{{ $url }}',
+			data: function(data) {
+
+                $.each($('section.content').find('form.form-horizontal').serializeArray(), function(index, row){
+					data[row.name] = row.value;
+                });
+			}
+		},
+		columns: [
+			@foreach($columns as $key => $label)
+			{data: '{{ $key }}', name: '{{ $key }}', className: 'text-center'},
+			@endforeach
+		]
    });
 });
 </script>
