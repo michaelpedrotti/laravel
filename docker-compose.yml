@@ -1,0 +1,28 @@
+percona:
+  container_name: percona
+  image: percona:5.7
+  environment:
+    MYSQL_ROOT_PASSWORD: root
+    MYSQL_DATABASE: portal
+  ports:
+    - "3306:3306"
+php:
+  image: hscbrasil/portal
+  container_name: php
+  volumes:
+    - .:/var/www/html
+  links:
+    - percona:db
+  ports:
+    - "80:80"
+crud:
+ container_name: crud
+ image: jointecnologia/laravel-crud
+ volumes:
+    - /projects/laravel-crud:/var/www/localhost/htdocs
+ volumes_from:
+   - php
+ links:
+   - percona:db
+ ports:
+   - "9090:80"
