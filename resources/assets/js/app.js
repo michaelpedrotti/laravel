@@ -4,8 +4,8 @@ APP.flash = function(message, level) {
 
 //    $('#flash-messager').append($.parseHTML(
 //        '<div class="alert alert-' + level + '">' +
-    //        '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' +
-    //        '<i class="fa fa-'+ level +'"></i> ' + message +
+//        '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' +
+//        '<i class="fa fa-'+ level +'"></i> ' + message +
 //        '</div>'
 //    ));
 //    
