@@ -15,8 +15,8 @@ class CreateCloudDomainTable extends Migration {
             $table->integer("port")->unsigned();
             $table->string("enabled");
             $table->integer("userId")->unsigned();
-
-        $table->timestamps();                
+			$table->timestamps();  
+		});
     }
 
     public function down() {

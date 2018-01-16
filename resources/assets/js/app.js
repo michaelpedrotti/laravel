@@ -49,18 +49,24 @@ APP.Crud.Save = function(){
     var button = $(this);    
     button.attr('disabled', 'disabled');
     
-    var data = new FormData($('#modal-default').find('form:first').get(0));
+    var form = $('#modal-default').find('form:first');
+    var data = new FormData(form.get(0));
     
     $.ajax({
 
         method:"POST",
-        url:APP.current_controller + '/form' + (APP.key ? '/' + APP.key : ''),
+        type:"POST",
+        url:form.attr('action'),
         dataType:'html',
         data:data,
+        processData: false,
+//        contentType: 'multipart/form-data',
+        contentType: false,
         headers: {
             'X-CSRF-TOKEN':APP.token
          },
          complete:function() {
+             
             button.removeAttr('disabled');
          },
          error:function(jqXHR, textStatus, errorThrown){
@@ -68,15 +74,17 @@ APP.Crud.Save = function(){
             alert('error');
          }, 
          success:function(content, textStatus, jqXHR){
+             
+             console.log('content', content);
 
-             if($(content).find('.alert-success').length > 0) {
+            if($(content).find('.alert-success').length > 0) {
                 
                 $('#modal-default').modal('hide');
                 $('table.dataTable').DataTable().ajax.reload();
             }
             else {
 
-                $('#modal-default .modal-body').html(content);
+                $('#modal-default .modal-body').empty().html(content);
             }
         }  
     });

@@ -4,7 +4,7 @@
 	<div class="col-md-12">
         <div class="portlet light bordered">
             <div class="portlet-body form">
-                {{ Form::open(['method' => 'post', 'url' => url('cloudDomain/form', ['id' => $model->id]), 'class' => 'form-horizontal']) }}
+                {{ Form::open(['method' => 'post', 'url' => url('cloud-domain/form', ['id' => $model->id]), 'class' => 'form-horizontal', 'files' => true]) }}
                     <div class="form-body">
 
                         <div class="col-md-12">

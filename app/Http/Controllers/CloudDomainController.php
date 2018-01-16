@@ -56,7 +56,7 @@ class CloudDomainController extends Controller {
         ]);
         
         if($request->isMethod('post')) {
-           
+
             $model->getConnection()->beginTransaction();
 
             try {
@@ -68,7 +68,7 @@ class CloudDomainController extends Controller {
                 
                 $this->setMessage('O Dominios na núvem foi alterado com sucesso!', 'success'); 
                 
-                return redirect(url('cloudDomain/index'));
+                //return redirect(url('cloud-domain/index'));
             }
 			catch(ValidationException $e){
                 
