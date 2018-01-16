@@ -36,7 +36,9 @@
 <!-- FastClick -->
 <script src="/assets/adminlte/bower_components/fastclick/lib/fastclick.js"></script>
 <!-- Bootstrap Confirmation -->
-<script src="/assets/adminlte/bower_components/bootstrap-confirmation/bootstrap-confirmation.js"></script>
+<script src="/assets/adminlte/bower_components/bootstrap-confirmation2/bootstrap-confirmation.js"></script>
+<!-- Bootstrap Notify -->
+<script src="/assets/adminlte/bower_components/remarkable-bootstrap-notify/bootstrap-notify.js"></script>
 
 <!-- AdminLTE App -->
 <script src="/assets/adminlte/dist/js/adminlte.min.js"></script>

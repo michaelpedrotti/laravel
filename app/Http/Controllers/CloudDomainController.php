@@ -113,22 +113,27 @@ class CloudDomainController extends Controller {
         
         //$this->authorize('CLOUDDOMAIN_EXCLUIR', 'PermissaoPolicy');
 		$model = Model::getModel();
-		
-        $query = $model->query()->whereIn($model->getKeyName(), $request->get('id', [0]));
-
-		//$model->authorize();
-        
         $model->getConnection()->beginTransaction();
         
         $output = ['success' => false, 'msg' => ''];
             
         try {
-
-            $model->delete();
+			
+			$ids = $request->get('id');
+			
+			if(!is_array($ids) || count($ids) <= 0) {
+				throw new Exception('Nenhum id foi especificada');
+			}
+			
+			$model->query()
+				->whereIn($model->getKeyName(), $ids)
+					->get()
+						->each(function($model){ $model->delete(); });
+			
             $model->getConnection()->commit();
 
             $output['success'] = true;
-            $output['msg'] = 'O Dominios na núvem foi excluido com sucesso!';
+            $output['msg'] = (count($ids) > 1) ? 'O Dominios na núvem foi excluido com sucesso' : 'O Domínio foi excluido com sucesso';
         } 
         catch (\Exception $e) {
 

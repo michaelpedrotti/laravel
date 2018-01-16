@@ -2,14 +2,23 @@ if(!APP) var APP = {};
 
 APP.flash = function(message, level) {
 
-    $('#flash-messager').append($.parseHTML(
-        '<div class="alert alert-' + level + '">' +
-        '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' +
-        '<i class="fa fa-'+ level +'"></i> ' + message +
-        '</div>'
-    ));
-    
-    window.scrollTo(0, 0);
+//    $('#flash-messager').append($.parseHTML(
+//        '<div class="alert alert-' + level + '">' +
+    //        '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' +
+    //        '<i class="fa fa-'+ level +'"></i> ' + message +
+//        '</div>'
+//    ));
+//    
+//    window.scrollTo(0, 0);
+
+    $.notify({ message:message }, {
+        type:level,
+        delay:10000,
+        animate: {
+            enter:'animated fadeInDown',
+            exit:'animated fadeOutUp'
+        }
+    });
 };
 
 //------------------------------------------------------------------------------
@@ -74,10 +83,12 @@ APP.Crud.Save = function(){
             alert('error');
          }, 
          success:function(content, textStatus, jqXHR){
-             
-             console.log('content', content);
+            
+            var alert = $(content).find('.alert-success');
 
-            if($(content).find('.alert-success').length > 0) {
+            if(alert.length > 0) {
+                
+                APP.flash(alert.text(), 'success');
                 
                 $('#modal-default').modal('hide');
                 $('table.dataTable').DataTable().ajax.reload();
@@ -173,7 +184,7 @@ APP.Crud.Edit = function(){
     selector.modal('show'); 
 };
 
-APP.Crud.Remove = function(){
+APP.Crud.Remove = function(e){
     
     var button = $(this);
     var container = button.parents('div.box');
@@ -184,16 +195,16 @@ APP.Crud.Remove = function(){
         return false;
     }
     
-    // mensagem para confirmar exclusão
-    
     var datatable = container.find('table').DataTable();
     var data = {};
+    var length = 0;
     
     selector.each(function(index, el){
         data['id[' + index + ']'] = $(el).val();
+        length++;
     });
-     
-    button.attr('disabled', 'disabled')
+    
+    button.attr('disabled', 'disabled');
     
     $.ajax({
         type:'POST',
@@ -211,11 +222,15 @@ APP.Crud.Remove = function(){
             alert('error');
          }, 
          success:function(data){
-
+             
             if(data.success) {
-                
-                alert(data.msg);
+
+                APP.flash(data.msg, 'success');
                 datatable.ajax.reload();
+            }
+            else {
+                
+                APP.flash(data.msg, 'danger');
             }
         }  
     });
@@ -234,6 +249,21 @@ $(document).ready(function() {
     $('a[data-action=show], button[data-action=show]').click(APP.Crud.Show);
     $('a[data-action=create], button[data-action=create]').click(APP.Crud.Create);
     $('a[data-action=edit], button[data-action=create]').click(APP.Crud.Edit);
-    $('a[data-action=remove], button[data-action=remove]').click(APP.Crud.Remove);
+    //$('a[data-action=remove], button[data-action=remove]').click(APP.Crud.Remove); 
+    
+    
+    $('a[data-action=remove], button[data-action=remove]').confirmation({
+        rootSelector:'[data-action=create]',
+        placement:'left',
+        title: 'Remover registros selecionado?',
+        btnOkClass: 'btn btn-sm btn-danger',
+        btnOkLabel: 'Apagar',
+        btnOkIcon: 'glyphicon glyphicon-ok',
+        btnCancelClass: 'btn btn-sm btn-default',
+        btnCancelLabel: 'Cancelar',
+        btnCancelIcon: 'glyphicon glyphicon-remove',
+        popout: true
+        
+    }).on('confirmed.bs.confirmation', APP.Crud.Remove);
 });
 //------------------------------------------------------------------------------
