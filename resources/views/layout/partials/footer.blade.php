@@ -35,6 +35,9 @@
 <script src="/assets/adminlte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 <!-- FastClick -->
 <script src="/assets/adminlte/bower_components/fastclick/lib/fastclick.js"></script>
+<!-- Bootstrap Confirmation -->
+<script src="/assets/adminlte/bower_components/bootstrap-confirmation/bootstrap-confirmation.js"></script>
+
 <!-- AdminLTE App -->
 <script src="/assets/adminlte/dist/js/adminlte.min.js"></script>
 <script src="/assets/js/app.js"></script>
