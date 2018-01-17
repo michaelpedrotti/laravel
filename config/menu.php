@@ -5,19 +5,19 @@ return [
     [
         'label' => 'Administração',
         'url' => '',
-        'icon' => 'fa-circle-o',
+        'icon' => 'fa-gear',
         'child' => [
 
             [
                 'label' => 'Perfil',
-                'url' => 'profile',
-                'icon' => 'fa-fa-chevron-right ',
+                'url' => 'acls',
+                'icon' => 'fa-lock',
                 'role' => ''
             ],
             [
                 'label' => 'Usuários',
                 'url' => 'users',
-				'icon' => 'fa-fa-chevron-right ',
+				'icon' => 'fa-user',
                 'role' => 'USER_LISTAR'
             ]
         ],

@@ -3,17 +3,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 /**
- * Class Users
+ * Class Acls
  * @package App\Models
  * @author Michael Pedrotti <michael.pedrotti@hscbrasil.com.br>
  * @version 17/01/2018
  */
-class Users extends \Illuminate\Database\Eloquent\Model {
+class Acls extends \Illuminate\Database\Eloquent\Model {
     
     use SoftDeletes;
     protected $primaryKey = 'id';
     
-    public $table = 'users';
+    public $table = 'acls';
     public $timestamps = true;
     
     /**
@@ -23,9 +23,7 @@ class Users extends \Illuminate\Database\Eloquent\Model {
     public $fillable = [
         'id',
         'name',
-        'email',
-        'password',
-        'remember_token',
+        'uid',
     ];
     
     /**
@@ -35,9 +33,7 @@ class Users extends \Illuminate\Database\Eloquent\Model {
     protected $casts = [
         'id' => 'integer',
         'name' => 'string',
-        'email' => 'string',
-        'password' => 'string',
-        'remember_token' => 'string',
+        'uid' => 'string',
     ];    
     
     /**
@@ -47,9 +43,7 @@ class Users extends \Illuminate\Database\Eloquent\Model {
     public $labels = [
         'id' => 'ID',
         'name' => 'Nome',
-        'email' => 'E-mail',
-        'password' => 'Senha',
-        'remember_token' => 'Token',
+        'uid' => 'UID',
     ];
 	
 	
@@ -57,9 +51,15 @@ class Users extends \Illuminate\Database\Eloquent\Model {
 
 
     /**
-     * Relations com Acls     * @return Acls     */
-    public function Acls() {
-        return $this->belongsToMany('App\Models\Acls', 'user_acls', 'user_id', 'acl_id');
+     * Relations com Permissions     * @return Permissions     */
+    public function Permissions() {
+        return $this->belongsToMany('App\Models\Permissions', 'acl_permissions', 'acl_id', 'permission_id');
+    }
+
+    /**
+     * Relations com Users     * @return Users     */
+    public function Users() {
+        return $this->belongsToMany('App\Models\Users', 'user_acls', 'acl_id', 'user_id');
     }
 
     /**
@@ -108,16 +108,8 @@ class Users extends \Illuminate\Database\Eloquent\Model {
             $builder->where('name', $filter['name']);
         }
            
-        if(array_key_exists('email', $filter) && !empty($filter['email'])) {
-            $builder->where('email', $filter['email']);
-        }
-           
-        if(array_key_exists('password', $filter) && !empty($filter['password'])) {
-            $builder->where('password', $filter['password']);
-        }
-           
-        if(array_key_exists('remember_token', $filter) && !empty($filter['remember_token'])) {
-            $builder->where('remember_token', $filter['remember_token']);
+        if(array_key_exists('uid', $filter) && !empty($filter['uid'])) {
+            $builder->where('uid', $filter['uid']);
         }
         
         

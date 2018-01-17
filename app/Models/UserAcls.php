@@ -1,20 +1,20 @@
 <?php
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
+
 /**
- * Class Users
+ * Class UserAcls
  * @package App\Models
  * @author Michael Pedrotti <michael.pedrotti@hscbrasil.com.br>
  * @version 17/01/2018
  */
-class Users extends \Illuminate\Database\Eloquent\Model {
+class UserAcls extends \Illuminate\Database\Eloquent\Model {
     
-    use SoftDeletes;
+    
     protected $primaryKey = 'id';
     
-    public $table = 'users';
-    public $timestamps = true;
+    public $table = 'user_acls';
+    public $timestamps = false;
     
     /**
      * Variaveis seguras para uso e guardar dados 
@@ -22,10 +22,8 @@ class Users extends \Illuminate\Database\Eloquent\Model {
      */
     public $fillable = [
         'id',
-        'name',
-        'email',
-        'password',
-        'remember_token',
+        'user_id',
+        'acl_id',
     ];
     
     /**
@@ -34,10 +32,8 @@ class Users extends \Illuminate\Database\Eloquent\Model {
      */
     protected $casts = [
         'id' => 'integer',
-        'name' => 'string',
-        'email' => 'string',
-        'password' => 'string',
-        'remember_token' => 'string',
+        'user_id' => 'integer',
+        'acl_id' => 'integer',
     ];    
     
     /**
@@ -46,20 +42,22 @@ class Users extends \Illuminate\Database\Eloquent\Model {
      */
     public $labels = [
         'id' => 'ID',
-        'name' => 'Nome',
-        'email' => 'E-mail',
-        'password' => 'Senha',
-        'remember_token' => 'Token',
+        'user_id' => 'Usuário',
+        'acl_id' => 'Perfil',
     ];
 	
 	
     
 
-
     /**
-     * Relations com Acls     * @return Acls     */
-    public function Acls() {
-        return $this->belongsToMany('App\Models\Acls', 'user_acls', 'user_id', 'acl_id');
+     * Busca o modelo de acls     * @return acls     */;
+    public function Acls() {'.PHP_EOL;
+        return $this->belongsTo('App\Models\Acls', 'id', 'acl_id');
+    }
+    /**
+     * Busca o modelo de users     * @return users     */;
+    public function Users() {'.PHP_EOL;
+        return $this->belongsTo('App\Models\Users', 'id', 'user_id');
     }
 
     /**
@@ -104,20 +102,12 @@ class Users extends \Illuminate\Database\Eloquent\Model {
             $builder->where('id', $filter['id']);
         }
            
-        if(array_key_exists('name', $filter) && !empty($filter['name'])) {
-            $builder->where('name', $filter['name']);
+        if(array_key_exists('user_id', $filter) && !empty($filter['user_id'])) {
+            $builder->where('user_id', $filter['user_id']);
         }
            
-        if(array_key_exists('email', $filter) && !empty($filter['email'])) {
-            $builder->where('email', $filter['email']);
-        }
-           
-        if(array_key_exists('password', $filter) && !empty($filter['password'])) {
-            $builder->where('password', $filter['password']);
-        }
-           
-        if(array_key_exists('remember_token', $filter) && !empty($filter['remember_token'])) {
-            $builder->where('remember_token', $filter['remember_token']);
+        if(array_key_exists('acl_id', $filter) && !empty($filter['acl_id'])) {
+            $builder->where('acl_id', $filter['acl_id']);
         }
         
         
