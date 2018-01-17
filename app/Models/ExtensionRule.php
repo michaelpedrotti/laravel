@@ -3,17 +3,17 @@ namespace App\Models;
 
 
 /**
- * Class CloudDomain
+ * Class ExtensionRule
  * @package App\Models
  * @author Michael Pedrotti <michael.pedrotti@hscbrasil.com.br>
  * @version 17/01/2018
  */
-class CloudDomain extends \Illuminate\Database\Eloquent\Model {
+class ExtensionRule extends \Illuminate\Database\Eloquent\Model {
     
     
     protected $primaryKey = 'id';
     
-    public $table = 'cloud_domain';
+    public $table = 'extension_rule';
     public $timestamps = false;
     
     /**
@@ -22,12 +22,9 @@ class CloudDomain extends \Illuminate\Database\Eloquent\Model {
      */
     public $fillable = [
         'id',
-        'point',
-        'domain',
-        'server',
-        'port',
-        'enabled',
-        'userId',
+        'to_address',
+        'from_address',
+        'timestamp',
     ];
     
     /**
@@ -36,12 +33,9 @@ class CloudDomain extends \Illuminate\Database\Eloquent\Model {
      */
     protected $casts = [
         'id' => 'integer',
-        'point' => 'integer',
-        'domain' => 'string',
-        'server' => 'string',
-        'port' => 'integer',
-        'enabled' => 'string',
-        'userId' => 'integer',
+        'to_address' => 'string',
+        'from_address' => 'string',
+        'timestamp' => 'data_tempo',
     ];    
     
     /**
@@ -50,14 +44,24 @@ class CloudDomain extends \Illuminate\Database\Eloquent\Model {
      */
     public $labels = [
         'id' => 'ID',
-        'point' => 'point',
-        'domain' => 'domain',
-        'server' => 'server',
-        'port' => 'port',
-        'enabled' => 'enabled',
-        'userId' => 'userId',
+        'to_address' => 'Barba',
+        'from_address' => 'Ramon',
+        'timestamp' => 'timestamp',
     ];
 	
+	/**
+	 * Mutator para timestamp	 *
+	 * @link https://laravel.com/docs/5.5/eloquent-mutators 
+	 */
+	public function setTimestampAttribute($value){
+		
+		if(preg_match('/[0-9]{2}\/[0-9]{2}\/[0-9]{4}/', $value)) {
+			
+			$value = \DateTime::createFromFormat('d/m/Y', $value)->format('Y-m-d 00:00:00');
+		}
+		
+		$this->attributes['timestamp'] = $value;
+	}
 	
     
 
@@ -104,28 +108,16 @@ class CloudDomain extends \Illuminate\Database\Eloquent\Model {
             $builder->where('id', $filter['id']);
         }
            
-        if(array_key_exists('point', $filter) && !empty($filter['point'])) {
-            $builder->where('point', $filter['point']);
+        if(array_key_exists('to_address', $filter) && !empty($filter['to_address'])) {
+            $builder->where('to_address', $filter['to_address']);
         }
            
-        if(array_key_exists('domain', $filter) && !empty($filter['domain'])) {
-            $builder->where('domain', $filter['domain']);
+        if(array_key_exists('from_address', $filter) && !empty($filter['from_address'])) {
+            $builder->where('from_address', $filter['from_address']);
         }
            
-        if(array_key_exists('server', $filter) && !empty($filter['server'])) {
-            $builder->where('server', $filter['server']);
-        }
-           
-        if(array_key_exists('port', $filter) && !empty($filter['port'])) {
-            $builder->where('port', $filter['port']);
-        }
-           
-        if(array_key_exists('enabled', $filter) && !empty($filter['enabled'])) {
-            $builder->where('enabled', $filter['enabled']);
-        }
-           
-        if(array_key_exists('userId', $filter) && !empty($filter['userId'])) {
-            $builder->where('userId', $filter['userId']);
+        if(array_key_exists('timestamp', $filter) && !empty($filter['timestamp'])) {
+            $builder->where('timestamp', $filter['timestamp']);
         }
         
         

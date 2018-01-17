@@ -1,11 +1,11 @@
 @include('layout.flash')
 <div class="row">
-    <title class="hidden">{{ empty($model->id) ? 'Cadastrar' : 'Alterar' }}  Dominios na núvem</title>
+    <title class="hidden">{{ empty($model->id) ? 'Cadastrar' : 'Alterar' }}  Extensão por regra</title>
 	<div class="col-md-12">
         <div class="portlet light bordered">
             <div class="portlet-body form">
-                {{ Form::open(['method' => 'post', 'url' => url('cloud-domain/form', ['id' => $model->id]), 'class' => 'form-horizontal', 'files' => true]) }}
-                    <div class="form-body">{{ Form::open(['method' => 'post', 'url' => url('cloud-domain/form', ['id' => $model->id]), 'class' => 'form-horizontal', 'files' => true]) }}
+                {{ Form::open(['method' => 'post', 'data-action' => 'form-ajax', 'url' => url('cloud-domain/form', ['id' => $model->id]), 'class' => 'form-horizontal', 'files' => true]) }}
+                    <div class="form-body">
 
                         <div class="col-md-12">
                             <fieldset>
@@ -35,7 +35,7 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-body {{ $errors->first("enabled", "has-error") }}">
-                                            <label class="control-label">{{ $model->labels['enabled'] }}  :</label>
+                                            <label class="control-label">{{ $model->labels['enabled'] }}  <span class="request">*</span>:</label>
                                             {{ Form::text('enabled', $model->enabled, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
                                         </div>
                                     </div>

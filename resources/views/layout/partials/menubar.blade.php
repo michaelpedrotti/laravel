@@ -1,15 +1,27 @@
 <ul class="sidebar-menu" data-widget="tree">
-	<li class="treeview">
-		<a href="#">
-			<i class="fa fa-th"></i>
-			<span>Administração</span>
-		</a>
-		<ul class="treeview-menu">
-			<li><a href="{{ url('profile/index') }}"><i class="fa fa-circle-o  text-red"></i> Perfil</a></li>
-			<li><a href="{{ url('users/index') }}"><i class="fa fa-circle-o text-aqua"></i> Usuários</a></li>
-		</ul>
-	</li>
-	<li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
-	<li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
-	<li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+	
+	@foreach(app_menu() as $menu)
+		@if($menu['disabled'])
+		@else
+			@if(empty($menu['child']))<li>@else<li class="treeview">@endif
+				<a href="{{ empty($menu['url']) ? 'javascript:void(0)' : url($menu['url']) }}">
+					<i class="fa {{ array_get($menu, 'icon') }}"></i>
+					<span>{{ $menu['label'] }}</span>
+				</a>
+				@if(!empty($menu['child']))
+					<ul class="treeview-menu">
+						@foreach($menu['child'] as $child)
+							@if($child['disabled']) continue; @endif
+							<li>
+								<a href="{{ empty($child['url']) ? 'javascript:void(0)' : url($child['url']) }}">
+									<i class="fa {{ array_get($child, 'icon') }}"></i> 
+									<span>{{ $child['label'] }}</span>
+								</a>
+							</li>
+						@endforeach
+					</ul>
+				@endif
+			</li>
+		@endif
+	@endforeach
 </ul>

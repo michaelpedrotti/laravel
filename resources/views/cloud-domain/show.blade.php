@@ -1,5 +1,5 @@
 <div class="row">
-    <title class="hidden">Visualizar Dominios na núvem</title>
+    <title class="hidden">Visualizar Extensão por regra</title>
 	<div class="col-md-12">
         <div class="portlet light bordered">
             <div class="portlet-body">

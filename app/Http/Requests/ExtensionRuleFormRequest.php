@@ -8,7 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @author Michael Pedrotti <michael.pedrotti@hscbrasil.com.br>
  * @version 17/01/2018
  */
-class CloudDomainFormRequest extends FormRequest
+class ExtensionRuleFormRequest extends FormRequest
 {
     /**
      * Determina se o usuário pode realizar o request
@@ -26,12 +26,6 @@ class CloudDomainFormRequest extends FormRequest
      */
     public function rules() {
         return [
-            'point' => ['required'],
-            'domain' => ['required'],
-            'server' => ['required'],
-            'port' => ['required'],
-            'enabled' => ['required'],
-            'userId' => ['required'],
         ];
     }
     
@@ -43,18 +37,12 @@ class CloudDomainFormRequest extends FormRequest
         return [
                         
                         
-            'point.required' => 'O campo "point" não foi preenchido.',            
                         
-            'domain.required' => 'O campo "domain" não foi preenchido.',            
                         
-            'server.required' => 'O campo "server" não foi preenchido.',            
                         
-            'port.required' => 'O campo "port" não foi preenchido.',            
                         
-            'enabled.required' => 'O campo "enabled" não foi preenchido.',            
                         
-            'userId.required' => 'O campo "userId" não foi preenchido.',            
-                        
+            'timestamp.date_format' => 'O campo "timestamp" está com a formatação inválida.',            
         ];
     }
     

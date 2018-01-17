@@ -3,8 +3,8 @@ namespace App\Http\Controllers;
 
 use Yajra\Datatables\Facades\Datatables;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CloudDomainFormRequest as FormRequest;
-use App\Models\CloudDomain as Model; 
+use App\Http\Requests\ExtensionRuleFormRequest as FormRequest;
+use App\Models\ExtensionRule as Model; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
@@ -14,7 +14,7 @@ use Illuminate\Validation\ValidationException;
  *
  * @author Michael Pedrotti <michael.pedrotti@hscbrasil.com.br>
  */
-class CloudDomainController extends Controller {
+class ExtensionRuleController extends Controller {
         
     /**
      * Monta a listagem dos Extensões por regras
@@ -24,7 +24,7 @@ class CloudDomainController extends Controller {
      */
     public function index(Request $request) {
     
-        //$this->authorize('CLOUDDOMAIN_LISTAR', 'PermissaoPolicy');
+        //$this->authorize('EXTENSIONRULE_LISTAR', 'PermissaoPolicy');
         
 		$model = Model::getModel()->fill($request->all());
 
@@ -33,28 +33,19 @@ class CloudDomainController extends Controller {
 				//->editColumn('id', function ($query) {
 				//	return $query->id;
 				//})
-				//->editColumn('point', function ($query) {
-				//	return $query->point;
+				//->editColumn('to_address', function ($query) {
+				//	return $query->to_address;
 				//})
-				//->editColumn('domain', function ($query) {
-				//	return $query->domain;
+				//->editColumn('from_address', function ($query) {
+				//	return $query->from_address;
 				//})
-				//->editColumn('server', function ($query) {
-				//	return $query->server;
-				//})
-				//->editColumn('port', function ($query) {
-				//	return $query->port;
-				//})
-				//->editColumn('enabled', function ($query) {
-				//	return $query->enabled;
-				//})
-				//->editColumn('userId', function ($query) {
-				//	return $query->userId;
-				//})
+				->editColumn('timestamp', function ($query) {
+					return \DateTime::createFromFormat('Y-m-d H:i:s', $query->timestamp)->format('d/m/Y H:i:s');
+				})
 				->make(true);
         }
        
-        return view('cloud-domain.index', [
+        return view('extension-rule.index', [
             'model' => $model
         ]);
     }
@@ -67,13 +58,13 @@ class CloudDomainController extends Controller {
      */
     public function form(Request $request) {
     
-        //$this->authorize(($request->route('id') ? 'CLOUDDOMAIN_EDITAR' : 'CLOUDDOMAIN_CADASTRAR'), 'PermissaoPolicy');
+        //$this->authorize(($request->route('id') ? 'EXTENSIONRULE_EDITAR' : 'EXTENSIONRULE_CADASTRAR'), 'PermissaoPolicy');
         
         $model = Model::findOrNew($request->route('id'));
         //$model->authorize();
         $model->fill($request->all());
 		
-		$view = view('cloud-domain.form', [
+		$view = view('extension-rule.form', [
             'model' => $model
         ]);
         
@@ -113,12 +104,12 @@ class CloudDomainController extends Controller {
      */
     public function show(Request $request) {
     
-        //$this->authorize('CLOUDDOMAIN_VISUALIZAR', 'PermissaoPolicy');
+        //$this->authorize('EXTENSIONRULE_VISUALIZAR', 'PermissaoPolicy');
     
         $model = Model::findOrFail($request->route('id')); 
         //$model->authorize($request->route('id'));
         
-        return view('cloud-domain.show', [
+        return view('extension-rule.show', [
             'model' => $model
         ]);
     }
@@ -131,7 +122,7 @@ class CloudDomainController extends Controller {
      */
     public function remove(Request $request) {
         
-        //$this->authorize('CLOUDDOMAIN_EXCLUIR', 'PermissaoPolicy');
+        //$this->authorize('EXTENSIONRULE_EXCLUIR', 'PermissaoPolicy');
     
 		$model = Model::getModel();
         $model->getConnection()->beginTransaction();

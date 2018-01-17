@@ -35,17 +35,11 @@ APP.Crud.CheckAll = function(){
     
     if(checkbox.is(':checked')) {
 
-        fn = function(checkbox){
-            
-            checkbox.attr('checked', 'checked');
-        };
+        fn = function(checkbox){ checkbox.attr('checked', 'checked'); };
     }
     else {
 
-        fn = function(checkbox){
-            
-            checkbox.removeAttr('checked');
-        };
+        fn = function(checkbox){ checkbox.removeAttr('checked'); };
     }
     
     checkbox.parents('table:first').find('tbody').find('input[type=checkbox]').each(function(index, el){

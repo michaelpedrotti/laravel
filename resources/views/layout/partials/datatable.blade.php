@@ -11,7 +11,7 @@
 				  </div>
 			</div>
 			<div class="box-body">
-				{{ Form::open(['class' => 'form-horizontal']) }}
+				{{ Form::open(['class' => 'form-horizontal', 'data-action' => 'form-search']) }}
 					@yield('search')
 				{{ Form::close() }}
 			</div>
@@ -58,7 +58,7 @@ $(function (){
 		   url:'{{ $url }}',
 			data: function(data) {
 
-                $.each($('section.content').find('form.form-horizontal').serializeArray(), function(index, row){
+                $.each($('form[data-action=form-search]').serializeArray(), function(index, row){
 					data[row.name] = row.value;
                 });
 			}
