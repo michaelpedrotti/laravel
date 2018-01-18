@@ -8,7 +8,7 @@ namespace App\Models;
  * @author Michael Pedrotti <michael.pedrotti@hscbrasil.com.br>
  * @version 17/01/2018
  */
-class Permissions extends \Illuminate\Database\Eloquent\Model {
+class Permissions extends \Eloquent {
     
     
     protected $primaryKey = 'id';

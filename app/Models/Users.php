@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @author Michael Pedrotti <michael.pedrotti@hscbrasil.com.br>
  * @version 17/01/2018
  */
-class Users extends \Illuminate\Database\Eloquent\Model {
+class Users extends \Eloquent {
     
     use SoftDeletes;
     protected $primaryKey = 'id';

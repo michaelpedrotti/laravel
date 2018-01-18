@@ -8,7 +8,7 @@ namespace App\Models;
  * @author Michael Pedrotti <michael.pedrotti@hscbrasil.com.br>
  * @version 17/01/2018
  */
-class UserAcls extends \Illuminate\Database\Eloquent\Model {
+class UserAcls extends \Eloquent {
     
     
     protected $primaryKey = 'id';
@@ -50,13 +50,19 @@ class UserAcls extends \Illuminate\Database\Eloquent\Model {
     
 
     /**
-     * Busca o modelo de acls     * @return acls     */;
-    public function Acls() {'.PHP_EOL;
+     * Busca o modelo de acls     
+	 * 
+	 * @return acls     
+	 */
+    public function Acls() {
         return $this->belongsTo('App\Models\Acls', 'id', 'acl_id');
     }
     /**
-     * Busca o modelo de users     * @return users     */;
-    public function Users() {'.PHP_EOL;
+     * Busca o modelo de users     
+	 * 
+	 * @return users     
+	 */
+    public function Users() {
         return $this->belongsTo('App\Models\Users', 'id', 'user_id');
     }
 

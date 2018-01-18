@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @author Michael Pedrotti <michael.pedrotti@hscbrasil.com.br>
  * @version 17/01/2018
  */
-class Acls extends \Illuminate\Database\Eloquent\Model {
+class Acls extends \Eloquent {
     
     use SoftDeletes;
     protected $primaryKey = 'id';

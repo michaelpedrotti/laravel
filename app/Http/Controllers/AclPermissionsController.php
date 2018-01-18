@@ -25,11 +25,15 @@ class AclPermissionsController extends Controller {
     public function index(Request $request) {
     
         //$this->authorize('ACLPERMISSIONS_LISTAR', 'PermissaoPolicy');
-        
-		$model = Model::getModel()->fill($request->all());
 
+		$model = \App\Models\Permissions::getModel()->fill($request->all());
+
+		$filter = array_merge($request->all(), [	
+			'acl_id' => $request->route('id')
+		]);
+		
         if ($request->isXmlHttpRequest()) {
-            return Datatables::eloquent($model->search())
+            return Datatables::eloquent($model->search($filter))
 				//->editColumn('id', function ($query) {
 				//	return $query->id;
 				//})
@@ -41,9 +45,14 @@ class AclPermissionsController extends Controller {
 				//})
 				->make(true);
         }
+		
+		if(empty($request->route('id'))) {
+			$this->setMessage('Nenhum perfil foi especificado', 'warning');
+			return redirect(url('/home'));
+		}
        
         return view('acl-permissions.index', [
-            'model' => $model
+            'model' => Model::getModel()
         ]);
     }
         

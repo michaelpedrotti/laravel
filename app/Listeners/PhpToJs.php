@@ -29,9 +29,10 @@ class PhpToJs {
         $controller = $route->parameter('controller', 'default');
         $action = $route->parameter('action', 'index');
         $key = $route->parameter('id', null);
-        
+		
         Javascript::put([
 			'token' => csrf_token(),
+			'uri' => $controller . '/' . $action,
             'base_url' => asset('/'),
 			'current_url' => asset('/') . $controller . '/' . $action . ($key ? '/' . $key : ''),
 			'current_controller' => asset('/') . $controller,

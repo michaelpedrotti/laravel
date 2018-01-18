@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @author Michael Pedrotti <michael.pedrotti@hscbrasil.com.br>
  * @version 18/01/2018
  */
-class Documents extends \Illuminate\Database\Eloquent\Model {
+class Documents extends \Eloquent {
     
     use SoftDeletes;
     protected $primaryKey = 'id';
@@ -59,8 +59,8 @@ class Documents extends \Illuminate\Database\Eloquent\Model {
     
 
     /**
-     * Busca o modelo de document_types     * @return document_types     */;
-    public function DocumentTypes() {'.PHP_EOL;
+     * Busca o modelo de document_types     * @return document_types     */
+    public function DocumentTypes() {
         return $this->belongsTo('App\Models\DocumentTypes', 'id', 'type_id');
     }
 

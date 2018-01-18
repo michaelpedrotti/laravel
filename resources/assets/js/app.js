@@ -21,6 +21,22 @@ APP.flash = function(message, level) {
     });
 };
 
+APP.openMenu = function(){
+    
+    var selector = $('li[data-route*="' + APP.controller + '"]');
+    
+    if(selector.length > 0) {
+        
+        selector.each(function(index, el){
+            
+            $(el).addClass('active')
+                .closest('li.treeview')
+                    .addClass('active menu-open');
+            
+        });
+    }
+};
+
 //------------------------------------------------------------------------------
 // CRUD Básico
 //------------------------------------------------------------------------------
@@ -277,5 +293,7 @@ $(document).ready(function() {
         popout: true
         
     }).on('confirmed.bs.confirmation', APP.Crud.Remove);
+    
+    APP.openMenu();
 });
 //------------------------------------------------------------------------------

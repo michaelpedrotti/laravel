@@ -10,13 +10,13 @@
 <div class="col-sm-6">
 	<div class="form-body">
 		<label class="control-label">{{ $model->labels['acl_id'] }} :</label>
-		{{ Form::select('acl_id', \App\Models\Acls::getModel()->consultar()->pluck('id', 'id')->prepend('Selecione', '')->toArray(), $model->acl_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
+		{{ Form::select('acl_id', \App\Models\Acls::getModel()->search()->pluck('id', 'id')->prepend('Selecione', '')->toArray(), $model->acl_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
 	</div>
 </div>
 <div class="col-sm-6">
 	<div class="form-body">
 		<label class="control-label">{{ $model->labels['permission_id'] }} :</label>
-		{{ Form::select('permission_id', \App\Models\Permissions::getModel()->consultar()->pluck('id', 'id')->prepend('Selecione', '')->toArray(), $model->permission_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
+		{{ Form::select('permission_id', \App\Models\Permissions::getModel()->search()->pluck('id', 'id')->prepend('Selecione', '')->toArray(), $model->permission_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
 	</div>
 </div>
    

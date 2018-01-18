@@ -10,7 +10,7 @@
 <div class="col-sm-6">
 	<div class="form-body">
 		<label class="control-label">{{ $model->labels['type_id'] }} :</label>
-		{{ Form::select('type_id', \App\Models\DocumentTypes::getModel()->consultar()->pluck('id', 'id')->prepend('Selecione', '')->toArray(), $model->type_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
+		{{ Form::select('type_id', \App\Models\DocumentTypes::getModel()->search()->pluck('id', 'id')->prepend('Selecione', '')->toArray(), $model->type_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
 	</div>
 </div>
 <div class="col-sm-6">

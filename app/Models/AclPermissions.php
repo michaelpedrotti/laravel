@@ -1,16 +1,14 @@
 <?php
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class AclPermissions
  * @package App\Models
  * @author Michael Pedrotti <michael.pedrotti@hscbrasil.com.br>
  * @version 18/01/2018
  */
-class AclPermissions extends \Illuminate\Database\Eloquent\Model {
+class AclPermissions extends \Eloquent {
     
-    use SoftDeletes;
     protected $primaryKey = 'id';
     
     public $table = 'acl_permissions';
@@ -50,13 +48,16 @@ class AclPermissions extends \Illuminate\Database\Eloquent\Model {
     
 
     /**
-     * Busca o modelo de acls     * @return acls     */;
-    public function Acls() {'.PHP_EOL;
+     * Busca o modelo de acls     
+	 * @return acls     
+	 */
+    public function Acls() {
         return $this->belongsTo('App\Models\Acls', 'id', 'acl_id');
     }
     /**
-     * Busca o modelo de permissions     * @return permissions     */;
-    public function Permissions() {'.PHP_EOL;
+     * Busca o modelo de permissions     
+	 * @return permissions     */
+    public function Permissions() {
         return $this->belongsTo('App\Models\Permissions', 'id', 'permission_id');
     }
 
