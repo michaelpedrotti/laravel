@@ -22,6 +22,8 @@ class CreateAclPermissionsTable extends Migration {
 				->on('permissions')
 				->onDelete('cascade');
 		});
+		
+		app(\AclPermissionsSeeder::class)->run();
 	}
 
 	public function down() {
