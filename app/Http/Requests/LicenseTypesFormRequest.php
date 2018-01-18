@@ -8,7 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @author Michael Pedrotti <michael.pedrotti@hscbrasil.com.br>
  * @version 18/01/2018
  */
-class AclPermissionsFormRequest extends FormRequest
+class LicenseTypesFormRequest extends FormRequest
 {
     /**
      * Determina se o usuário pode realizar o request
@@ -26,8 +26,7 @@ class AclPermissionsFormRequest extends FormRequest
      */
     public function rules() {
         return [
-            'acl_id' => ['required'],
-            'permission_id' => ['required'],
+            'name' => ['required'],
         ];
     }
     
@@ -39,9 +38,7 @@ class AclPermissionsFormRequest extends FormRequest
         return [
                         
                         
-            'acl_id.required' => 'O campo "Perfil" não foi preenchido.',            
-                        
-            'permission_id.required' => 'O campo "Permissão" não foi preenchido.',            
+            'name.required' => 'O campo "Nome" não foi preenchido.',            
                         
         ];
     }

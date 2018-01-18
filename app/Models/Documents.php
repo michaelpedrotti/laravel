@@ -3,17 +3,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 /**
- * Class AclPermissions
+ * Class Documents
  * @package App\Models
  * @author Michael Pedrotti <michael.pedrotti@hscbrasil.com.br>
  * @version 18/01/2018
  */
-class AclPermissions extends \Illuminate\Database\Eloquent\Model {
+class Documents extends \Illuminate\Database\Eloquent\Model {
     
     use SoftDeletes;
     protected $primaryKey = 'id';
     
-    public $table = 'acl_permissions';
+    public $table = 'documents';
     public $timestamps = true;
     
     /**
@@ -22,8 +22,11 @@ class AclPermissions extends \Illuminate\Database\Eloquent\Model {
      */
     public $fillable = [
         'id',
-        'acl_id',
-        'permission_id',
+        'type_id',
+        'name',
+        'mimetyppe',
+        'size',
+        'hash',
     ];
     
     /**
@@ -32,8 +35,11 @@ class AclPermissions extends \Illuminate\Database\Eloquent\Model {
      */
     protected $casts = [
         'id' => 'integer',
-        'acl_id' => 'integer',
-        'permission_id' => 'integer',
+        'type_id' => 'integer',
+        'name' => 'string',
+        'mimetyppe' => 'string',
+        'size' => 'integer',
+        'hash' => 'string',
     ];    
     
     /**
@@ -42,22 +48,20 @@ class AclPermissions extends \Illuminate\Database\Eloquent\Model {
      */
     public $labels = [
         'id' => 'ID',
-        'acl_id' => 'Perfil',
-        'permission_id' => 'Permissão',
+        'type_id' => 'Tipo',
+        'name' => 'Nome',
+        'mimetyppe' => 'Mime-Type',
+        'size' => 'Tamanho',
+        'hash' => 'Storage',
     ];
 	
 	
     
 
     /**
-     * Busca o modelo de acls     * @return acls     */;
-    public function Acls() {'.PHP_EOL;
-        return $this->belongsTo('App\Models\Acls', 'id', 'acl_id');
-    }
-    /**
-     * Busca o modelo de permissions     * @return permissions     */;
-    public function Permissions() {'.PHP_EOL;
-        return $this->belongsTo('App\Models\Permissions', 'id', 'permission_id');
+     * Busca o modelo de document_types     * @return document_types     */;
+    public function DocumentTypes() {'.PHP_EOL;
+        return $this->belongsTo('App\Models\DocumentTypes', 'id', 'type_id');
     }
 
     /**
@@ -102,12 +106,24 @@ class AclPermissions extends \Illuminate\Database\Eloquent\Model {
             $builder->where('id', $filter['id']);
         }
            
-        if(array_key_exists('acl_id', $filter) && !empty($filter['acl_id'])) {
-            $builder->where('acl_id', $filter['acl_id']);
+        if(array_key_exists('type_id', $filter) && !empty($filter['type_id'])) {
+            $builder->where('type_id', $filter['type_id']);
         }
            
-        if(array_key_exists('permission_id', $filter) && !empty($filter['permission_id'])) {
-            $builder->where('permission_id', $filter['permission_id']);
+        if(array_key_exists('name', $filter) && !empty($filter['name'])) {
+            $builder->where('name', $filter['name']);
+        }
+           
+        if(array_key_exists('mimetyppe', $filter) && !empty($filter['mimetyppe'])) {
+            $builder->where('mimetyppe', $filter['mimetyppe']);
+        }
+           
+        if(array_key_exists('size', $filter) && !empty($filter['size'])) {
+            $builder->where('size', $filter['size']);
+        }
+           
+        if(array_key_exists('hash', $filter) && !empty($filter['hash'])) {
+            $builder->where('hash', $filter['hash']);
         }
         
         

@@ -3,17 +3,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
 /**
- * Class AclPermissions
+ * Class DocumentTypes
  * @package App\Models
  * @author Michael Pedrotti <michael.pedrotti@hscbrasil.com.br>
  * @version 18/01/2018
  */
-class AclPermissions extends \Illuminate\Database\Eloquent\Model {
+class DocumentTypes extends \Illuminate\Database\Eloquent\Model {
     
     use SoftDeletes;
     protected $primaryKey = 'id';
     
-    public $table = 'acl_permissions';
+    public $table = 'document_types';
     public $timestamps = true;
     
     /**
@@ -22,8 +22,7 @@ class AclPermissions extends \Illuminate\Database\Eloquent\Model {
      */
     public $fillable = [
         'id',
-        'acl_id',
-        'permission_id',
+        'name',
     ];
     
     /**
@@ -32,8 +31,7 @@ class AclPermissions extends \Illuminate\Database\Eloquent\Model {
      */
     protected $casts = [
         'id' => 'integer',
-        'acl_id' => 'integer',
-        'permission_id' => 'integer',
+        'name' => 'string',
     ];    
     
     /**
@@ -42,23 +40,18 @@ class AclPermissions extends \Illuminate\Database\Eloquent\Model {
      */
     public $labels = [
         'id' => 'ID',
-        'acl_id' => 'Perfil',
-        'permission_id' => 'Permissão',
+        'name' => 'Nome',
     ];
 	
 	
     
+    /**
+     * Busca o modelo de documents     * @return documents     */
+    public function Documents() {
+        return $this->hasMany('App\Models\Documents', 'type_id', 'id');
+    }
 
-    /**
-     * Busca o modelo de acls     * @return acls     */;
-    public function Acls() {'.PHP_EOL;
-        return $this->belongsTo('App\Models\Acls', 'id', 'acl_id');
-    }
-    /**
-     * Busca o modelo de permissions     * @return permissions     */;
-    public function Permissions() {'.PHP_EOL;
-        return $this->belongsTo('App\Models\Permissions', 'id', 'permission_id');
-    }
+
 
     /**
      * Verifica se o usuário tem permissão pra acessar o registro
@@ -102,12 +95,8 @@ class AclPermissions extends \Illuminate\Database\Eloquent\Model {
             $builder->where('id', $filter['id']);
         }
            
-        if(array_key_exists('acl_id', $filter) && !empty($filter['acl_id'])) {
-            $builder->where('acl_id', $filter['acl_id']);
-        }
-           
-        if(array_key_exists('permission_id', $filter) && !empty($filter['permission_id'])) {
-            $builder->where('permission_id', $filter['permission_id']);
+        if(array_key_exists('name', $filter) && !empty($filter['name'])) {
+            $builder->where('name', $filter['name']);
         }
         
         

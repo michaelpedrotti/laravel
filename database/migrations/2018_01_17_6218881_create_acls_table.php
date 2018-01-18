@@ -9,7 +9,7 @@ class CreateAclsTable extends Migration {
 	public function up() {
 		Schema::create('acls', function (Blueprint $table) {
 			$table->increments("id");
-			$table->string("name", 10);
+			$table->string("name", 100);
 			$table->string("uid", 45);
 
 			$table->timestamps();

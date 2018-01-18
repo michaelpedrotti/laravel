@@ -8,7 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @author Michael Pedrotti <michael.pedrotti@hscbrasil.com.br>
  * @version 18/01/2018
  */
-class AclPermissionsFormRequest extends FormRequest
+class LicensesFormRequest extends FormRequest
 {
     /**
      * Determina se o usuário pode realizar o request
@@ -26,8 +26,11 @@ class AclPermissionsFormRequest extends FormRequest
      */
     public function rules() {
         return [
-            'acl_id' => ['required'],
-            'permission_id' => ['required'],
+            'product_id' => ['required'],
+            'type_id' => ['required'],
+            'user_id' => ['required'],
+            'expiration' => ['required','date_format:d/m/Y'],
+            'hash' => ['required'],
         ];
     }
     
@@ -39,9 +42,17 @@ class AclPermissionsFormRequest extends FormRequest
         return [
                         
                         
-            'acl_id.required' => 'O campo "Perfil" não foi preenchido.',            
+            'product_id.required' => 'O campo "Produto" não foi preenchido.',            
                         
-            'permission_id.required' => 'O campo "Permissão" não foi preenchido.',            
+            'type_id.required' => 'O campo "Tipo" não foi preenchido.',            
+                        
+            'user_id.required' => 'O campo "Usuário" não foi preenchido.',            
+                        
+                        
+                        
+            'expiration.required' => 'O campo "Data de expiração" não foi preenchido.',            
+            'expiration.date_format' => 'O campo "Data de expiração" está com a formatação inválida.',            
+            'hash.required' => 'O campo "Storage" não foi preenchido.',            
                         
         ];
     }
