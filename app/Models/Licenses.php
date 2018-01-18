@@ -1,7 +1,7 @@
 <?php
 namespace App\Models;
 
-
+use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * Class Licenses
  * @package App\Models
@@ -10,11 +10,11 @@ namespace App\Models;
  */
 class Licenses extends \Illuminate\Database\Eloquent\Model {
     
-    
+    use SoftDeletes;
     protected $primaryKey = 'id';
     
     public $table = 'licenses';
-    public $timestamps = false;
+    public $timestamps = true;
     
     /**
      * Variaveis seguras para uso e guardar dados 
@@ -50,16 +50,16 @@ class Licenses extends \Illuminate\Database\Eloquent\Model {
      */
     public $labels = [
         'id' => 'ID',
-        'product_id' => 'product_id',
-        'type_id' => 'type_id',
-        'user_id' => 'user_id',
-        'length' => 'length',
-        'expiration' => 'expiration',
-        'hash' => 'hash',
+        'product_id' => 'Produto',
+        'type_id' => 'Tipo',
+        'user_id' => 'Usuário',
+        'length' => 'Tamanho',
+        'expiration' => 'Data de expiração',
+        'hash' => 'Storage',
     ];
 	
 	/**
-	 * Mutator para expiration	 *
+	 * Mutator para Data de expiração	 *
 	 * @link https://laravel.com/docs/5.5/eloquent-mutators 
 	 */
 	public function setExpirationAttribute($value){
@@ -75,18 +75,27 @@ class Licenses extends \Illuminate\Database\Eloquent\Model {
     
 
     /**
-     * Busca o modelo de products     * @return products     */;
-    public function Products() {'.PHP_EOL;
+     * Busca o modelo de products     
+	 * 
+	 * @return products     
+	 */
+    public function Products() {
         return $this->belongsTo('App\Models\Products', 'id', 'product_id');
     }
     /**
-     * Busca o modelo de license_types     * @return license_types     */;
-    public function LicenseTypes() {'.PHP_EOL;
+     * Busca o modelo de license_types     
+	 * 
+	 * @return license_types     
+	 */
+    public function LicenseTypes() {
         return $this->belongsTo('App\Models\LicenseTypes', 'id', 'type_id');
     }
     /**
-     * Busca o modelo de users     * @return users     */;
-    public function Users() {'.PHP_EOL;
+     * Busca o modelo de users    
+	 * 
+	 * @return users     
+	 */
+    public function Users() {
         return $this->belongsTo('App\Models\Users', 'id', 'user_id');
     }
 

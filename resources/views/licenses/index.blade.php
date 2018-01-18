@@ -1,28 +1,28 @@
 @extends('layout.app')
 @section('breadcrumb')
-<h1><small>Tipo de licença</small></h1>
+<h1><small>Licença</small></h1>
 <ol class="breadcrumb">
 	<li><a href="{{ url('/') }}"><i class="fa fa-home"></i> Home</a></li>
-	<li class="active">Tipo de licença</li>
+	<li class="active">Licença</li>
 </ol>
 @stop
 @section('search')
 <div class="col-sm-6">
 	<div class="form-body">
 		<label class="control-label">{{ $model->labels['product_id'] }} :</label>
-		{{ Form::select('product_id', \App\Models\Products::getModel()->consultar()->pluck('id', 'id')->prepend('Selecione', '')->toArray(), $model->product_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
+		{{ Form::select('product_id', \App\Models\Products::getModel()->search()->pluck('id', 'id')->prepend('Selecione', '')->toArray(), $model->product_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
 	</div>
 </div>
 <div class="col-sm-6">
 	<div class="form-body">
 		<label class="control-label">{{ $model->labels['type_id'] }} :</label>
-		{{ Form::select('type_id', \App\Models\LicenseTypes::getModel()->consultar()->pluck('id', 'id')->prepend('Selecione', '')->toArray(), $model->type_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
+		{{ Form::select('type_id', \App\Models\LicenseTypes::getModel()->search()->pluck('id', 'id')->prepend('Selecione', '')->toArray(), $model->type_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
 	</div>
 </div>
 <div class="col-sm-6">
 	<div class="form-body">
 		<label class="control-label">{{ $model->labels['user_id'] }} :</label>
-		{{ Form::select('user_id', \App\Models\Users::getModel()->consultar()->pluck('id', 'id')->prepend('Selecione', '')->toArray(), $model->user_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
+		{{ Form::select('user_id', \App\Models\Users::getModel()->search()->pluck('id', 'id')->prepend('Selecione', '')->toArray(), $model->user_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
 	</div>
 </div>
 <div class="col-sm-6">

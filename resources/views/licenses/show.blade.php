@@ -1,5 +1,5 @@
 <div class="row">
-    <title class="hidden">Visualizar Tipo de licença</title>
+    <title class="hidden">Visualizar Licença</title>
 	<div class="col-md-12">
         <div class="portlet light bordered">
             <div class="portlet-body">

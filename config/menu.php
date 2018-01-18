@@ -5,7 +5,7 @@ return [
     [
         'label' => 'Administração',
         'url' => '',
-        'icon' => 'fa-gear',
+        'icon' => 'fa-sitemap',
         'child' => [
 
             [
@@ -23,25 +23,30 @@ return [
         ],
         //'role' => ['USER_LISTAR', 'PERFIL_LISTAR']
     ],
-    [
-        'label' => 'Safra',
+	[
+		'label' => 'Configurações',
         'url' => '',
-        'icon' => 'fa-leaf',
+        'icon' => 'fa-gears',
         'child' => [
-
-            [
-                'label' => 'Fazendas e talhões',
-                'url' => 'fazendas',
-                'icon' => 'fa-chevron-right ',
+			
+			[
+                'label' => 'Produtos',
+                'url' => 'products',
+                'icon' => 'fa-cubes',
                 'role' => ''
             ],
-            [
-                'label' => 'Cultivares',
-                'url' => 'cultivares',
-                'icon' => 'fa-chevron-right ',
+			[
+                'label' => 'Tipos de licenças',
+                'url' => 'license-types',
+                'icon' => 'fa-barcode',
+                'role' => ''
+            ],
+			[
+                'label' => 'Licenças',
+                'url' => 'licenses',
+                'icon' => ' fa-registered',
                 'role' => ''
             ]
-        ],
-        'role' => []
-    ]
+		]
+	]
 ];
