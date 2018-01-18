@@ -3,17 +3,17 @@ namespace App\Models;
 
 
 /**
- * Class Permissions
+ * Class AclPermissions
  * @package App\Models
  * @author Michael Pedrotti <michael.pedrotti@hscbrasil.com.br>
  * @version 18/01/2018
  */
-class Permissions extends \Illuminate\Database\Eloquent\Model {
+class AclPermissions extends \Eloquent {
     
     
     protected $primaryKey = 'id';
     
-    public $table = 'permissions';
+    public $table = 'acl_permissions';
     public $timestamps = false;
     
     /**
@@ -22,8 +22,8 @@ class Permissions extends \Illuminate\Database\Eloquent\Model {
      */
     public $fillable = [
         'id',
-        'permission',
-        'desc',
+        'acl_id',
+        'permission_id',
     ];
     
     /**
@@ -32,8 +32,8 @@ class Permissions extends \Illuminate\Database\Eloquent\Model {
      */
     protected $casts = [
         'id' => 'integer',
-        'permission' => 'string',
-        'desc' => 'string',
+        'acl_id' => 'integer',
+        'permission_id' => 'integer',
     ];    
     
     /**
@@ -42,18 +42,28 @@ class Permissions extends \Illuminate\Database\Eloquent\Model {
      */
     public $labels = [
         'id' => 'ID',
-        'permission' => 'Permissão',
-        'desc' => 'Descrição',
+        'acl_id' => 'Perfil',
+        'permission_id' => 'Permissão',
     ];
 	
 	
     
 
-
     /**
-     * Relations com Acls     * @return Acls     */
+     * Busca o modelo de acls 
+	 *
+     * @return acls 
+     */
     public function Acls() {
-        return $this->belongsToMany('App\Models\Acls', 'acl_permissions', 'permission_id', 'acl_id');
+        return $this->belongsTo('App\Models\Acls', 'id', 'acl_id');
+    }
+    /**
+     * Busca o modelo de permissions 
+	 *
+     * @return permissions 
+     */
+    public function Permissions() {
+        return $this->belongsTo('App\Models\Permissions', 'id', 'permission_id');
     }
 
     /**
@@ -98,12 +108,12 @@ class Permissions extends \Illuminate\Database\Eloquent\Model {
             $builder->where('id', $filter['id']);
         }
            
-        if(array_key_exists('permission', $filter) && !empty($filter['permission'])) {
-            $builder->where('permission', $filter['permission']);
+        if(array_key_exists('acl_id', $filter) && !empty($filter['acl_id'])) {
+            $builder->where('acl_id', $filter['acl_id']);
         }
            
-        if(array_key_exists('desc', $filter) && !empty($filter['desc'])) {
-            $builder->where('desc', $filter['desc']);
+        if(array_key_exists('permission_id', $filter) && !empty($filter['permission_id'])) {
+            $builder->where('permission_id', $filter['permission_id']);
         }
         
         

@@ -33,6 +33,7 @@
 				<a href="javascript:void(0)" data-action="create" class="btn btn-success"><i class="fa fa-plus"></i></a>
 				<a href="javascript:void(0)" data-action="edit" class="btn btn-primary"><i class="fa fa-edit"></i></a>
 				<a href="javascript:void(0)" data-action="remove" class="btn btn-danger"><i class="fa fa-remove"></i></a>
+				@yield('toolbar')
 			</div>
 		</div>
 		<div class="box-body">
@@ -71,4 +72,4 @@ $(function (){
    });
 });
 </script>
-@stop
+@append
