@@ -24,7 +24,7 @@ class UsersController extends Controller {
      */
     public function index(Request $request) {
     
-        //$this->authorize('USERS_LISTAR', 'PermissaoPolicy');
+        //$this->authorize('USERS_LIST', 'PermissaoPolicy');
         
 		$model = Model::getModel()->fill($request->all());
 
@@ -61,7 +61,7 @@ class UsersController extends Controller {
      */
     public function form(Request $request) {
     
-        //$this->authorize(($request->route('id') ? 'USERS_EDITAR' : 'USERS_CADASTRAR'), 'PermissaoPolicy');
+        //$this->authorize(($request->route('id') ? 'USERS_EDIT' : 'USERS_ADD'), 'PermissaoPolicy');
         
         $model = Model::findOrNew($request->route('id'));
         //$model->authorize();
@@ -112,7 +112,7 @@ class UsersController extends Controller {
      */
     public function show(Request $request) {
     
-        //$this->authorize('USERS_VISUALIZAR', 'PermissaoPolicy');
+        //$this->authorize('USERS_DELETE', 'PermissaoPolicy');
     
         $model = Model::findOrFail($request->route('id')); 
         //$model->authorize($request->route('id'));

@@ -55,7 +55,7 @@ class UserAcls extends \Eloquent {
 	 * @return acls     
 	 */
     public function Acls() {
-        return $this->belongsTo('App\Models\Acls', 'id', 'acl_id');
+        return $this->hasMany('App\Models\Acls', 'id', 'acl_id');
     }
     /**
      * Busca o modelo de users     

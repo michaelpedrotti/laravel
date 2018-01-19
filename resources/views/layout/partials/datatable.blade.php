@@ -60,7 +60,7 @@ $(function (){
 			data: function(data) {
 
                 $.each($('form[data-action=form-search]').serializeArray(), function(index, row){
-					data[row.name] = row.value;
+					if(row.value) data[row.name] = row.value;
                 });
 			}
 		},

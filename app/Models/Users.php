@@ -54,14 +54,20 @@ class Users extends \Eloquent {
         'remember_token' => 'Token',
     ];
 	
-	
-    
+    /**
+	 * Mutator para Data de expiração	 *
+	 * @link https://laravel.com/docs/5.5/eloquent-mutators 
+	 */
+	public function setPasswordAttribute($value){
+				
+		$this->attributes['password'] = bcrypt($value);
+	}
 
 
     /**
      * Relations com Acls     * @return Acls     */
     public function Acls() {
-        return $this->belongsToMany('App\Models\Acls', 'user_acls', 'user_id', 'acl_id');
+        return $this->hasMany('\App\Models\UserAcls', 'user_id', 'id');
     }
 
     /**

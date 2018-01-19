@@ -121,4 +121,35 @@ class Permissions extends \Illuminate\Database\Eloquent\Model {
 
         return $builder;
     }
+	
+	/**
+	 * Adicionas as permissiões
+	 * 
+	 * @return null
+	 */
+	public static function setSession(){
+	
+		$session = app('session.store');
+		
+		$model = \App\Models\Users::find(\Auth::user()->id);
+		$collection = $model->Acls;
+
+		if($collection && $collection->count() > 0){
+
+			$collection = $collection->first()->Acls;
+			if($collection && $collection->count() > 0){
+				
+				$model = $collection->first();
+				
+				$session->put('acl', $model->uid);
+				$session->put('permissions', static::select()
+					->from('acl_permissions AS a')
+					->join('permissions AS b', 'b.id', 'a.permission_id')
+					->where('a.acl_id', $model->id)
+						->pluck('a.permission')
+							->toArray()
+				);
+			}
+		}
+	}
 }
