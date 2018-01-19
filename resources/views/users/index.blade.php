@@ -38,8 +38,6 @@
 	'columns' => [
 		'id' => $model->labels['id'],
 		'name' => $model->labels['name'],
-		'email' => $model->labels['email'],
-		'password' => $model->labels['password'],
-		'remember_token' => $model->labels['remember_token'],
+		'email' => $model->labels['email']
 	]
 ])

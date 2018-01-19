@@ -134,6 +134,9 @@ APP.Crud.Load = function(){
             }
 
             $('#modal-default .modal-body').html(content);
+            
+            
+            $('.select2').select2();
         }  
     });
 };

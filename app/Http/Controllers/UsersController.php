@@ -68,7 +68,12 @@ class UsersController extends Controller {
         $model->fill($request->all());
 		
 		$view = view('users.form', [
-            'model' => $model
+            'model' => $model,
+			'acls' => \App\Models\Acls::getModel()
+				->search()
+					->pluck('name', 'id')
+					->prepend('Selecione', '')
+						->toArray()
         ]);
         
         if($request->isMethod('post')) {

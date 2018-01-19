@@ -26,6 +26,7 @@ class Users extends \Eloquent {
         'email',
         'password',
         'remember_token',
+		'acl_id'
     ];
     
     /**
@@ -38,6 +39,7 @@ class Users extends \Eloquent {
         'email' => 'string',
         'password' => 'string',
         'remember_token' => 'string',
+		'acl_id' => 'integer'
     ];    
     
     /**
@@ -135,4 +137,30 @@ class Users extends \Eloquent {
 
         return $builder;
     }
+	
+	public function save(array $options = array()) {
+		
+		$id = $this->acl_id;
+
+		unset($this->acl_id);// Remove do fillable		
+		
+		if(parent::save($options)) {
+			
+			$model = UserAcls::query()
+				->where('user_id', $this->id)
+				->where('acl_id', $id)
+					->get()
+						->first();
+			
+			if(!$model) {
+				$model = UserAcls::newModelInstance([
+					'user_id' => $this->id,
+					'acl_id' => $id
+				]);
+			}
+			
+			return $model->save();
+		}
+		return false;
+	}
 }

@@ -28,8 +28,14 @@
   <link rel="stylesheet" href="/assets/adminlte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
   <!-- Daterange picker -->
   <link rel="stylesheet" href="/assets/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+  
+  <!-- Select2 -->
+  <link rel="stylesheet" href="/assets/adminlte/bower_components/select2/dist/css/select2.min.css">
+  
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="/assets/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+  <link rel="stylesheet" href="/assets/css/app.css">
+
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
