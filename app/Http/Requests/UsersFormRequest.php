@@ -28,8 +28,8 @@ class UsersFormRequest extends FormRequest
         return [
             'name' => ['required'],
             'email' => 'required|unique:users,email,'.app('request')->route('id'),
-            'password' => ['required'],
-			'confirm_password' => ['required'],
+            //'password' => ['required'],
+			//'confirm_password' => ['required'],
 			'acl_id' => ['required'],
         ];
     }
@@ -62,12 +62,17 @@ class UsersFormRequest extends FormRequest
             $messages = $this->messages();
             $data = $validator->getData();
 			
-			if(empty(app('request')->route('id'))) {
-			
+			if(empty(app('request')->route('id'))) {	
 				
+				if(empty(array_get($data, 'password'))) {
+					$validator->errors()->add('password', $messages['password.required']);
+				}
+				
+				if(empty(array_get($data, 'confirm_password'))) {
+					$validator->errors()->add('confirm_password', $messages['confirm_password.required']);
+				}
 				
 				if(array_get($data, 'password') != array_get($data, 'confirm_password')) {
-
 					$validator->errors()->add('password', $messages['confirm_password.notequal']);
 				}
 			}

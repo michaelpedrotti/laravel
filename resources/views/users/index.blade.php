@@ -18,20 +18,7 @@
 		<label class="control-label">{{ $model->labels['email'] }} :</label>
 		{{ Form::text('email', $model->email, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
 	</div>
-</div>
-<div class="col-sm-6">
-	<div class="form-body">
-		<label class="control-label">{{ $model->labels['password'] }} :</label>
-		{{ Form::text('password', $model->password, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
-	</div>
-</div>
-<div class="col-sm-6">
-	<div class="form-body">
-		<label class="control-label">{{ $model->labels['remember_token'] }} :</label>
-		{{ Form::text('remember_token', $model->remember_token, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
-	</div>
-</div>
-   
+</div>   
 @stop
 @include('layout.partials.datatable', [
 	'url' => url("users/index"),

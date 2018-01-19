@@ -23,6 +23,8 @@
 											<span class="help-block">{{ $errors->first("email") }}</span>
 										</div>
                                     </div>
+								
+									@if(empty($model->id))
                                     <div class="col-sm-6">
                                         <div class="form-body {{ $errors->first("password", "has-error") }}">
                                             <label class="control-label">{{ $model->labels['password'] }}:  <span class="request">*</span></label>
@@ -38,8 +40,8 @@
 											<span class="help-block">{{ $errors->first("confirm_password") }}</span>
 										</div>
                                     </div>
-								
-								
+									@endif
+									
 									<div class="col-sm-6">
                                         <div class="form-body {{ $errors->first("acl_id", "has-error") }}">
                                             <label class="control-label">Perfil:  <span class="request">*</span></label>
