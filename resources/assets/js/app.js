@@ -298,5 +298,8 @@ $(document).ready(function() {
     }).on('confirmed.bs.confirmation', APP.Crud.Remove);
     
     APP.openMenu();
+    
+    $(".datepicker" ).datepicker($.fn.datepicker.dates['pt-BR']);
+    $('.datepicker').inputmask("99/99/9999");
 });
 //------------------------------------------------------------------------------

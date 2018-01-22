@@ -10,6 +10,11 @@
 </script>
 <!-- Bootstrap 3.3.7 -->
 <script src="/assets/adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- Inputmask -->
+
+<script src="/assets/adminlte/bower_components/inputmask/dist/inputmask/inputmask.js"></script>
+<script src="/assets/adminlte/bower_components/inputmask/dist/inputmask/jquery.inputmask.js"></script>
+
 
 <!-- Select2 -->
 <script src="/assets/adminlte/bower_components/select2/dist/js/select2.full.min.js"></script>
@@ -30,7 +35,9 @@
 <script src="/assets/adminlte/bower_components/moment/min/moment.min.js"></script>
 <script src="/assets/adminlte/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
 <!-- datepicker -->
+
 <script src="/assets/adminlte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<script src="/assets/adminlte/bower_components/bootstrap-datepicker/js/locales/bootstrap-datepicker.pt-BR.js"></script>
 <!-- Bootstrap WYSIHTML5 -->
 <script src="/assets/adminlte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
 <!-- Slimscroll -->

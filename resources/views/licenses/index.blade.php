@@ -34,7 +34,7 @@
 <div class="col-sm-6">
 	<div class="form-body">
 		<label class="control-label">{{ $model->labels['expiration'] }} :</label>
-		{{ Form::text('expiration', $model->expiration, ['placeholder' => 'dd/mm/aaaa', 'data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control maskDate date-picker']) }}
+		{{ Form::text('expiration', $model->expiration, ['placeholder' => 'dd/mm/aaaa', 'data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control datepicker']) }}
 	</div>
 </div>
 <div class="col-sm-6">
