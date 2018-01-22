@@ -166,4 +166,34 @@ class UsersController extends Controller {
 
         return Response::json($output);
     }
+	
+	public function settingsAcls(Request $request) {
+    
+        return view('users.settings-acls');
+    }
+	
+	public function settingsPassword(Request $request){
+		
+		$model = \App\User::findOrFail(\Auth::user()->id);
+        $model->fill($request->all());
+        
+        if($request->isMethod('post')) {
+
+            app(\App\Http\Requests\UpdatePasswordFormRequest::class);
+
+            try {
+                
+				$model->password = bcrypt($request->get('password'));
+				$model->save();
+				
+                $this->setMessage('Senha foi alterada com sucesso', 'success');
+            } 
+            catch (\Exception $e) {
+
+                $this->setMessage($e->getMessage(), 'danger');
+            }
+        }
+		
+		return view('users.settings-password');
+	}
 }
