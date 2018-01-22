@@ -66,7 +66,7 @@ $(function (){
 		},
 		columns: [
 			@foreach($columns as $key => $label)
-			{data: '{{ $key }}', name: '{{ $key }}', className: 'text-center'},
+			{data: '{{ $key }}', name: '{{ $key }}', className: 'text-left'},
 			@endforeach
 		]
    });
