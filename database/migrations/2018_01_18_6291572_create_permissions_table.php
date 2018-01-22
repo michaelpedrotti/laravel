@@ -11,7 +11,7 @@ class CreatePermissionsTable extends Migration {
             $table->increments("id");
             $table->string("permission", 50);
             $table->string("desc", 255);
-                        
+		});                       
     }
 
     public function down() {

@@ -9,7 +9,7 @@
 
 				<h3 class="profile-username text-center">{{ \Auth::user()->name }}</h3>
 
-				<p class="text-muted text-center">Software Engineer</p>
+				<p class="text-muted text-center">{{ \Auth::user()->email }}</p>
 
 				<ul class="list-group list-group-unbordered">
 					<li class="list-group-item">
@@ -29,11 +29,11 @@
 	<div class="col-md-9">
 		<div class="nav-tabs-custom">
 			<ul class="nav nav-tabs">
-				<li class="{{ $expanded == 'acls' ? 'active' : ''}}">
-					<a href="{{ url('users/settings-acls') }}" aria-expanded="{{ $expanded == 'acls' ? 'true' : 'false'}}">Informações</a>
+				<li class="{{ $expanded == 'address' ? 'active' : ''}}">
+					<a href="{{ url('users/address') }}" aria-expanded="{{ $expanded == 'address' ? 'true' : 'false'}}">Informações</a>
 				</li>
 				<li class="{{ $expanded == 'password' ? 'active' : ''}}">
-					<a href="{{ url('users/settings-password') }}" aria-expanded="{{ $expanded == 'password' ? 'true' : 'false'}}">Trocar senha</a>
+					<a href="{{ url('users/password') }}" aria-expanded="{{ $expanded == 'password' ? 'true' : 'false'}}">Trocar senha</a>
 				</li>
 			</ul>
 			<div class="tab-content">

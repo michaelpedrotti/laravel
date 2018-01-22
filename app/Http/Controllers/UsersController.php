@@ -167,12 +167,25 @@ class UsersController extends Controller {
         return Response::json($output);
     }
 	
-	public function settingsAcls(Request $request) {
+	public function address(Request $request) {
     
-        return view('users.settings-acls');
+		$model = \App\Models\Address::query()
+			->where('user_id', \Auth::user()->id)
+				->first();
+		
+		if(!$model) $model = \App\Models\Address::newModelInstance(['user_id' => \Auth::user()->id]);
+		
+        return view('users.address', [
+			'model' => $model,
+			'states' => \App\Models\Address::getModel()
+				->all()
+					->pluck('name', 'uid')
+					->prepend('Selecione', '')
+						->toArray()
+		]);
     }
 	
-	public function settingsPassword(Request $request){
+	public function password(Request $request){
 		
 		$model = \App\User::findOrFail(\Auth::user()->id);
         $model->fill($request->all());
@@ -194,6 +207,6 @@ class UsersController extends Controller {
             }
         }
 		
-		return view('users.settings-password');
+		return view('users.password');
 	}
 }

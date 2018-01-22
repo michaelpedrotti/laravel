@@ -6,7 +6,7 @@
 	</a>
 	<ul class="dropdown-menu" style="width:80px">
 		<li class="header">
-			<a href="{{ url('users/settings-acls') }}" class="">
+			<a href="{{ url('users/address') }}" class="">
 				<i class="fa fa-user-circle"></i>Perfil
 			</a>
 		</li>
