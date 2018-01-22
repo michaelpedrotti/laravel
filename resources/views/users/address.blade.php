@@ -1,6 +1,6 @@
 @section('tab-content')
 <div class="tab-pane active">
-	<form class="form-horizontal">
+	{{ Form::open(['method' => 'post', 'url' => url('users/address'), 'class' => 'form-horizontal']) }}
 		<div class="form-group {{ $errors->has('cep') ? 'has-error' : '' }}">
 			<label class="col-md-3 control-label"><b class="labelSenha">{{ $model->labels['cep'] }} </b></label>
 			<div class="col-md-9">
@@ -29,19 +29,19 @@
 				<span class="help-block">{{ $errors->first('city') }}</span>
 			</div>
 		</div>
-		<div class="form-group {{ $errors->has('state') ? 'has-error' : '' }}">
-			<label class="col-md-3 control-label"><b class="labelSenha">{{ $model->labels['state'] }} </b></label>
+		<div class="form-group {{ $errors->has('state_id') ? 'has-error' : '' }}">
+			<label class="col-md-3 control-label"><b class="labelSenha">{{ $model->labels['state_id'] }} </b></label>
 			<div class="col-md-9">
-				{{ Form::select('state', $states, $model->state, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2', 'placeholder' => '']) }}
+				{{ Form::select('state_id', $states, $model->state_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2', 'placeholder' => '']) }}
 				<span class="help-block">{{ $errors->first('state') }}</span>
 			</div>
 		</div>
 		<div class="form-group">
 			<div class="col-sm-offset-3 col-sm-9">
-				<button type="submit" class="btn btn-danger">Submit</button>
+				<button type="submit" class="btn btn-danger">Alterar</button>
 			</div>
 		</div>
-	</form>
+	{{ Form::close() }}
 </div>
 @stop
 @section('javascript')

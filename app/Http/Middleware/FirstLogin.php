@@ -23,11 +23,10 @@ class FirstLogin {
 
             if(\Route::getCurrentRoute()->getParameter('controller') !== 'login') {
             
-                $response = redirect()->to('login/alterar-senha');
+				flash('Obrigatória a troca de senha antes de prosseguir', 'warning');
+                $response = redirect()->to('login/password');
             }
         }
-        
         return $response;
-        
     }
 }

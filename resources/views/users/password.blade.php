@@ -1,6 +1,6 @@
 @section('tab-content')
 <div class="tab-pane active">
-	<?php echo Form::open(['method' => 'post', 'url' => url('users/password'), 'class' => 'form-horizontal']); ?>
+	{{ Form::open(['method' => 'post', 'url' => url('users/password'), 'class' => 'form-horizontal']) }}
 	<div class="form-body">
 		<div class="form-group {{ $errors->has('password_current') ? 'has-error' : '' }}">
 			<label class="col-md-3 control-label"><b class="labelSenha">Senha Atual</b></label>
@@ -34,7 +34,7 @@
 		</div>
 	</div>
 
-	<?php echo Form::close(); ?>
+	{{ Form::close() }}
 </div>
 @stop
 @include('users.partials.settings', ['expanded' => 'password'])

@@ -12,8 +12,10 @@ class States extends \Eloquent {
     
     
     protected $primaryKey = 'id';
+	protected $keyType = 'string';
     
     public $table = 'states';
+	public $incrementing = false;
     public $timestamps = false;
     
     /**

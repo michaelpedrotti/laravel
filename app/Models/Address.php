@@ -27,7 +27,7 @@ class Address extends \Eloquent {
         'address',
         'number',
         'city',
-        'state',
+        'state_id',
     ];
     
     /**
@@ -41,7 +41,7 @@ class Address extends \Eloquent {
         'address' => 'string',
         'number' => 'string',
         'city' => 'string',
-        'state' => 'string',
+        'state_id' => 'string',
     ];    
     
     /**
@@ -52,15 +52,30 @@ class Address extends \Eloquent {
         'id' => 'ID',
         'user_id' => 'Usuário',
         'cep' => 'CEP',
-        'address' => 'Endereço',
+        'address' => 'Endreço',
         'number' => 'Número',
         'city' => 'Cidade',
-        'state' => 'Estado',
+        'state_id' => 'Estado',
     ];
 	
 	
-    
+    /**
+	 * Mutator para Data de expiração	 *
+	 * @link https://laravel.com/docs/5.5/eloquent-mutators 
+	 */
+	public function setCepAttribute($value){
+				
+		$this->attributes['cep'] = preg_replace('/\W+/', '', $value);
+	}
 
+    /**
+     * Busca o modelo de states 
+	 *
+     * @return states 
+     */
+    public function States() {
+        return $this->belongsTo('App\Models\States', 'id', 'state_id');
+    }
     /**
      * Busca o modelo de users 
 	 *
@@ -132,8 +147,8 @@ class Address extends \Eloquent {
             $builder->where('city', $filter['city']);
         }
            
-        if(array_key_exists('state', $filter) && !empty($filter['state'])) {
-            $builder->where('state', $filter['state']);
+        if(array_key_exists('state_id', $filter) && !empty($filter['state_id'])) {
+            $builder->where('state_id', $filter['state_id']);
         }
         
         

@@ -30,7 +30,7 @@ class AddressFormRequest extends FormRequest
             'cep' => ['required'],
             'address' => ['required'],
             'city' => ['required'],
-            'state' => ['required'],
+            'state_id' => ['required'],
         ];
     }
     
@@ -46,13 +46,13 @@ class AddressFormRequest extends FormRequest
                         
             'cep.required' => 'O campo "CEP" não foi preenchido.',            
                         
-            'address.required' => 'O campo "Endereço" não foi preenchido.',            
+            'address.required' => 'O campo "Endreço" não foi preenchido.',            
                         
                         
                         
             'city.required' => 'O campo "Cidade" não foi preenchido.',            
                         
-            'state.required' => 'O campo "Estado" não foi preenchido.',            
+            'state_id.required' => 'O campo "Estado" não foi preenchido.',            
                         
         ];
     }

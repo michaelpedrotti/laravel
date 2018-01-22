@@ -30,7 +30,7 @@
 		<div class="nav-tabs-custom">
 			<ul class="nav nav-tabs">
 				<li class="{{ $expanded == 'address' ? 'active' : ''}}">
-					<a href="{{ url('users/address') }}" aria-expanded="{{ $expanded == 'address' ? 'true' : 'false'}}">Informações</a>
+					<a href="{{ url('users/address') }}" aria-expanded="{{ $expanded == 'address' ? 'true' : 'false'}}">Endereço</a>
 				</li>
 				<li class="{{ $expanded == 'password' ? 'active' : ''}}">
 					<a href="{{ url('users/password') }}" aria-expanded="{{ $expanded == 'password' ? 'true' : 'false'}}">Trocar senha</a>

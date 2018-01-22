@@ -10,7 +10,9 @@ class CreateStatesTable extends Migration {
         Schema::create('states', function (Blueprint $table) {
             $table->char("id", 2);
             $table->string("name", 100);
-                        
+		});
+		
+		app(\StatesSeeder::class)->run();
     }
 
     public function down() {

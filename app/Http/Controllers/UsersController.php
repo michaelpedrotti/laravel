@@ -174,12 +174,33 @@ class UsersController extends Controller {
 				->first();
 		
 		if(!$model) $model = \App\Models\Address::newModelInstance(['user_id' => \Auth::user()->id]);
+
+		if($request->isMethod('post')) {
+			
+			app(\App\Http\Requests\AddressFormRequest::class);
+			
+			$model->getConnection()->beginTransaction();
+			
+			try {
+				
+				$model->fill($request->all());
+				$model->save();				
+				$model->getConnection()->commit();
+				
+                $this->setMessage('Endereço foi alterado com sucesso', 'success');
+            } 
+            catch (\Exception $e) {
+
+				$model->getConnection()->rollBack();
+                $this->setMessage($e->getMessage(), 'danger');
+            }			
+		}
 		
         return view('users.address', [
 			'model' => $model,
-			'states' => \App\Models\Address::getModel()
+			'states' => \App\Models\States::getModel()
 				->all()
-					->pluck('name', 'uid')
+					->pluck('name', 'id')
 					->prepend('Selecione', '')
 						->toArray()
 		]);
@@ -193,16 +214,22 @@ class UsersController extends Controller {
         if($request->isMethod('post')) {
 
             app(\App\Http\Requests\UpdatePasswordFormRequest::class);
-
+			
+			$model->getConnection()->beginTransaction();
+			
             try {
                 
 				$model->password = bcrypt($request->get('password'));
+				$model->first_login = 'N';
 				$model->save();
+				
+				$model->getConnection()->commit();
 				
                 $this->setMessage('Senha foi alterada com sucesso', 'success');
             } 
             catch (\Exception $e) {
 
+				$model->getConnection()->rollBack();
                 $this->setMessage($e->getMessage(), 'danger');
             }
         }
