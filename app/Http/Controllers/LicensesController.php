@@ -33,20 +33,20 @@ class LicensesController extends Controller {
 				//->editColumn('id', function ($query) {
 				//	return $query->id;
 				//})
-				//->editColumn('product_id', function ($query) {
-				//	return $query->product_id;
-				//})
-				//->editColumn('type_id', function ($query) {
-				//	return $query->type_id;
-				//})
-				//->editColumn('user_id', function ($query) {
-				//	return $query->user_id;
-				//})
+				->editColumn('product_id', function ($query) {
+					return \App\Models\Products::findOrNew($query->product_id)->name;
+				})
+				->editColumn('type_id', function ($query) {
+					return \App\Models\LicenseTypes::findOrNew($query->type_id)->name;
+				})
+				->editColumn('user_id', function ($query) {
+					return \App\Models\Users::findOrNew($query->user_id)->name;
+				})
 				//->editColumn('length', function ($query) {
-				//	return $query->length;
+				//	return $query->length;	
 				//})
 				->editColumn('expiration', function ($query) {
-					return \DateTime::createFromFormat('Y-m-d', $query->expiration)->format('d/m/Y');
+					return app_date($query->expiration, 'Y-m-d', 'd/m/Y');
 				})
 				//->editColumn('hash', function ($query) {
 				//	return $query->hash;
@@ -85,6 +85,7 @@ class LicensesController extends Controller {
 			
 				app(FormRequest::class);
                 
+				$model->type_id = 1;
                 $model->save();
                 $model->getConnection()->commit();
                 

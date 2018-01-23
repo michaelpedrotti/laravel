@@ -9,37 +9,37 @@
 @section('search')
 <div class="col-sm-6">
 	<div class="form-body">
-		<label class="control-label">{{ $model->labels['user_id'] }} :</label>
+		<label class="control-label">{{ $model->labels['user_id'] }}</label>
 		{{ Form::select('user_id', \App\Models\Users::getModel()->search()->pluck('id', 'id')->prepend('Selecione', '')->toArray(), $model->user_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
 	</div>
 </div>
 <div class="col-sm-6">
 	<div class="form-body">
-		<label class="control-label">{{ $model->labels['cep'] }} :</label>
+		<label class="control-label">{{ $model->labels['cep'] }}</label>
 		{{ Form::text('cep', $model->cep, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
 	</div>
 </div>
 <div class="col-sm-6">
 	<div class="form-body">
-		<label class="control-label">{{ $model->labels['address'] }} :</label>
+		<label class="control-label">{{ $model->labels['address'] }}</label>
 		{{ Form::text('address', $model->address, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
 	</div>
 </div>
 <div class="col-sm-6">
 	<div class="form-body">
-		<label class="control-label">{{ $model->labels['number'] }} :</label>
+		<label class="control-label">{{ $model->labels['number'] }}</label>
 		{{ Form::text('number', $model->number, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
 	</div>
 </div>
 <div class="col-sm-6">
 	<div class="form-body">
-		<label class="control-label">{{ $model->labels['city'] }} :</label>
+		<label class="control-label">{{ $model->labels['city'] }}</label>
 		{{ Form::text('city', $model->city, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
 	</div>
 </div>
 <div class="col-sm-6">
 	<div class="form-body">
-		<label class="control-label">{{ $model->labels['state'] }} :</label>
+		<label class="control-label">{{ $model->labels['state'] }}</label>
 		{{ Form::text('state', $model->state, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
 	</div>
 </div>

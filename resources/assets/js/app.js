@@ -44,6 +44,23 @@ if(!APP.Crud) APP.Crud = {};
 
 APP.Crud.url = '';
 
+/**
+ * Ao carregar campos por ajax os eventos não são atachados e em alguns momentos
+ * o delegate não funciona. Então atachamos os eventos manualmente
+ * 
+ * @param {String} context query para o selector jquery 
+ * @return {null}
+ */
+APP.Crud.Bootstrap = function(context){
+    
+    var selector = $(context);
+    
+    selector.find(".datepicker").datepicker($.fn.datepicker.dates['pt-BR']);
+    selector.find('.datepicker').inputmask("99/99/9999");
+    
+    selector.find(".integer").inputmask('integer', {min:1, max:99999});
+};
+
 APP.Crud.CheckAll = function(){
     
     var checkbox = $(this);
@@ -84,15 +101,15 @@ APP.Crud.Save = function(){
         headers: {
             'X-CSRF-TOKEN':APP.token
          },
-         complete:function() {
+        complete:function() {
              
             button.removeAttr('disabled');
          },
-         error:function(jqXHR, textStatus, errorThrown){
+        error:function(jqXHR, textStatus, errorThrown){
 
             alert('error');
          }, 
-         success:function(content, textStatus, jqXHR){
+        success:function(content, textStatus, jqXHR){
             
             var alert = $(content).find('.alert-success');
 
@@ -106,6 +123,8 @@ APP.Crud.Save = function(){
             else {
 
                 $('#modal-default .modal-body').empty().html(content);
+                
+                APP.Crud.Bootstrap('#modal-default .modal-body');
             }
         }  
     });
@@ -135,8 +154,7 @@ APP.Crud.Load = function(){
 
             $('#modal-default .modal-body').html(content);
             
-            
-            $('.select2').select2();
+            APP.Crud.Bootstrap('#modal-default .modal-body');
         }  
     });
 };
@@ -299,7 +317,6 @@ $(document).ready(function() {
     
     APP.openMenu();
     
-    $(".datepicker" ).datepicker($.fn.datepicker.dates['pt-BR']);
-    $('.datepicker').inputmask("99/99/9999");
+    APP.Crud.Bootstrap(document);
 });
 //------------------------------------------------------------------------------

@@ -102,11 +102,11 @@ class Products extends \Eloquent {
         }
            
         if(array_key_exists('name', $filter) && !empty($filter['name'])) {
-            $builder->where('name', $filter['name']);
+            $builder->where('name', 'LIKE', '%'.$filter['name'].'%');
         }
            
         if(array_key_exists('version', $filter) && !empty($filter['version'])) {
-            $builder->where('version', $filter['version']);
+            $builder->where('version', 'LIKE', '%'.$filter['version'].'%');
         }
            
         if(array_key_exists('key', $filter) && !empty($filter['key'])) {

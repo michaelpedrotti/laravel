@@ -9,13 +9,13 @@
 @section('search')
 <div class="col-sm-6">
 	<div class="form-body">
-		<label class="control-label">{{ $model->labels['name'] }} :</label>
+		<label class="control-label">{{ $model->labels['name'] }}</label>
 		{{ Form::text('name', $model->name, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
 	</div>
 </div>
 <div class="col-sm-6">
 	<div class="form-body">
-		<label class="control-label">{{ $model->labels['email'] }} :</label>
+		<label class="control-label">{{ $model->labels['email'] }}</label>
 		{{ Form::text('email', $model->email, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
 	</div>
 </div>   

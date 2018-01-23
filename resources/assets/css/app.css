@@ -1,9 +1,11 @@
-
-
 .help-block {
     margin-top:0 !important;
     margin-bottom:0 !important; 
     height:18px;
     overflow: hidden;
     font-size:small;
+}
+
+.help-block strong {
+    font-weight: normal !important
 }

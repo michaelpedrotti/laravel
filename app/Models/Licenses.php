@@ -40,7 +40,7 @@ class Licenses extends \Eloquent {
         'type_id' => 'integer',
         'user_id' => 'integer',
         'length' => 'integer',
-        'expiration' => 'data',
+        'expiration' => 'string',
         'hash' => 'string',
     ];    
     
@@ -53,7 +53,7 @@ class Licenses extends \Eloquent {
         'product_id' => 'Produto',
         'type_id' => 'Tipo',
         'user_id' => 'Usuário',
-        'length' => 'Tamanho',
+        'length' => 'Limite  ( Usuários ou Mailboxes )',
         'expiration' => 'Data de expiração',
         'hash' => 'Storage',
     ];
@@ -66,14 +66,12 @@ class Licenses extends \Eloquent {
 		
 		if(preg_match('/[0-9]{2}\/[0-9]{2}\/[0-9]{4}/', $value)) {
 			
-			$value = \DateTime::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+			$value = \DateTime::createFromFormat('d/m/Y', $value)->format('Y-m-d 00:00:00');
 		}
 		
-		$this->attributes['timestamp'] = $value;
+		$this->attributes['expiration'] = $value;
 	}
-	
-    
-
+		
     /**
      * Busca o modelo de products     
 	 * 
@@ -82,6 +80,7 @@ class Licenses extends \Eloquent {
     public function Products() {
         return $this->belongsTo('App\Models\Products', 'id', 'product_id');
     }
+
     /**
      * Busca o modelo de license_types     
 	 * 
@@ -90,6 +89,7 @@ class Licenses extends \Eloquent {
     public function LicenseTypes() {
         return $this->belongsTo('App\Models\LicenseTypes', 'id', 'type_id');
     }
+
     /**
      * Busca o modelo de users    
 	 * 
@@ -123,7 +123,6 @@ class Licenses extends \Eloquent {
         } 
     }
     
-    
     /**
      * Realiza a consulta da tabela
      *
@@ -153,10 +152,7 @@ class Licenses extends \Eloquent {
             $builder->where('user_id', $filter['user_id']);
         }
            
-        if(array_key_exists('length', $filter) && !empty($filter['length'])) {
-            $builder->where('length', $filter['length']);
-        }
-           
+
         if(array_key_exists('expiration', $filter) && !empty($filter['expiration'])) {
             $builder->where('expiration', $filter['expiration']);
         }

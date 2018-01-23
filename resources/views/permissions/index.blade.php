@@ -21,13 +21,13 @@
 				{{ Form::open(['class' => 'form-horizontal', 'data-action' => 'form-search']) }}
 					<div class="col-sm-6">
 						<div class="form-body">
-							<label class="control-label">{{ $model->labels['permission'] }} :</label>
+							<label class="control-label">{{ $model->labels['permission'] }}</label>
 							{{ Form::text('permission', $model->permission, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
 						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="form-body">
-							<label class="control-label">{{ $model->labels['desc'] }} :</label>
+							<label class="control-label">{{ $model->labels['desc'] }}</label>
 							{{ Form::text('desc', $model->desc, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
 						</div>
 					</div>

@@ -14,7 +14,7 @@ class CreateLicensesTable extends Migration {
 			$table->integer("user_id")->unsigned();
 			$table->integer("length")->unsigned();
 			$table->timestamp("expiration");
-			$table->string("hash", 120);
+			$table->string("hash", 120)->nullable();
 			$table->timestamps();
 			$table->softDeletes();
 			

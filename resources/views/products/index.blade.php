@@ -9,20 +9,14 @@
 @section('search')
 <div class="col-sm-6">
 	<div class="form-body">
-		<label class="control-label">{{ $model->labels['name'] }} :</label>
+		<label class="control-label">{{ $model->labels['name'] }}</label>
 		{{ Form::text('name', $model->name, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
 	</div>
 </div>
 <div class="col-sm-6">
 	<div class="form-body">
-		<label class="control-label">{{ $model->labels['version'] }} :</label>
+		<label class="control-label">{{ $model->labels['version'] }}</label>
 		{{ Form::text('version', $model->version, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
-	</div>
-</div>
-<div class="col-sm-6">
-	<div class="form-body">
-		<label class="control-label">{{ $model->labels['key'] }} :</label>
-		{{ Form::text('key', $model->key, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
 	</div>
 </div>
    
@@ -32,7 +26,6 @@
 	'columns' => [
 		'id' => $model->labels['id'],
 		'name' => $model->labels['name'],
-		'version' => $model->labels['version'],
-		'key' => $model->labels['key'],
+		'version' => $model->labels['version']
 	]
 ])

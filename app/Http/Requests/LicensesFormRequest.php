@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -8,57 +9,44 @@ use Illuminate\Foundation\Http\FormRequest;
  * @author Michael Pedrotti <michael.pedrotti@hscbrasil.com.br>
  * @version 18/01/2018
  */
-class LicensesFormRequest extends FormRequest
-{
-    /**
-     * Determina se o usuário pode realizar o request
-     *
-     * @return bool
-     */
-    public function authorize() {
-        return true;
-    }
+class LicensesFormRequest extends FormRequest {
 
-    /**
-     * Seta os rules para cada campo
-     *
-     * @return array
-     */
-    public function rules() {
-        return [
-            'product_id' => ['required'],
-            'type_id' => ['required'],
-            'user_id' => ['required'],
-            'expiration' => ['required','date_format:d/m/Y'],
-            'hash' => ['required'],
-        ];
-    }
-    
-    /**
-     * Mensagens caso pare nos rules atribuidos
-     * @return array
-     */
-    public function messages() {
-        return [
-                        
-                        
-            'product_id.required' => 'O campo "Produto" não foi preenchido.',            
-                        
-            'type_id.required' => 'O campo "Tipo" não foi preenchido.',            
-                        
-            'user_id.required' => 'O campo "Usuário" não foi preenchido.',            
-                        
-                        
-                        
-            'expiration.required' => 'O campo "Data de expiração" não foi preenchido.',            
-            'expiration.date_format' => 'O campo "Data de expiração" está com a formatação inválida.',            
-            'hash.required' => 'O campo "Storage" não foi preenchido.',            
-                        
-        ];
-    }
-    
-    
-    /**
+	/**
+	 * Determina se o usuário pode realizar o request
+	 *
+	 * @return bool
+	 */
+	public function authorize() {
+		return true;
+	}
+
+	/**
+	 * Seta os rules para cada campo
+	 *
+	 * @return array
+	 */
+	public function rules() {
+		return [
+			'product_id' => ['required'],
+			'user_id' => ['required'],
+			'expiration' => ['required', 'date_format:d/m/Y']
+		];
+	}
+
+	/**
+	 * Mensagens caso pare nos rules atribuidos
+	 * @return array
+	 */
+	public function messages() {
+		return [
+			'product_id.required' => 'O campo "Produto" não foi preenchido.',
+			'user_id.required' => 'O campo "Usuário" não foi preenchido.',
+			'expiration.required' => 'O campo "Data de expiração" não foi preenchido.',
+			'expiration.date_format' => 'O campo "Data de expiração" está com a formatação inválida.',
+		];
+	}
+
+	/**
      * Validador customizado
      *
      * @return Illuminate\Validation\Validator

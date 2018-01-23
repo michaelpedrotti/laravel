@@ -29,7 +29,7 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <div class="form-body {{ $errors->first("number", "has-error") }}">
-                                            <label class="control-label">{{ $model->labels['number'] }}  :</label>
+                                            <label class="control-label">{{ $model->labels['number'] }}</label>
                                             {{ Form::text('number', $model->number, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
                                         </div>
                                     </div>

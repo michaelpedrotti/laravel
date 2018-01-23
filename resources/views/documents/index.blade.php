@@ -9,31 +9,31 @@
 @section('search')
 <div class="col-sm-6">
 	<div class="form-body">
-		<label class="control-label">{{ $model->labels['type_id'] }} :</label>
+		<label class="control-label">{{ $model->labels['type_id'] }}</label>
 		{{ Form::select('type_id', \App\Models\DocumentTypes::getModel()->search()->pluck('id', 'id')->prepend('Selecione', '')->toArray(), $model->type_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
 	</div>
 </div>
 <div class="col-sm-6">
 	<div class="form-body">
-		<label class="control-label">{{ $model->labels['name'] }} :</label>
+		<label class="control-label">{{ $model->labels['name'] }}</label>
 		{{ Form::text('name', $model->name, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
 	</div>
 </div>
 <div class="col-sm-6">
 	<div class="form-body">
-		<label class="control-label">{{ $model->labels['mimetyppe'] }} :</label>
+		<label class="control-label">{{ $model->labels['mimetyppe'] }}</label>
 		{{ Form::text('mimetyppe', $model->mimetyppe, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
 	</div>
 </div>
 <div class="col-sm-6">
 	<div class="form-body">
-		<label class="control-label">{{ $model->labels['size'] }} :</label>
+		<label class="control-label">{{ $model->labels['size'] }}</label>
 		{{ Form::number('size', $model->size, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
 	</div>
 </div>
 <div class="col-sm-6">
 	<div class="form-body">
-		<label class="control-label">{{ $model->labels['hash'] }} :</label>
+		<label class="control-label">{{ $model->labels['hash'] }}</label>
 		{{ Form::text('hash', $model->hash, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
 	</div>
 </div>
