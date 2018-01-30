@@ -28,9 +28,7 @@ class DocumentsFormRequest extends FormRequest
         return [
             'type_id' => ['required'],
             'name' => ['required'],
-            'mimetyppe' => ['required'],
-            'size' => ['required'],
-            'hash' => ['required'],
+            //'attach' => ['required'],
         ];
     }
     
@@ -39,19 +37,10 @@ class DocumentsFormRequest extends FormRequest
      * @return array
      */
     public function messages() {
-        return [
-                        
-                        
-            'type_id.required' => 'O campo "Tipo" não foi preenchido.',            
-                        
+        return [   
+            'type_id.required' => 'O campo "Tipo" não foi preenchido.',                   
             'name.required' => 'O campo "Nome" não foi preenchido.',            
-                        
-            'mimetyppe.required' => 'O campo "Mime-Type" não foi preenchido.',            
-                        
-            'size.required' => 'O campo "Tamanho" não foi preenchido.',            
-                        
-            'hash.required' => 'O campo "Storage" não foi preenchido.',            
-                        
+            'attach.required' => 'O campo "Storage" não foi preenchido.',                
         ];
     }
     
@@ -61,16 +50,17 @@ class DocumentsFormRequest extends FormRequest
      *
      * @return Illuminate\Validation\Validator
      */
-    /*
     protected function getValidatorInstance() {
         
         return parent::getValidatorInstance()->after(function($validator) {
-
-            $messages = $validator->getCustomMessages();
+			
+            $messages = $this->messages();
             $data = $validator->getData();
-
-            $validator->errors()->add('id', $messages['id.required']);
+			
+			if(!app('request')->route('id') && !array_has($data, 'attach')){
+				
+				$validator->errors()->add('attach', $messages['attach.required']);
+			}
         });
     }
-    */
 }

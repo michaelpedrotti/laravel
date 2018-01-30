@@ -107,7 +107,9 @@ APP.Crud.Save = function(){
          },
         error:function(jqXHR, textStatus, errorThrown){
 
-            alert('error');
+            $('a[data-action=save], button[data-action=save]').hide();
+            $('#modal-default .modal-title').html(errorThrown); 
+            $('#modal-default .modal-body').html('<pre>' + jqXHR.responseText + '</pre>');
          }, 
         success:function(content, textStatus, jqXHR){
             
@@ -140,9 +142,11 @@ APP.Crud.Load = function(){
         headers: {
             'X-CSRF-TOKEN':APP.token
         },
-        error:function(){
-
-            alert('error');
+        error:function(jqXHR, textStatus, errorThrown){
+            
+            $('a[data-action=save], button[data-action=save]').hide();
+            $('#modal-default .modal-title').html(errorThrown); 
+            $('#modal-default .modal-body').html('<pre>' + jqXHR.responseText + '</pre>');            
         }, 
         success:function(content){
 

@@ -33,18 +33,18 @@ class DocumentsController extends Controller {
 				//->editColumn('id', function ($query) {
 				//	return $query->id;
 				//})
-				//->editColumn('type_id', function ($query) {
-				//	return $query->type_id;
-				//})
+				->editColumn('type_id', function ($query) {
+					return \App\Models\DocumentTypes::findOrNew($query->type_id)->name;
+				})
 				//->editColumn('name', function ($query) {
 				//	return $query->name;
 				//})
 				//->editColumn('mimetyppe', function ($query) {
 				//	return $query->mimetyppe;
 				//})
-				//->editColumn('size', function ($query) {
-				//	return $query->size;
-				//})
+				->editColumn('size', function ($query) {
+					return app_bytes_to_size($query->size);
+				})
 				//->editColumn('hash', function ($query) {
 				//	return $query->hash;
 				//})

@@ -48,5 +48,11 @@ return [
                 'role' => ''
             ]
 		]
-	]
+	],
+	    [
+        'label' => 'Documentos',
+        'url' => 'documents',
+        'icon' => 'fa-file-archive-o',
+        //'role' => ['USER_LISTAR', 'PERFIL_LISTAR']
+    ],
 ];

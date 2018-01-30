@@ -6,7 +6,7 @@
 					<span aria-hidden="true">×</span></button>
 				<h4 class="modal-title">...</h4>
 			</div>
-			<div class="modal-body" style="min-height: 380px">
+			<div class="modal-body" style="min-height: 380px; max-height: 480px; overflow: auto">
 				<p>Carregando...</p>
 			</div>
 			<div class="modal-footer">

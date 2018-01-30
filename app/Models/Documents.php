@@ -141,4 +141,19 @@ class Documents extends \Eloquent {
 
         return $builder;
     }
+	
+	public function save(array $options = array()) {
+		
+		$file = \Illuminate\Support\Facades\Input::file('attach');
+		
+		if(!empty($file)) {
+				
+			$this->mimetyppe = $file->getClientMimeType();
+			$this->size = $file->getSize();
+			$this->hash = $file->store('public');
+			// $file->getClientOriginalExtension()
+		}
+
+		return parent::save($options);
+	}
 }
