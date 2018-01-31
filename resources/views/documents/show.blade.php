@@ -22,8 +22,8 @@
  
                         <div class="col-sm-6">
                             <div class="form-body">
-                                <label class="control-label">{{ $model->labels['mimetyppe'] }}</label>
-                                <div class="form-control">{{ $model->mimetyppe }}</div>
+                                <label class="control-label">{{ $model->labels['mimetype'] }}</label>
+                                <div class="form-control">{{ $model->mimetype }}</div>
                             </div>
                         </div>
  

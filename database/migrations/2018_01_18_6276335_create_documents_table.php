@@ -11,6 +11,7 @@ class CreateDocumentsTable extends Migration {
 			$table->increments("id");
 			$table->integer("type_id")->unsigned();
 			$table->string("name", 255);
+			$table->string("extension", 40);
 			$table->string("mimetyppe", 255);
 			$table->integer("size")->unsigned();
 			$table->string("hash", 255);

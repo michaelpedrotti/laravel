@@ -164,4 +164,24 @@ class DocumentsController extends Controller {
 
         return Response::json($output);
     }
+	
+	/**
+     * Ação de destruir/excluir um Tipo de documento
+     *
+     * @param Illuminate\Http\Request $request
+     * @return Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+	public function download(Request $request){
+		
+		$model = Model::find($request->route('id'));
+
+		if(!$model) abort(404, 'Arquivo não foi encontrado');
+		
+		$filename = snake_case($model->name) .'.'. $model->extension;
+		
+		return \Response::download( storage_path('app/public/'.$model->hash), $filename,[
+			'Content-Type' => $model->mime_type,
+			'Content-Disposition' => 'attachment'
+		]);
+	}
 }

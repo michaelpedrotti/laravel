@@ -24,7 +24,8 @@ class Documents extends \Eloquent {
         'id',
         'type_id',
         'name',
-        'mimetyppe',
+		'extension',
+        'mimetype',
         'size',
         'hash',
     ];
@@ -37,7 +38,8 @@ class Documents extends \Eloquent {
         'id' => 'integer',
         'type_id' => 'integer',
         'name' => 'string',
-        'mimetyppe' => 'string',
+		'extension' => 'string',
+        'mimetype' => 'string',
         'size' => 'integer',
         'hash' => 'string',
     ];    
@@ -50,13 +52,21 @@ class Documents extends \Eloquent {
         'id' => 'ID',
         'type_id' => 'Tipo',
         'name' => 'Nome',
-        'mimetyppe' => 'Mime-Type',
+		'extension' => 'Extensão',
+        'mimetype' => 'Mime-Type',
         'size' => 'Tamanho',
-        'hash' => 'Storage',
+        'hash' => 'Anexo',
     ];
 	
-	
-    
+    /**
+	 * Mutator para Data de expiração	 
+	 * 
+	 * @link https://laravel.com/docs/5.5/eloquent-mutators 
+	 */
+	public function setHashAttribute($value){
+				
+		$this->attributes['hash'] = preg_replace('/^public\//', '', $value);
+	}
 
     /**
      * Busca o modelo de document_types     * @return document_types     */
@@ -111,11 +121,11 @@ class Documents extends \Eloquent {
         }
            
         if(array_key_exists('name', $filter) && !empty($filter['name'])) {
-            $builder->where('name', $filter['name']);
+            $builder->where('name', 'LIKE', '%'.$filter['name'].'%');
         }
            
-        if(array_key_exists('mimetyppe', $filter) && !empty($filter['mimetyppe'])) {
-            $builder->where('mimetyppe', $filter['mimetyppe']);
+        if(array_key_exists('mimetype', $filter) && !empty($filter['mimetype'])) {
+            $builder->where('mimetype', $filter['mimetype']);
         }
            
         if(array_key_exists('size', $filter) && !empty($filter['size'])) {
@@ -147,11 +157,12 @@ class Documents extends \Eloquent {
 		$file = \Illuminate\Support\Facades\Input::file('attach');
 		
 		if(!empty($file)) {
-				
-			$this->mimetyppe = $file->getClientMimeType();
+			
+			$this->extension = $file->getClientOriginalExtension();
+			$this->mimetype = $file->getClientMimeType();
 			$this->size = $file->getSize();
 			$this->hash = $file->store('public');
-			// $file->getClientOriginalExtension()
+			
 		}
 
 		return parent::save($options);
