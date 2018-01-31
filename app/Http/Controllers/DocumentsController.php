@@ -24,7 +24,7 @@ class DocumentsController extends Controller {
      */
     public function index(Request $request) {
     
-        //$this->authorize('DOCUMENTS_LISTAR', 'PermissaoPolicy');
+        $this->authorize('DOCUMENTS_LIST');
         
 		$model = Model::getModel()->fill($request->all());
 
@@ -64,7 +64,7 @@ class DocumentsController extends Controller {
      */
     public function form(Request $request) {
     
-        //$this->authorize(($request->route('id') ? 'DOCUMENTS_EDITAR' : 'DOCUMENTS_CADASTRAR'), 'PermissaoPolicy');
+        $this->authorize(($request->route('id') ? 'DOCUMENTS_EDIT' : 'DOCUMENTS_ADD'));
         
         $model = Model::findOrNew($request->route('id'));
         //$model->authorize();
@@ -110,7 +110,7 @@ class DocumentsController extends Controller {
      */
     public function show(Request $request) {
     
-        //$this->authorize('DOCUMENTS_VISUALIZAR', 'PermissaoPolicy');
+        $this->authorize('DOCUMENTS_SHOW');
     
         $model = Model::findOrFail($request->route('id')); 
         //$model->authorize($request->route('id'));
@@ -128,7 +128,7 @@ class DocumentsController extends Controller {
      */
     public function remove(Request $request) {
         
-        //$this->authorize('DOCUMENTS_EXCLUIR', 'PermissaoPolicy');
+        $this->authorize('DOCUMENTS_REMOVE');
     
 		$model = Model::getModel();
         $model->getConnection()->beginTransaction();

@@ -24,7 +24,7 @@ class LicenseTypesController extends Controller {
      */
     public function index(Request $request) {
     
-        //$this->authorize('LICENSETYPES_LISTAR', 'PermissaoPolicy');
+        $this->authorize('LICENSETYPES_LIST');
         
 		$model = Model::getModel()->fill($request->all());
 
@@ -52,7 +52,7 @@ class LicenseTypesController extends Controller {
      */
     public function form(Request $request) {
     
-        //$this->authorize(($request->route('id') ? 'LICENSETYPES_EDITAR' : 'LICENSETYPES_CADASTRAR'), 'PermissaoPolicy');
+        $this->authorize(($request->route('id') ? 'LICENSETYPES_EDIT' : 'LICENSETYPES_ADD'));
         
         $model = Model::findOrNew($request->route('id'));
         //$model->authorize();
@@ -98,7 +98,7 @@ class LicenseTypesController extends Controller {
      */
     public function show(Request $request) {
     
-        //$this->authorize('LICENSETYPES_VISUALIZAR', 'PermissaoPolicy');
+        $this->authorize('LICENSETYPES_SHOW');
     
         $model = Model::findOrFail($request->route('id')); 
         //$model->authorize($request->route('id'));
@@ -116,7 +116,7 @@ class LicenseTypesController extends Controller {
      */
     public function remove(Request $request) {
         
-        //$this->authorize('LICENSETYPES_EXCLUIR', 'PermissaoPolicy');
+        $this->authorize('LICENSETYPES_REMOVE');
     
 		$model = Model::getModel();
         $model->getConnection()->beginTransaction();

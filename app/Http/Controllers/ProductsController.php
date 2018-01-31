@@ -24,7 +24,7 @@ class ProductsController extends Controller {
      */
     public function index(Request $request) {
     
-        //$this->authorize('PRODUCTS_LISTAR', 'PermissaoPolicy');
+        $this->authorize('PRODUCTS_LIST');
         
 		$model = Model::getModel()->fill($request->all());
 
@@ -58,7 +58,7 @@ class ProductsController extends Controller {
      */
     public function form(Request $request) {
     
-        //$this->authorize(($request->route('id') ? 'PRODUCTS_EDITAR' : 'PRODUCTS_CADASTRAR'), 'PermissaoPolicy');
+        $this->authorize(($request->route('id') ? 'PRODUCTS_EDIT' : 'PRODUCTS_ADD'));
         
         $model = Model::findOrNew($request->route('id'));
         //$model->authorize();
@@ -104,7 +104,7 @@ class ProductsController extends Controller {
      */
     public function show(Request $request) {
     
-        //$this->authorize('PRODUCTS_VISUALIZAR', 'PermissaoPolicy');
+        $this->authorize('PRODUCTS_SHOW');
     
         $model = Model::findOrFail($request->route('id')); 
         //$model->authorize($request->route('id'));
@@ -122,7 +122,7 @@ class ProductsController extends Controller {
      */
     public function remove(Request $request) {
         
-        //$this->authorize('PRODUCTS_EXCLUIR', 'PermissaoPolicy');
+        $this->authorize('PRODUCTS_REMOVE');
     
 		$model = Model::getModel();
         $model->getConnection()->beginTransaction();

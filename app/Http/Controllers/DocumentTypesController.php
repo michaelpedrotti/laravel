@@ -24,7 +24,7 @@ class DocumentTypesController extends Controller {
      */
     public function index(Request $request) {
     
-        //$this->authorize('DOCUMENTTYPES_LISTAR', 'PermissaoPolicy');
+        $this->authorize('DOCUMENTTYPES_LIST');
         
 		$model = Model::getModel()->fill($request->all());
 
@@ -52,7 +52,7 @@ class DocumentTypesController extends Controller {
      */
     public function form(Request $request) {
     
-        //$this->authorize(($request->route('id') ? 'DOCUMENTTYPES_EDITAR' : 'DOCUMENTTYPES_CADASTRAR'), 'PermissaoPolicy');
+        $this->authorize(($request->route('id') ? 'DOCUMENTTYPES_EDIT' : 'DOCUMENTTYPES_ADD'));
         
         $model = Model::findOrNew($request->route('id'));
         //$model->authorize();
@@ -98,7 +98,7 @@ class DocumentTypesController extends Controller {
      */
     public function show(Request $request) {
     
-        //$this->authorize('DOCUMENTTYPES_VISUALIZAR', 'PermissaoPolicy');
+        $this->authorize('DOCUMENTTYPES_SHOW');
     
         $model = Model::findOrFail($request->route('id')); 
         //$model->authorize($request->route('id'));
@@ -116,7 +116,7 @@ class DocumentTypesController extends Controller {
      */
     public function remove(Request $request) {
         
-        //$this->authorize('DOCUMENTTYPES_EXCLUIR', 'PermissaoPolicy');
+        $this->authorize('DOCUMENTTYPES_REMOVE');
     
 		$model = Model::getModel();
         $model->getConnection()->beginTransaction();

@@ -24,7 +24,7 @@ class AclsController extends Controller {
      */
     public function index(Request $request) {
     
-        //$this->authorize('ACLS_LISTAR', 'PermissaoPolicy');
+        $this->authorize('ACLS_LIST');
         
 		$model = Model::getModel()->fill($request->all());
 
@@ -55,7 +55,7 @@ class AclsController extends Controller {
      */
     public function form(Request $request) {
     
-        //$this->authorize(($request->route('id') ? 'ACLS_EDITAR' : 'ACLS_CADASTRAR'), 'PermissaoPolicy');
+        $this->authorize(($request->route('id') ? 'ACLS_EDIT' : 'ACLS_ADD'));
         
         $model = Model::findOrNew($request->route('id'));
         //$model->authorize();
@@ -101,7 +101,7 @@ class AclsController extends Controller {
      */
     public function show(Request $request) {
     
-        //$this->authorize('ACLS_VISUALIZAR', 'PermissaoPolicy');
+        $this->authorize('ACLS_SHOW');
     
         $model = Model::findOrFail($request->route('id')); 
         //$model->authorize($request->route('id'));
@@ -119,7 +119,7 @@ class AclsController extends Controller {
      */
     public function remove(Request $request) {
         
-        //$this->authorize('ACLS_EXCLUIR', 'PermissaoPolicy');
+        $this->authorize('ACLS_REMOVE');
     
 		$model = Model::getModel();
         $model->getConnection()->beginTransaction();

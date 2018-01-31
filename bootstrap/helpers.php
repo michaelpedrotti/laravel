@@ -74,3 +74,50 @@ if(!function_exists('app_bytes_to_size')) {
 	}
 }
 
+if(!function_exists('app_has_permission')) {
+	
+	function app_has_permission($ability){
+		
+		$bool = false;
+		$array = (array)$ability;
+		
+        $sessao = app('session.store');
+
+        if($sessao->has('acl')) {
+
+            if(in_array($sessao->get('acl'), $array)) {
+                $bool = true;
+            } 
+        }
+    
+        if ($sessao->has('permissions')) {
+           
+            foreach($sessao->get('permissions') as $permission){       
+                if (in_array($permission, $array)) {
+                    $bool = true;
+                }
+            }
+        }
+
+		if(!$bool) {
+            
+            if (app('request')->isXmlHttpRequest()) {
+				
+				$response = \Response::json([
+					'success' => false,
+					'msg' => 'Você não tem permissão para acessar'
+				]);
+            }
+            else {
+                $response = \Response::view('layout.errors.401', [
+					'code' => 401,
+					'message' => 'Você não tem permissão para acessar'
+				]);
+            }
+		
+			throw new \Illuminate\Http\Exceptions\HttpResponseException($response);	
+        }
+		
+		return true;	
+	}
+}

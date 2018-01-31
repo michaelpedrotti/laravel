@@ -24,7 +24,7 @@ class UsersController extends Controller {
      */
     public function index(Request $request) {
     
-        //$this->authorize('USERS_LIST', 'PermissaoPolicy');
+        $this->authorize('USERS_LIST');
         
 		$model = Model::getModel()->fill($request->all());
 
@@ -61,7 +61,7 @@ class UsersController extends Controller {
      */
     public function form(Request $request) {
     
-        //$this->authorize(($request->route('id') ? 'USERS_EDIT' : 'USERS_ADD'), 'PermissaoPolicy');
+        $this->authorize(($request->route('id') ? 'USERS_EDIT' : 'USERS_ADD'));
         
         $model = Model::findOrNew($request->route('id'));
         //$model->authorize();
@@ -112,7 +112,7 @@ class UsersController extends Controller {
      */
     public function show(Request $request) {
     
-        //$this->authorize('USERS_DELETE', 'PermissaoPolicy');
+        $this->authorize('USERS_DELETE');
     
         $model = Model::findOrFail($request->route('id')); 
         //$model->authorize($request->route('id'));
@@ -130,7 +130,7 @@ class UsersController extends Controller {
      */
     public function remove(Request $request) {
         
-        //$this->authorize('USERS_EXCLUIR', 'PermissaoPolicy');
+        $this->authorize('USERS_REMOVE');
     
 		$model = Model::getModel();
         $model->getConnection()->beginTransaction();

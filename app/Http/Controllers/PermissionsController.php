@@ -24,7 +24,7 @@ class PermissionsController extends Controller {
      */
     public function index(Request $request) {
 
-        //$this->authorize('PERMISSIONS_LISTAR', 'PermissaoPolicy');
+        $this->authorize('PERMISSIONS_LIST');
         
 		$model = Model::getModel()->fill($request->all());
 		
@@ -66,7 +66,7 @@ class PermissionsController extends Controller {
 		
 		$output = ['success' => false];
 		
-        //$this->authorize(($request->route('id') ? 'PERMISSIONS_EDITAR' : 'PERMISSIONS_CADASTRAR'), 'PermissaoPolicy');
+        $this->authorize(($request->route('id') ? 'PERMISSIONS_EDIT' : 'PERMISSIONS_ADD'));
         
 		if($request->isMethod('post')) {
 			
@@ -109,7 +109,7 @@ class PermissionsController extends Controller {
      */
     public function show(Request $request) {
     
-        //$this->authorize('PERMISSIONS_VISUALIZAR', 'PermissaoPolicy');
+        $this->authorize('PERMISSIONS_SHOW');
     
         $model = Model::findOrFail($request->route('id')); 
         //$model->authorize($request->route('id'));
@@ -127,7 +127,7 @@ class PermissionsController extends Controller {
      */
     public function remove(Request $request) {
         
-        //$this->authorize('PERMISSIONS_EXCLUIR', 'PermissaoPolicy');
+        $this->authorize('PERMISSIONS_REMOVE');
     
 		$model = Model::getModel();
         $model->getConnection()->beginTransaction();

@@ -24,7 +24,7 @@ class LicensesController extends Controller {
      */
     public function index(Request $request) {
     
-        //$this->authorize('LICENSES_LISTAR', 'PermissaoPolicy');
+        $this->authorize('LICENSES_LIST');
         
 		$model = Model::getModel()->fill($request->all());
 
@@ -67,7 +67,7 @@ class LicensesController extends Controller {
      */
     public function form(Request $request) {
     
-        //$this->authorize(($request->route('id') ? 'LICENSES_EDITAR' : 'LICENSES_CADASTRAR'), 'PermissaoPolicy');
+        $this->authorize(($request->route('id') ? 'LICENSES_EDIT' : 'LICENSES_ADD'));
         
         $model = Model::findOrNew($request->route('id'));
         //$model->authorize();
@@ -114,7 +114,7 @@ class LicensesController extends Controller {
      */
     public function show(Request $request) {
     
-        //$this->authorize('LICENSES_VISUALIZAR', 'PermissaoPolicy');
+        $this->authorize('LICENSES_SHOW');
     
         $model = Model::findOrFail($request->route('id')); 
         //$model->authorize($request->route('id'));
@@ -132,7 +132,7 @@ class LicensesController extends Controller {
      */
     public function remove(Request $request) {
         
-        //$this->authorize('LICENSES_EXCLUIR', 'PermissaoPolicy');
+        $this->authorize('LICENSES_REMOVE');
     
 		$model = Model::getModel();
         $model->getConnection()->beginTransaction();
