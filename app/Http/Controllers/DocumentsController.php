@@ -177,9 +177,7 @@ class DocumentsController extends Controller {
 
 		if(!$model) abort(404, 'Arquivo não foi encontrado');
 		
-		$filename = snake_case($model->name) .'.'. $model->extension;
-		
-		return \Response::download( storage_path('app/public/'.$model->hash), $filename,[
+		return \Response::download( storage_path('app/public/'.$model->hash), $model->downloadName(),[
 			'Content-Type' => $model->mime_type,
 			'Content-Disposition' => 'attachment'
 		]);

@@ -71,7 +71,7 @@ class Documents extends \Eloquent {
     /**
      * Busca o modelo de document_types     * @return document_types     */
     public function DocumentTypes() {
-        return $this->belongsTo('App\Models\DocumentTypes', 'id', 'type_id');
+        return $this->hasOne('App\Models\DocumentTypes', 'id', 'type_id');
     }
 
     /**
@@ -98,7 +98,11 @@ class Documents extends \Eloquent {
         } 
     }
     
-    
+	public function downloadName(){
+		
+		return sprintf('%s.%s', snake_case($this->name), $this->extension);
+	}
+	
     /**
      * Realiza a consulta da tabela
      *

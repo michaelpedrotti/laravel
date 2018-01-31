@@ -6,40 +6,31 @@
                 <div class="col-md-12">
                     <fieldset>
  
-                        <div class="col-sm-6">
-                            <div class="form-body">
-                                <label class="control-label">{{ $model->labels['type_id'] }}</label>
-                                <div class="form-control">{{ $model->type_id }}</div>
-                            </div>
-                        </div>
- 
-                        <div class="col-sm-6">
-                            <div class="form-body">
-                                <label class="control-label">{{ $model->labels['name'] }}</label>
-                                <div class="form-control">{{ $model->name }}</div>
-                            </div>
-                        </div>
- 
-                        <div class="col-sm-6">
-                            <div class="form-body">
-                                <label class="control-label">{{ $model->labels['mimetype'] }}</label>
-                                <div class="form-control">{{ $model->mimetype }}</div>
-                            </div>
-                        </div>
- 
-                        <div class="col-sm-6">
-                            <div class="form-body">
-                                <label class="control-label">{{ $model->labels['size'] }}</label>
-                                <div class="form-control">{{ $model->size }}</div>
-                            </div>
-                        </div>
- 
-                        <div class="col-sm-6">
-                            <div class="form-body">
-                                <label class="control-label">{{ $model->labels['hash'] }}</label>
-                                <div class="form-control">{{ $model->hash }}</div>
-                            </div>
-                        </div>
+						<div class="col-sm-12">
+							<div class="form-body">
+								<label class="control-label">{{ $model->labels['type_id'] }}</label>
+								<div class="form-control">{{ $model->DocumentTypes->name }}</div>
+							</div>
+						</div>
+
+						<div class="col-sm-12">
+							<div class="form-body">
+								<label class="control-label">{{ $model->labels['name'] }}</label>
+								<div class="form-control">{{ $model->name }}</div>
+							</div>
+						</div>
+						
+						<div class="col-sm-12">
+							<div class="form-body">
+								<label class="control-label">Documento</label>
+								<div class="input-group">
+									<div class="form-control">{{ $model->downloadName() }}</div>
+									<a href="{{ url('documents/download/'.$model->id ) }}" title="Baixar o documento" class="input-group-addon btn btn-link btn-default">
+										<i class="fa fa-download"></i>	
+									</a>
+								</div>
+							</div>
+						</div>
                     </fieldset>    
                 </div>
             </div>

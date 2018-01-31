@@ -1,5 +1,12 @@
 if(!APP) var APP = {};
 
+/**
+ * Envia uma mensagem de alerta para o usuário
+ * 
+ * @param {String} mensage
+ * @param {String} level
+ * @return {null} description
+ */
 APP.flash = function(message, level) {
 
 //    $('#flash-messager').append($.parseHTML(
@@ -21,6 +28,60 @@ APP.flash = function(message, level) {
     });
 };
 
+/**
+ * Recarrega um combo por Ajax
+ * 
+ * @param {String} selector
+ * @param {String} model
+ * @param {Object} parametros adicionais para a ajax.request
+ * @param {function} callback
+ * @return {null} description
+ */
+APP.loadCombo = function(selector, model, data, callback) {
+
+    var combo = $(selector);
+    combo.attr('readonly', 'readonly');
+    combo.empty();
+
+    var data = data || {};
+    data._token = APP.token;
+
+    $.ajax({
+        type: "POST",
+        url: APP.base_url + 'auto-complete/combo/' + model,
+        dataType: "json",
+        data: data,
+        success: function (resp) {
+
+            if (resp.success && resp.options) {
+
+                combo.append($('<option>', {value: '', text: 'Selecione'}));
+
+                $.each(resp.options, function (value, text) {
+                    combo.append($('<option>', {value: value, text: text}));
+                });
+
+                if (typeof callback == 'function') {
+                    callback(resp, combo);
+                }
+            }
+        },
+        complete: function () {
+
+            combo.removeAttr('readonly');
+        },
+        error: function (jqXHR) {
+
+            APP.flash('Falha ao carregar o combo', 'warning');
+        }
+    });
+};
+
+/**
+ * Abre o menu-bar baseado na rota
+ * 
+ * @return {null} description
+ */
 APP.openMenu = function(){
     
     var selector = $('li[data-route*="' + APP.controller + '"]');
