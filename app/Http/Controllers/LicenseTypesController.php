@@ -116,7 +116,7 @@ class LicenseTypesController extends Controller {
      */
     public function remove(Request $request) {
         
-        $this->authorize('LICENSETYPES_REMOVE');
+        $this->authorize('LICENSETYPES_REM');
     
 		$model = Model::getModel();
         $model->getConnection()->beginTransaction();

@@ -122,7 +122,7 @@ class ProductsController extends Controller {
      */
     public function remove(Request $request) {
         
-        $this->authorize('PRODUCTS_REMOVE');
+        $this->authorize('PRODUCTS_REM');
     
 		$model = Model::getModel();
         $model->getConnection()->beginTransaction();

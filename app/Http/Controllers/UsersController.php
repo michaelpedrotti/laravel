@@ -130,7 +130,7 @@ class UsersController extends Controller {
      */
     public function remove(Request $request) {
         
-        $this->authorize('USERS_REMOVE');
+        $this->authorize('USERS_REM');
     
 		$model = Model::getModel();
         $model->getConnection()->beginTransaction();

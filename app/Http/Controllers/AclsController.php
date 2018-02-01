@@ -119,7 +119,7 @@ class AclsController extends Controller {
      */
     public function remove(Request $request) {
         
-        $this->authorize('ACLS_REMOVE');
+        $this->authorize('ACLS_REM');
     
 		$model = Model::getModel();
         $model->getConnection()->beginTransaction();

@@ -128,7 +128,7 @@ class DocumentsController extends Controller {
      */
     public function remove(Request $request) {
         
-        $this->authorize('DOCUMENTS_REMOVE');
+        $this->authorize('DOCUMENTS_REM');
     
 		$model = Model::getModel();
         $model->getConnection()->beginTransaction();

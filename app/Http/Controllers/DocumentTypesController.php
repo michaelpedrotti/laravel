@@ -116,7 +116,7 @@ class DocumentTypesController extends Controller {
      */
     public function remove(Request $request) {
         
-        $this->authorize('DOCUMENTTYPES_REMOVE');
+        $this->authorize('DOCUMENTTYPES_REM');
     
 		$model = Model::getModel();
         $model->getConnection()->beginTransaction();

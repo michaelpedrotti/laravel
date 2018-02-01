@@ -132,7 +132,7 @@ class LicensesController extends Controller {
      */
     public function remove(Request $request) {
         
-        $this->authorize('LICENSES_REMOVE');
+        $this->authorize('LICENSES_REM');
     
 		$model = Model::getModel();
         $model->getConnection()->beginTransaction();
