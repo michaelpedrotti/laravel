@@ -103,7 +103,7 @@ class Permissions extends \Illuminate\Database\Eloquent\Model {
         }
            
         if(array_key_exists('desc', $filter) && !empty($filter['desc'])) {
-            $builder->where('desc', $filter['desc']);
+            $builder->where('desc', 'LIKE', '%'.$filter['desc'].'%');
         }
         
         
