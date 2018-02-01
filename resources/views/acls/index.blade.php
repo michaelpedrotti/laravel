@@ -7,6 +7,7 @@
 </ol>
 @stop
 @section('toolbar')
+<span class="btn-lg"></span>
 <a href="javascript:void(0)" title="Permissões" data-action="permission" class="btn btn-primary">
 	<i class="fa fa-qrcode"></i>
 </a>
@@ -40,7 +41,7 @@ APP.Permission = function(){
         return false;
     }
 
-    window.location = APP.base_url + '/permissions/index/' + selector.first().val();
+    window.location = APP.base_url + 'permissions/index/' + selector.first().val();
 };
 	
 $(function(){

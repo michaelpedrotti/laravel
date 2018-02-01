@@ -52,7 +52,8 @@ class PermissionsController extends Controller {
 		}
        
         return view('permissions.index', [
-            'model' => $model
+            'model' => $model,
+			'acl' => \App\Models\Acls::findOrNew($request->route('id'))
         ]);
     }
         

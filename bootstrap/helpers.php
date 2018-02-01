@@ -10,7 +10,7 @@ if(!function_exists('app_menu')) {
 
 		$session = app('session.store');
 
-		//if(!$session->has('menu')) {
+		if(!$session->has('menu')) {
 
 			$config = config('menu');
 
@@ -29,12 +29,10 @@ if(!function_exists('app_menu')) {
 				$loop($config[$key]);
 			}
 				
-			//$session->put('menu', $config);
-		//} 
+			$session->put('menu', $config);
+		} 
 
-		//return $session->get('menu');
-			
-			return $config;
+		return $session->get('menu');
 	}
 }
 

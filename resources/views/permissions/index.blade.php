@@ -1,14 +1,13 @@
 @extends('layout.app')
 
 @section('breadcrumb')
-<h1><small>Permissão do perfil</small></h1>
+<h1><small>Perfil  {{ $acl->name }}</small></h1>
 <ol class="breadcrumb">
 	<li><a href="{{ url('/') }}"><i class="fa fa-home"></i> Home</a></li>
-	<li class="active">Permissão do perfil</li>
+	<li><a href="{{ url('/acls') }}"><i class="fa fa-lock"></i> Perfil</a></li>
+	<li class="active">Permissões</li>
 </ol>
 @stop
-
-
 
 @section('search')
 <div class="col-sm-6">
