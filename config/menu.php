@@ -12,16 +12,16 @@ return [
                 'label' => 'Perfil',
                 'url' => 'acls',
                 'icon' => 'fa-lock',
-                'role' => ''
+                'acl' => 'ACLS_LIST'
             ],
             [
                 'label' => 'Usuários',
                 'url' => 'users',
 				'icon' => 'fa-user',
-                'role' => 'USER_LISTAR'
+                'acl' => 'USERS_LIST'
             ]
         ],
-        //'role' => ['USER_LISTAR', 'PERFIL_LISTAR']
+        'acl' => ['ACLS_LIST', 'USERS_LIST']
     ],
 	[
 		'label' => 'Configurações',
@@ -33,19 +33,19 @@ return [
                 'label' => 'Produtos',
                 'url' => 'products',
                 'icon' => 'fa-cubes',
-                'role' => ''
+                'acl' => 'PRODUCTS_LIST'
             ],
 			[
                 'label' => 'Tipos de licenças',
                 'url' => 'license-types',
                 'icon' => 'fa-barcode',
-                'role' => ''
+                'acl' => 'LICENSETYPES_LIST'
             ],
 			[
                 'label' => 'Licenças',
                 'url' => 'licenses',
                 'icon' => ' fa-registered',
-                'role' => ''
+                'acl' => 'LICENSES_LIST'
             ]
 		]
 	],
@@ -53,6 +53,6 @@ return [
         'label' => 'Documentos',
         'url' => 'documents',
         'icon' => 'fa-file-archive-o',
-        //'role' => ['USER_LISTAR', 'PERFIL_LISTAR']
+        'acl' => ['DOCUMENTS_LIST']
     ],
 ];

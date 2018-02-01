@@ -12,16 +12,17 @@ class CreateUserAclsTable extends Migration {
 			$table->integer("user_id")->unsigned();
 			$table->integer("acl_id")->unsigned();
 
-
 			$table->foreign('acl_id')
 				->references('id')
-				->on('acls')
-				->onDelete('cascade');
+					->on('acls')
+						->onDelete('cascade');
 			$table->foreign('user_id')
 				->references('id')
-				->on('users')
-				->onDelete('cascade');
+					->on('users')
+						->onDelete('cascade');
 		});
+		
+		app(\UserAclsSeeder::class)->run();
 	}
 
 	public function down() {

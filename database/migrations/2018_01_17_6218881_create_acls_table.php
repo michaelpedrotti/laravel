@@ -15,6 +15,8 @@ class CreateAclsTable extends Migration {
 			$table->timestamps();
 			$table->softDeletes();
 		});
+		
+		app(\AclsSeeder::class)->run();
 	}
 
 	public function down() {

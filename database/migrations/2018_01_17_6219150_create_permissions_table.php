@@ -12,6 +12,8 @@ class CreatePermissionsTable extends Migration {
 			$table->string("permission", 50);
 			$table->string("desc", 255);
 		});
+		
+		app(\PermissionsSeeder::class)->run();
 	}
 
 	public function down() {

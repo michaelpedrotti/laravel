@@ -10,13 +10,13 @@ if(!function_exists('app_menu')) {
 
 		$session = app('session.store');
 
-		if(!$session->has('menu')) {
+		//if(!$session->has('menu')) {
 
 			$config = config('menu');
 
 			$loop = function(&$item) use (&$loop){
-				
-				$item['disabled'] = false;
+
+				$item['disabled'] = isset($item['acl']) && !empty($item['acl'])  ? !app_has_permission($item['acl']) : false;
 				
 				if(isset($item['child'])) {
 					foreach($item['child'] as $key => $child) {
@@ -29,10 +29,12 @@ if(!function_exists('app_menu')) {
 				$loop($config[$key]);
 			}
 				
-			$session->put('menu', $config);
-		} 
+			//$session->put('menu', $config);
+		//} 
 
-		return $session->get('menu');
+		//return $session->get('menu');
+			
+			return $config;
 	}
 }
 
@@ -76,6 +78,12 @@ if(!function_exists('app_bytes_to_size')) {
 
 if(!function_exists('app_has_permission')) {
 	
+	/**
+     * Verifica se o usuário ter permissão para acessar um recurso do sistema
+     *
+	 * @param string $ability Permissão a ser testada
+     * @return bool
+     */
 	function app_has_permission($ability){
 		
 		$bool = false;
@@ -98,26 +106,7 @@ if(!function_exists('app_has_permission')) {
                 }
             }
         }
-
-		if(!$bool) {
-            
-            if (app('request')->isXmlHttpRequest()) {
-				
-				$response = \Response::json([
-					'success' => false,
-					'msg' => 'Você não tem permissão para acessar'
-				]);
-            }
-            else {
-                $response = \Response::view('layout.errors.401', [
-					'code' => 401,
-					'message' => 'Você não tem permissão para acessar'
-				]);
-            }
 		
-			throw new \Illuminate\Http\Exceptions\HttpResponseException($response);	
-        }
-		
-		return true;	
+		return $bool;	
 	}
 }
