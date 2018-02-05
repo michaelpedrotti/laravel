@@ -20,10 +20,10 @@
                             </div>
                         </div>
  
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                             <div class="form-body">
                                 <label class="control-label">{{ $model->labels['key'] }}</label>
-                                <div class="form-control">{{ $model->key }}</div>
+								{{ Form::textarea('key', $model->key, ['disabled' => 'disabled', 'rows' => '5' ,'class' => 'form-control', 'placeholder' => '']) }}
                             </div>
                         </div>
                     </fieldset>    
