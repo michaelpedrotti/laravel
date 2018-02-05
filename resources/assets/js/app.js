@@ -106,48 +106,121 @@ if(!APP.Crud) APP.Crud = {};
 APP.Crud.url = '';
 
 /**
- * Ao carregar campos por ajax os eventos não são atachados e em alguns momentos
- * o delegate não funciona. Então atachamos os eventos manualmente
+ * Carrega o formuário para cadastrar um registro
  * 
- * @param {String} context query para o selector jquery 
- * @return {null}
+ * @target .modal .form-horizontal
  */
-APP.Crud.Bootstrap = function(context){
+APP.Crud.Create = function(){
+   
+    var button = $(this);
+    var modal = $(button.attr('data-target') || '#modal-default');
     
-    var selector = $(context);
+    APP.Crud.url = APP.current_controller + '/form';
     
-    selector.find(".datepicker").datepicker($.fn.datepicker.dates['pt-BR']);
-    selector.find('.datepicker').inputmask("99/99/9999");
-    
-    selector.find(".integer").inputmask('integer', {min:1, max:99999});
+    modal.find('a[data-action=save], button[data-action=save]').show();
+    modal.find('.modal-body').empty().html('Carregando...');
+    modal.modal('show'); 
 };
 
-APP.Crud.CheckAll = function(){
+/**
+ * Carrega o formuário com os dados para editar um registro
+ * 
+ * @target .modal .form-horizontal
+ */
+APP.Crud.Edit = function(){
     
-    var checkbox = $(this);
-    var fn;
-    
-    if(checkbox.is(':checked')) {
+    var button = $(this);
+    var modal = $(button.attr('data-target') || '#modal-default');
+    var table = $(button.attr('data-table') || 'table.dataTable');
+    var selector = table.find('tbody').find('input[type=checkbox]:checked');
 
-        fn = function(checkbox){ checkbox.attr('checked', 'checked'); };
+    if(selector.length <= 0) {
+        APP.flash('Selecine um registro', 'warning');
+        return false;
     }
-    else {
 
-        fn = function(checkbox){ checkbox.removeAttr('checked'); };
-    }
+    APP.Crud.url = APP.current_controller + '/form/' + selector.first().val();
     
-    checkbox.parents('table:first').find('tbody').find('input[type=checkbox]').each(function(index, el){
-        fn($(this));
-    });    
+    modal.find('a[data-action=save], button[data-action=save]').show();
+    modal.find('.modal-body').empty().html('Carregando...');
+    modal.modal('show'); 
 };
 
+/**
+ * Visualiza os dados de um registro
+ * 
+ * @target .modal .form-horizontal
+ */
+APP.Crud.Show = function(){
+    
+    var button = $(this);
+    var modal = $(button.attr('data-target') || '#modal-default');
+    var table = $(button.attr('data-table') || 'table.dataTable');
+    var selector = table.find('tbody').find('input[type=checkbox]:checked');
+
+    if(selector.length <= 0) {
+        APP.flash('Selecine um registro', 'warning');
+        return false;
+    }
+
+    APP.Crud.url = APP.current_controller + '/show/' + selector.first().val();
+    
+    modal.find('a[data-action=save], button[data-action=save]').hide();
+    modal.find('.modal-body').empty().html('Carregando...');
+    modal.modal('show'); 
+};
+
+/**
+ * Carrega os dados do backend em um formulário. Invodado pelo Edit ou Create
+ * 
+ * @target .modal .form-horizontal
+ */
+APP.Crud.Load = function(e){
+    
+    var modal = $(e.currentTarget);
+    
+    $.ajax({
+
+        method:'GET',
+        url:APP.Crud.url,
+        dataType:'html',
+        headers: {
+            'X-CSRF-TOKEN':APP.token
+        },
+        error:function(jqXHR, textStatus, errorThrown){
+            
+            modal.find('a[data-action=save], button[data-action=save]').hide();
+            modal.find('.modal-title').html(errorThrown); 
+            modal.find('.modal-body').html('<pre>' + jqXHR.responseText + '</pre>');            
+        }, 
+        success:function(content){
+
+            var selector = $(content).find('title:first');
+            
+            if(selector.length > 0) {
+                modal.find('.modal-title').html(selector.html()); 
+            }
+
+            var body = modal.find('.modal-body').html(content);
+            
+            APP.Crud.Bootstrap(body);
+        }  
+    });
+};
+
+/**
+ * Salva os dados de um registro no backend. Tanto se for cadastro como edição
+ * 
+ * @target .modal .form-horizontal
+ */
 APP.Crud.Save = function(){
-    
-    var button = $(this);    
+
+    var button = $(this);
+    var modal = $(button.attr('data-target') || '#modal-default');
+    var table = $(button.attr('data-table'));
+    var form = modal.find('form:first');
+
     button.attr('disabled', 'disabled');
-    
-    var form = $('#modal-default').find('form:first');
-    var data = new FormData(form.get(0));
     
     $.ajax({
 
@@ -155,7 +228,7 @@ APP.Crud.Save = function(){
         type:"POST",
         url:form.attr('action'),
         dataType:'html',
-        data:data,
+        data:new FormData(form.get(0)),
         processData: false,
 //        contentType: 'multipart/form-data',
         contentType: false,
@@ -169,129 +242,46 @@ APP.Crud.Save = function(){
         error:function(jqXHR, textStatus, errorThrown){
 
             $('a[data-action=save], button[data-action=save]').hide();
-            $('#modal-default .modal-title').html(errorThrown); 
-            $('#modal-default .modal-body').html('<pre>' + jqXHR.responseText + '</pre>');
+            modal.find('.modal-title').html(errorThrown); 
+            modal.find('.modal-body').html('<pre>' + jqXHR.responseText + '</pre>');
          }, 
         success:function(content, textStatus, jqXHR){
             
             var alert = $(content).find('.alert-success');
-
             if(alert.length > 0) {
                 
                 APP.flash(alert.text(), 'success');
                 
-                $('#modal-default').modal('hide');
-                $('table.dataTable').DataTable().ajax.reload();
+                modal.modal('hide');
+                if(table) table.DataTable().ajax.reload();
             }
             else {
 
-                $('#modal-default .modal-body').empty().html(content);
+                var target = modal.find('.modal-body').empty().html(content);
                 
-                APP.Crud.Bootstrap('#modal-default .modal-body');
+                APP.Crud.Bootstrap(target);
             }
         }  
     });
 };
 
-APP.Crud.Load = function(){
-    
-    $.ajax({
-
-        method:'GET',
-        url:APP.Crud.url,
-        dataType:'html',
-        headers: {
-            'X-CSRF-TOKEN':APP.token
-        },
-        error:function(jqXHR, textStatus, errorThrown){
-            
-            $('a[data-action=save], button[data-action=save]').hide();
-            $('#modal-default .modal-title').html(errorThrown); 
-            $('#modal-default .modal-body').html('<pre>' + jqXHR.responseText + '</pre>');            
-        }, 
-        success:function(content){
-
-            var selector = $(content).find('title:first');
-            
-            if(selector.length > 0) {
-                $('#modal-default .modal-title').html(selector.html()); 
-            }
-
-            $('#modal-default .modal-body').html(content);
-            
-            APP.Crud.Bootstrap('#modal-default .modal-body');
-        }  
-    });
-};
-
-APP.Crud.Show = function(){
-    
-    var button = $(this);
-    var container = button.parents('div.box');
-    
-    var selector = container.find('tbody').find('input[type=checkbox]:checked');
-
-    if(selector.length <= 0) {
-        APP.flash('Selecine um registro', 'warning');
-        return false;
-    }
-
-    APP.Crud.url = APP.current_controller + '/show/' + selector.first().val();
-    
-    $('a[data-action=save], button[data-action=save]').hide();
-    
-    selector = $('#modal-default');
-    
-    selector.find('.modal-body').empty().html('Carregando...');
-    selector.modal('show'); 
-};
-
-APP.Crud.Create = function(){
-      
-    APP.Crud.url = APP.current_controller + '/form';
-    
-   $('a[data-action=save], button[data-action=save]').show();
-    
-    var selector = $('#modal-default');
-    
-    selector.find('.modal-body').empty().html('Carregando...');
-    selector.modal('show'); 
-};
-
-APP.Crud.Edit = function(){
-    
-    var button = $(this);
-    var container = button.parents('div.box');
-    
-    var selector = container.find('tbody').find('input[type=checkbox]:checked');
-
-    if(selector.length <= 0) {
-        APP.flash('Selecine um registro', 'warning');
-        return false;
-    }
-
-    APP.Crud.url = APP.current_controller + '/form/' + selector.first().val();
-    
-    $('a[data-action=save], button[data-action=save]').show();
-    
-    selector = $('#modal-default');
-    
-    selector.find('.modal-body').empty().html('Carregando...');
-    selector.modal('show'); 
-};
-
+/**
+ * Apaga registros selecionados no datatable
+ * 
+ * @target .datatable
+ */
 APP.Crud.Remove = function(e){
     
     var button = $(this);
-    var container = button.parents('div.box');
-    var selector = container.find('tbody').find('input[type=checkbox]:checked');
+    var table = $(button.attr('data-table') || 'table.dataTable');
+    var selector = table.find('tbody').find('input[type=checkbox]:checked');
     
     if(selector.length <= 0){
         APP.flash('Selecine um registro', 'warning');
         return false;
     }
     
-    var datatable = container.find('table').DataTable();
+    var datatable = table.DataTable();
     var data = {};
     var length = 0;
     
@@ -315,7 +305,7 @@ APP.Crud.Remove = function(e){
          },
          error:function(jqXHR, textStatus, errorThrown){
 
-            alert('error');
+            APP.flash(errorThrown, 'danger');
          }, 
          success:function(data){
              
@@ -332,6 +322,51 @@ APP.Crud.Remove = function(e){
     });
 };
 
+/**
+ * Ao carregar campos por ajax os eventos não são atachados e em alguns momentos
+ * o delegate não funciona. Então atachamos os eventos manualmente
+ * 
+ * @target .modal .form-horizontal
+ * @param {String} context query para o selector jquery 
+ * @return {null}
+ */
+APP.Crud.Bootstrap = function(selector){
+    
+    selector.find(".datepicker").datepicker($.fn.datepicker.dates['pt-BR']);
+    selector.find('.datepicker').inputmask("99/99/9999");
+    
+    selector.find(".integer").inputmask('integer', {min:1, max:99999});
+};
+
+/**
+ * Marca todos os checkbox da pagina atual do datatable
+ * 
+ * @target .datatable
+ */
+APP.Crud.CheckAll = function(){
+    
+    var checkbox = $(this);
+    var fn;
+    
+    if(checkbox.is(':checked')) {
+
+        fn = function(checkbox){ checkbox.attr('checked', 'checked'); };
+    }
+    else {
+
+        fn = function(checkbox){ checkbox.removeAttr('checked'); };
+    }
+    
+    checkbox.parents('table:first').find('tbody').find('input[type=checkbox]').each(function(index, el){
+        fn($(this));
+    });    
+};
+
+/**
+ * Adiciona os campos de um formulário ao filtro de pesquisa do datatables
+ * 
+ * @target .datatable
+ */
 APP.Crud.Search = function(e){
     
     $('section.content')
@@ -341,6 +376,11 @@ APP.Crud.Search = function(e){
                     .reload();
 };
 
+/**
+ * Limpa os campos de um formulário e recarrega o datatable sem os filtros
+ * 
+ * @target .datatable
+ */
 APP.Crud.Reset = function(e){
     
     var container = $('section.content');
@@ -349,6 +389,10 @@ APP.Crud.Reset = function(e){
     container.find('table.dataTable').DataTable().ajax.reload();
 };
 
+/**
+ * Contrutor para atachar os eventos
+ * 
+ */
 $(document).ready(function() {
     
     $("table.dataTable").on('draw.dt', function(){
@@ -356,16 +400,14 @@ $(document).ready(function() {
         $(this).find('input[data-check-all]').click(APP.Crud.CheckAll);
     });
     
-    $('#modal-default').on('shown.bs.modal', APP.Crud.Load);
+    $('.modal').on('shown.bs.modal', APP.Crud.Load);
     
-    $(document).on('click', 'a[data-action=save], button[data-action=save]', APP.Crud.Save);
+    $('a[data-action=save], button[data-action=save]').click(APP.Crud.Save);
     $('a[data-action=show], button[data-action=show]').click(APP.Crud.Show);
     $('a[data-action=create], button[data-action=create]').click(APP.Crud.Create);
     $('a[data-action=edit], button[data-action=create]').click(APP.Crud.Edit);
     $('a[data-action=search], button[data-action=search]').click(APP.Crud.Search);
-    $('a[data-action=reset], button[data-action=reset]').click(APP.Crud.Reset);
-    
-    //$('a[data-action=remove], button[data-action=remove]').click(APP.Crud.Remove);     
+    $('a[data-action=reset], button[data-action=reset]').click(APP.Crud.Reset);   
     $('a[data-action=remove], button[data-action=remove]').confirmation({
         rootSelector:'[data-action=create]',
         placement:'left',
@@ -382,6 +424,6 @@ $(document).ready(function() {
     
     APP.openMenu();
     
-    APP.Crud.Bootstrap(document);
+    APP.Crud.Bootstrap($(document));
 });
 //------------------------------------------------------------------------------

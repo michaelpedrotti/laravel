@@ -1,4 +1,4 @@
-<div class="modal fade in" id="modal-default">
+<div class="modal fade in" id="modal-default" data-keyboard="false" data-backdrop="false">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -11,7 +11,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-				<button type="button" class="btn btn-primary" data-action="save">Salvar</button>
+				<button type="button" class="btn btn-primary" data-action="save" data-target="#modal-default" data-table="table.dataTable">Salvar</button>
 			</div>
 		</div>
 	</div>
