@@ -108,3 +108,18 @@ if(!function_exists('app_has_permission')) {
 		return $bool;	
 	}
 }
+
+if(!function_exists('app_fetch')) {
+    /**
+     * Retorna uma lista para combobox com label e value
+     *
+	 * @link https://laravel.com/docs/5.5/helpers
+     * @return array
+     */
+	function app_fetch($classname = '', $label = 'name', $value = 'id'){
+
+		$model = call_user_func('\App\Models\\'.studly_case($classname).'::getModel');
+		
+		return $model->search()->pluck($label, $value)->prepend('Selecione', '')->toArray();
+	}
+}

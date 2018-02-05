@@ -77,8 +77,8 @@ class Licenses extends \Eloquent {
 	 * 
 	 * @return products     
 	 */
-    public function Products() {
-        return $this->belongsTo('App\Models\Products', 'id', 'product_id');
+    public function Product() {
+        return $this->hasOne('App\Models\Products', 'id', 'product_id');
     }
 
     /**
@@ -86,8 +86,8 @@ class Licenses extends \Eloquent {
 	 * 
 	 * @return license_types     
 	 */
-    public function LicenseTypes() {
-        return $this->belongsTo('App\Models\LicenseTypes', 'id', 'type_id');
+    public function Type() {
+        return $this->hasOne('App\Models\LicenseTypes', 'id', 'type_id');
     }
 
     /**
@@ -95,8 +95,8 @@ class Licenses extends \Eloquent {
 	 * 
 	 * @return users     
 	 */
-    public function Users() {
-        return $this->belongsTo('App\Models\Users', 'id', 'user_id');
+    public function User() {
+        return $this->hasOne('App\Models\Users', 'id', 'user_id');
     }
 
     /**

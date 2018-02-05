@@ -113,9 +113,9 @@ APP.Crud.url = '';
 APP.Crud.Create = function(){
    
     var button = $(this);
-    var modal = $(button.attr('data-target') || '#modal-default');
+    var modal = $(button.attr('data-modal') || '#modal-primary');
     
-    APP.Crud.url = APP.current_controller + '/form';
+    APP.Crud.url = button.attr('data-url') || APP.current_controller + '/form';
     
     modal.find('a[data-action=save], button[data-action=save]').show();
     modal.find('.modal-body').empty().html('Carregando...');
@@ -130,7 +130,7 @@ APP.Crud.Create = function(){
 APP.Crud.Edit = function(){
     
     var button = $(this);
-    var modal = $(button.attr('data-target') || '#modal-default');
+    var modal = $(button.attr('data-modal') || '#modal-primary');
     var table = $(button.attr('data-table') || 'table.dataTable');
     var selector = table.find('tbody').find('input[type=checkbox]:checked');
 
@@ -154,7 +154,7 @@ APP.Crud.Edit = function(){
 APP.Crud.Show = function(){
     
     var button = $(this);
-    var modal = $(button.attr('data-target') || '#modal-default');
+    var modal = $(button.attr('data-modal') || '#modal-primary');
     var table = $(button.attr('data-table') || 'table.dataTable');
     var selector = table.find('tbody').find('input[type=checkbox]:checked');
 
@@ -216,7 +216,7 @@ APP.Crud.Load = function(e){
 APP.Crud.Save = function(){
 
     var button = $(this);
-    var modal = $(button.attr('data-target') || '#modal-default');
+    var modal = $(button.attr('data-modal') || '#modal-primary');
     var table = $(button.attr('data-table'));
     var form = modal.find('form:first');
 
@@ -404,8 +404,12 @@ $(document).ready(function() {
     
     $('a[data-action=save], button[data-action=save]').click(APP.Crud.Save);
     $('a[data-action=show], button[data-action=show]').click(APP.Crud.Show);
-    $('a[data-action=create], button[data-action=create]').click(APP.Crud.Create);
-    $('a[data-action=edit], button[data-action=create]').click(APP.Crud.Edit);
+    
+    
+    // $( "#dataTable tbody" ).on( "click", "tr", function() {
+    $(document).on('click', 'a[data-action=create], button[data-action=create]',  APP.Crud.Create);
+    //$('a[data-action=create], button[data-action=create]').click(APP.Crud.Create);
+    $('a[data-action=edit], button[data-action=edit]').click(APP.Crud.Edit);
     $('a[data-action=search], button[data-action=search]').click(APP.Crud.Search);
     $('a[data-action=reset], button[data-action=reset]').click(APP.Crud.Reset);   
     $('a[data-action=remove], button[data-action=remove]').confirmation({

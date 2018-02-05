@@ -8,9 +8,25 @@
                     <div class="form-body">
 						<fieldset>
 							<div class="col-sm-12">
+								<div class="form-body {{ $errors->first("type_id", "has-error") }}">
+									<label class="control-label">{{ $model->labels['type_id'] }}  <span class="request">*</span></label>
+									<div class="input-group">
+										{{ Form::select('type_id', app_fetch('LicenseTypes', 'name', 'id'), $model->product_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
+										<a class="btn btn-link input-group-addon" data-action="create" data-modal="#modal-secondary" data-url="{{ url('license-types/form') }}">
+											<i class="fa fa-plus"></i>
+										</a>	
+									</div>
+									@if ($errors->has('type_id'))
+									<span class="help-block">
+										<strong>{{ $errors->first('type_id') }}</strong>
+									</span>
+									@endif
+								</div>
+							</div>
+							<div class="col-sm-12">
 								<div class="form-body {{ $errors->first("product_id", "has-error") }}">
 									<label class="control-label">{{ $model->labels['product_id'] }}  <span class="request">*</span></label>
-									{{ Form::select('product_id', \App\Models\Products::getModel()->search()->pluck('name', 'id')->prepend('Selecione', '')->toArray(), $model->product_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
+									{{ Form::select('product_id',  app_fetch('Products', 'name', 'id'), $model->product_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
 									@if ($errors->has('product_id'))
 									<span class="help-block">
 										<strong>{{ $errors->first('product_id') }}</strong>
@@ -21,7 +37,7 @@
 							<div class="col-sm-12">
 								<div class="form-body {{ $errors->first("user_id", "has-error") }}">
 									<label class="control-label">{{ $model->labels['user_id'] }}  <span class="request">*</span></label>
-									{{ Form::select('user_id', \App\Models\Users::getModel()->search()->pluck('name', 'id')->prepend('Selecione', '')->toArray(), $model->user_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
+									{{ Form::select('user_id', app_fetch('Users', 'name', 'id'), $model->user_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
 									@if ($errors->has('user_id'))
 									<span class="help-block">
 										<strong>{{ $errors->first('user_id') }}</strong>
