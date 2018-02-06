@@ -1,5 +1,26 @@
 if(!APP) var APP = {};
 
+APP.getNs = function(str){
+    
+    var current = window;
+    
+    $.each(str.split('.'), function(index, namespace){
+        if(current[namespace]) {
+            switch(typeof(current[namespace])) {
+                case 'object':
+                    current = current[namespace];
+                    break;
+                    
+                case 'function':
+                    current = current[namespace];
+                    return false;
+                    break;
+            }
+        }
+    });
+    
+    return current;
+};
 /**
  * Envia uma mensagem de alerta para o usuário
  * 
@@ -43,12 +64,12 @@ APP.loadCombo = function(selector, model, data, callback) {
     combo.attr('readonly', 'readonly');
     combo.empty();
 
-    var data = data || {};
+    var data = data || {value:'id', text:'name'};
     data._token = APP.token;
 
     $.ajax({
         type: "POST",
-        url: APP.base_url + 'auto-complete/combo/' + model,
+        url: APP.base_url + 'helper/load-combo/' + model,
         dataType: "json",
         data: data,
         success: function (resp) {
@@ -61,7 +82,7 @@ APP.loadCombo = function(selector, model, data, callback) {
                     combo.append($('<option>', {value: value, text: text}));
                 });
 
-                if (typeof callback == 'function') {
+                if (typeof(callback) == 'function') {
                     callback(resp, combo);
                 }
             }
@@ -114,12 +135,15 @@ APP.Crud.Create = function(){
    
     var button = $(this);
     var modal = $(button.attr('data-modal') || '#modal-primary');
-    
     APP.Crud.url = button.attr('data-url') || APP.current_controller + '/form';
     
     modal.find('a[data-action=save], button[data-action=save]').show();
     modal.find('.modal-body').empty().html('Carregando...');
-    modal.modal('show'); 
+    modal.modal({
+        show:true, 
+        callback:button.attr('fn-callback'),
+        button:button
+    }); 
 };
 
 /**
@@ -215,9 +239,8 @@ APP.Crud.Load = function(e){
  */
 APP.Crud.Save = function(){
 
-    var button = $(this);
+    var button = $(this);// Botão Salvar
     var modal = $(button.attr('data-modal') || '#modal-primary');
-    var table = $(button.attr('data-table'));
     var form = modal.find('form:first');
 
     button.attr('disabled', 'disabled');
@@ -247,18 +270,38 @@ APP.Crud.Save = function(){
          }, 
         success:function(content, textStatus, jqXHR){
             
+            // Verifica se tem o alerta de sucesso no HTML de retorno
             var alert = $(content).find('.alert-success');
             if(alert.length > 0) {
                 
+                // Imprime a mensagem de sucesso
                 APP.flash(alert.text(), 'success');
                 
+                // Fecha a janela
                 modal.modal('hide');
-                if(table) table.DataTable().ajax.reload();
+                
+                // Verifica nas opções da modal, quando ela foi criada, se não
+                // foi injetado um callback especifico. Geralmente usado na modal-secundary
+                var options = modal.data('bs.modal').options;
+
+                if(options.callback) {
+                    var callback = APP.getNs(options.callback);
+                    if(typeof(callback) == 'function') {
+                        callback(options.button);// Botão que chamou a modal
+                    }
+                }
+                else {
+                    // Recarrega a grade
+                    APP.Crud.Refresh(button);// Botão Salvar
+                }
             }
+            // Senão houve um erro e o formulário atualizado pois tera os alertas
+            // de erro
             else {
 
                 var target = modal.find('.modal-body').empty().html(content);
-                
+                // Execuda mascarás e demais eventos que não foram atachados 
+                // no formulário carregado por ajax
                 APP.Crud.Bootstrap(target);
             }
         }  
@@ -338,6 +381,12 @@ APP.Crud.Bootstrap = function(selector){
     selector.find(".integer").inputmask('integer', {min:1, max:99999});
 };
 
+APP.Crud.Refresh = function(button){
+    
+    var table = $(button.attr('data-table') || 'table.dataTable');
+    table.DataTable().ajax.reload();
+};
+
 /**
  * Marca todos os checkbox da pagina atual do datatable
  * 
@@ -405,10 +454,7 @@ $(document).ready(function() {
     $('a[data-action=save], button[data-action=save]').click(APP.Crud.Save);
     $('a[data-action=show], button[data-action=show]').click(APP.Crud.Show);
     
-    
-    // $( "#dataTable tbody" ).on( "click", "tr", function() {
     $(document).on('click', 'a[data-action=create], button[data-action=create]',  APP.Crud.Create);
-    //$('a[data-action=create], button[data-action=create]').click(APP.Crud.Create);
     $('a[data-action=edit], button[data-action=edit]').click(APP.Crud.Edit);
     $('a[data-action=search], button[data-action=search]').click(APP.Crud.Search);
     $('a[data-action=reset], button[data-action=reset]').click(APP.Crud.Reset);   

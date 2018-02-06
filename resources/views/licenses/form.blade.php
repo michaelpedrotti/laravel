@@ -12,8 +12,11 @@
 									<label class="control-label">{{ $model->labels['type_id'] }}  <span class="request">*</span></label>
 									<div class="input-group">
 										{{ Form::select('type_id', app_fetch('LicenseTypes', 'name', 'id'), $model->product_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
-										<a class="btn btn-link input-group-addon" data-action="create" data-modal="#modal-secondary" data-url="{{ url('license-types/form') }}">
-											<i class="fa fa-plus"></i>
+										<a class="btn btn-link input-group-addon" 
+										   data-action="create" 
+										   data-modal="#modal-secondary"
+										   data-url="{{ url('license-types/form') }}" 
+										   fn-callback="APP.loadComboType"><i class="fa fa-plus"></i>
 										</a>	
 									</div>
 									@if ($errors->has('type_id'))
@@ -74,3 +77,8 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+APP.loadComboType = function(button){
+    APP.loadCombo('select[name=type_id]', 'LicenseTypes');
+};
+</script>
