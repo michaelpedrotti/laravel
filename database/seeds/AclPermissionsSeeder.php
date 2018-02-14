@@ -6,7 +6,6 @@ class AclPermissionsSeeder extends Seeder {
 
 	public function run() {
 
-
 		\DB::table('acl_permissions')->insert([
 			[
 				'id' => '1',
@@ -188,6 +187,82 @@ class AclPermissionsSeeder extends Seeder {
 				'acl_id' => '1',
 				'permission_id' => '36',
 			],
+			[
+				'id' => '37',
+				'acl_id' => '1',
+				'permission_id' => '37',
+			],
+			[
+				'id' => '38',
+				'acl_id' => '1',
+				'permission_id' => '38',
+			],
+			[
+				'id' => '39',
+				'acl_id' => '1',
+				'permission_id' => '39',
+			],
+			[
+				'id' => '40',
+				'acl_id' => '1',
+				'permission_id' => '40',
+			],
+			[
+				'id' => '41',
+				'acl_id' => '1',
+				'permission_id' => '41',
+			],
+			[
+				'id' => '42',
+				'acl_id' => '1',
+				'permission_id' => '42',
+			],
+			[
+				'id' => '43',
+				'acl_id' => '1',
+				'permission_id' => '43',
+			],
+			[
+				'id' => '44',
+				'acl_id' => '1',
+				'permission_id' => '44',
+			],
+			[
+				'id' => '45',
+				'acl_id' => '1',
+				'permission_id' => '45',
+			],
+			[
+				'id' => '46',
+				'acl_id' => '1',
+				'permission_id' => '46',
+			],
+			[
+				'id' => '47',
+				'acl_id' => '1',
+				'permission_id' => '47',
+			],
+			[
+				'id' => '48',
+				'acl_id' => '1',
+				'permission_id' => '48',
+			],
+			[
+				'id' => '49',
+				'acl_id' => '1',
+				'permission_id' => '49',
+			],
+			[
+				'id' => '50',
+				'acl_id' => '1',
+				'permission_id' => '50',
+			],
+			[
+				'id' => '51',
+				'acl_id' => '1',
+				'permission_id' => '51',
+			],
 		]);
 	}
+
 }

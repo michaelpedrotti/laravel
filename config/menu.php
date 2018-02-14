@@ -49,10 +49,28 @@ return [
             ]
 		]
 	],
-	    [
+	[
         'label' => 'Documentos',
         'url' => 'documents',
         'icon' => 'fa-file-archive-o',
         'acl' => ['DOCUMENTS_LIST']
+    ],
+	[
+        'label' => 'Distribuidores',
+        'url' => 'distributors',
+        'icon' => 'fa-truck',
+        'acl' => []
+    ],
+	[
+        'label' => 'Revendas',
+        'url' => 'resellers',
+        'icon' => 'fa-money',
+        'acl' => []
+    ],
+	[
+        'label' => 'Clientes',
+        'url' => 'clients',
+        'icon' => 'fa-users',
+        'acl' => []
     ],
 ];
