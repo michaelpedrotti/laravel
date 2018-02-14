@@ -61,7 +61,7 @@ class Distributors extends \Eloquent {
      * @return users 
      */
     public function User() {
-        return $this->hasOne('App\Models\Users', 'id', 'user_id');
+        return $this->hasOne('App\Models\Users', 'id', 'user_id')->withDefault();
     }
 
     /**
@@ -95,13 +95,13 @@ class Distributors extends \Eloquent {
      * @param array $filter
      * @return \Illuminate\Support\Collection
      */
-    public function search(array $filter = [], $expression = '*') {
+    public function search(array $filter = [], $expression = 'distributors.*, users.name, users.email') {
         
         if(empty($filter)) $filter = $this->toArray();
     
         $builder = self::selectRaw($expression);
+		$builder->join('users', 'users.id', '=', 'distributors.user_id');
 
-           
         if(array_key_exists('id', $filter) && !empty($filter['id'])) {
             $builder->where('id', $filter['id']);
         }

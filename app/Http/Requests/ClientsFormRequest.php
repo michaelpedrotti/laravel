@@ -26,8 +26,11 @@ class ClientsFormRequest extends FormRequest
      */
     public function rules() {
         return [
-            'user_id' => ['required'],
-            'reseller_id' => ['required'],
+			'name' => ['required'],
+			//'email' => ['required', 'email', 'exists:users,email'],
+			'email' => ['required', 'email'],
+			'reseller_id' => ['required'],
+			'cnpj' => ['required']
         ];
     }
     
@@ -36,15 +39,14 @@ class ClientsFormRequest extends FormRequest
      * @return array
      */
     public function messages() {
-        return [
+        return [                        
                         
-                        
-            'user_id.required' => 'O campo "Usuário" não foi preenchido.',            
-                        
-            'reseller_id.required' => 'O campo "Revendedor" não foi preenchido.',            
-                        
-                        
-                        
+            'name.required' => 'O campo "Nome" não foi preenchido.',
+			'email' => 'E-mail ":input" é inválido',
+			'email.required' => 'O campo "E-mail" não foi preenchido.',
+			'email.exists' => 'E-mail já esta sendo utilizado por outro usuário',
+            'reseller_id.required' => 'O campo "Revendedor" não foi preenchido.',
+			'cnpj.required' => 'O campo "CNPJ" não foi preenchido.',   
         ];
     }
     
@@ -54,16 +56,25 @@ class ClientsFormRequest extends FormRequest
      *
      * @return Illuminate\Validation\Validator
      */
-    /*
     protected function getValidatorInstance() {
         
         return parent::getValidatorInstance()->after(function($validator) {
 
-            $messages = $validator->getCustomMessages();
+            $messages = $this->messages();
             $data = $validator->getData();
-
-            $validator->errors()->add('id', $messages['id.required']);
+			
+			if(array_has($data, 'email')) {
+				
+				$builder = \App\Models\Users::query()->where('email', $data['email']);
+				
+				if(!empty(request()->route('id'))) {
+					$builder->where('id', '<>', \App\Models\Clients::findOrNew(request()->route('id'))->user_id);
+				}
+				
+				if($builder->get()->count() > 0) { 
+					$validator->errors()->add('email', $messages['email.exists']);
+				}
+			}            
         });
     }
-    */
 }

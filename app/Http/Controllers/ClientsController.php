@@ -76,7 +76,7 @@ class ClientsController extends Controller {
 			
 				app(FormRequest::class);
                 
-                $model->save();
+                $model->storage($request->all());
                 $model->getConnection()->commit();
                 
                 $this->setMessage('Cliente foi salva com sucesso!', 'success'); 

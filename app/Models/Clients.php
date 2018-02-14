@@ -58,17 +58,17 @@ class Clients extends \Eloquent {
      * @return resellers 
      */
     public function Resellers() {
-        return $this->belongsTo('App\Models\Resellers', 'id', 'reseller_id');
+		return $this->belongsTo('App\Models\Resellers', 'id', 'reseller_id');
     }
     /**
      * Busca o modelo de users 
 	 *
-     * @return users 
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne 
      */
-    public function Users() {
-        return $this->belongsTo('App\Models\Users', 'id', 'user_id');
+    public function User() {
+        return $this->hasOne('App\Models\Users', 'id', 'user_id')->withDefault();
     }
-
+	
     /**
      * Verifica se o usuário tem permissão pra acessar o registro
      *
@@ -100,12 +100,12 @@ class Clients extends \Eloquent {
      * @param array $filter
      * @return \Illuminate\Support\Collection
      */
-    public function search(array $filter = [], $expression = '*') {
+    public function search(array $filter = [], $expression = 'clients.*, users.name, users.email') {
         
         if(empty($filter)) $filter = $this->toArray();
     
         $builder = self::selectRaw($expression);
-
+		$builder->join('users', 'users.id', '=', 'clients.user_id');
            
         if(array_key_exists('id', $filter) && !empty($filter['id'])) {
             $builder->where('id', $filter['id']);
@@ -138,4 +138,29 @@ class Clients extends \Eloquent {
 
         return $builder;
     }
+	
+	public function storage($data = array()) {
+		
+		$model = Users::find($this->user_id);
+		$acl_id = Acls::query()->where('UID', 'DISTRIBUTOR')->first()->id;
+
+		if(empty($model)) {
+			
+			$model = Users::create([
+				'name' => $data['name'],
+				'email' => $data['email'],
+				'password' => bcrypt(str_shuffle(date('Y-m-d'))),
+				'acl_id' => $acl_id,
+			]);
+			
+			$this->user_id = $model->id;
+		}
+		else {
+			
+			$model->fill(['name' => $data['name'], 'email' => $data['email'], 'acl_id' => $acl_id]);
+			$model->save();
+		}
+
+		return parent::save();
+	}
 }

@@ -26,7 +26,8 @@ class ResellersFormRequest extends FormRequest
      */
     public function rules() {
         return [
-            'user_id' => ['required'],
+            'name' => ['required'],
+			'email' => ['required', 'email'],
             'distributor_id' => ['required'],
             'cnpj' => ['required'],
         ];
@@ -37,15 +38,12 @@ class ResellersFormRequest extends FormRequest
      * @return array
      */
     public function messages() {
-        return [
-                        
-                        
-            'user_id.required' => 'O campo "Usuário" não foi preenchido.',            
-                        
+        return [          
+            'name.required' => 'O campo "Nome" não foi preenchido.',
+			'email' => 'E-mail ":input" é inválido',
+			'email.required' => 'O campo "E-mail" não foi preenchido.',           
             'distributor_id.required' => 'O campo "Distribuidor" não foi preenchido.',            
-                        
-            'cnpj.required' => 'O campo "CNPJ" não foi preenchido.',            
-                        
+            'cnpj.required' => 'O campo "CNPJ" não foi preenchido.',                    
         ];
     }
     

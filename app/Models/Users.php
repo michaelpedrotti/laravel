@@ -146,7 +146,7 @@ class Users extends \Eloquent {
 	
 	public function save(array $options = array()) {
 		
-		$id = $this->acl_id;
+		$acl_id = $this->acl_id;
 
 		unset($this->acl_id);// Remove do fillable		
 		
@@ -154,14 +154,14 @@ class Users extends \Eloquent {
 			
 			$model = UserAcls::query()
 				->where('user_id', $this->id)
-				->where('acl_id', $id)
+				->where('acl_id', $acl_id)
 					->get()
 						->first();
 			
 			if(!$model) {
 				$model = UserAcls::newModelInstance([
 					'user_id' => $this->id,
-					'acl_id' => $id
+					'acl_id' => $acl_id
 				]);
 			}
 			

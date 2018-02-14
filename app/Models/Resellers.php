@@ -22,6 +22,8 @@ class Resellers extends \Eloquent {
      */
     public $fillable = [
         'id',
+		'name',// only ready, not to submit
+		'email',// only ready, not to submit
         'user_id',
         'distributor_id',
         'cnpj',
@@ -71,8 +73,8 @@ class Resellers extends \Eloquent {
 	 *
      * @return users 
      */
-    public function Users() {
-        return $this->belongsTo('App\Models\Users', 'id', 'user_id');
+    public function User() {
+        return $this->hasOne('App\Models\Users', 'id', 'user_id')->withDefault();
     }
 
     /**
@@ -106,11 +108,12 @@ class Resellers extends \Eloquent {
      * @param array $filter
      * @return \Illuminate\Support\Collection
      */
-    public function search(array $filter = [], $expression = '*') {
+    public function search(array $filter = [], $expression = 'resellers.*, users.name, users.email') {
         
         if(empty($filter)) $filter = $this->toArray();
     
         $builder = self::selectRaw($expression);
+		$builder->join('users', 'users.id', '=', 'resellers.user_id');
 
            
         if(array_key_exists('id', $filter) && !empty($filter['id'])) {
@@ -144,4 +147,30 @@ class Resellers extends \Eloquent {
 
         return $builder;
     }
+	
+	public function storage($data = array()){
+		
+		$model = Users::find($this->user_id);
+
+		if(empty($model)) {
+			
+			$model = Users::create([
+				'name' => $data['name'],
+				'email' => $data['email'],
+				'password' => bcrypt(str_shuffle(date('Y-m-d'))),
+				'acl_id' => Acls::query()
+					->where('UID', 'RESALER')
+						->first()->id
+			]);
+			
+			$this->user_id = $model->id;
+		}
+		else {
+			
+			$model->fill(['name' => $data['name'], 'email' => $data['email']]);
+			$model->save();
+		}
+
+		return parent::save();
+	}
 }

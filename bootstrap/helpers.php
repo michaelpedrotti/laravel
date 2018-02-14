@@ -120,6 +120,9 @@ if(!function_exists('app_fetch')) {
 
 		$model = call_user_func('\App\Models\\'.studly_case($classname).'::getModel');
 		
-		return $model->search()->pluck($label, $value)->prepend('Selecione', '')->toArray();
+		return $model->search()
+				->pluck($label, $value)
+					->prepend('Selecione', '')
+						->toArray();
 	}
 }

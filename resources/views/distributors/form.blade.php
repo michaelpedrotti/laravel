@@ -10,8 +10,8 @@
 							<div class="col-sm-12">
 								<div class="form-body {{ $errors->first("name", "has-error") }}">
 									<label class="control-label">Nome  <span class="request">*</span></label>
-									{{ Form::text('name', $model->cnpj, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
-									@if ($errors->has('cnpj'))
+									{{ Form::text('name', $model->User->name, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
+									@if ($errors->has('name'))
 									<span class="help-block">
 										<strong>{{ $errors->first('name') }}</strong>
 									</span>
@@ -21,8 +21,8 @@
 							<div class="col-sm-12">
 								<div class="form-body {{ $errors->first("email", "has-error") }}">
 									<label class="control-label">E-mail  <span class="request">*</span></label>
-									{{ Form::text('email', $model->cnpj, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
-									@if ($errors->has('cnpj'))
+									{{ Form::text('email', $model->User->email, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
+									@if ($errors->has('email'))
 									<span class="help-block">
 										<strong>{{ $errors->first('email') }}</strong>
 									</span>
