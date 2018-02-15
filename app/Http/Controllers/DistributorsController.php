@@ -29,7 +29,7 @@ class DistributorsController extends Controller {
 		$model = Model::getModel()->fill($request->all());
 
         if ($request->isXmlHttpRequest()) {
-            return Datatables::eloquent($model->search())
+            return Datatables::eloquent($model->search($request->all()))
 				->addColumn('name', function ($query) {
 					return \App\Models\Users::findOrNew($query->user_id)->name;
 				})

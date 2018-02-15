@@ -20,7 +20,7 @@ class AclsSeeder extends Seeder {
 			[
 				'id' => '2',
 				'name' => 'Revendas',
-				'uid' => 'RESALE',
+				'uid' => 'RESALER',
 				'created_at' => $datetime,
 				'updated_at' => $datetime
 			],

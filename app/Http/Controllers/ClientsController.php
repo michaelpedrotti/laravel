@@ -29,16 +29,16 @@ class ClientsController extends Controller {
 		$model = Model::getModel()->fill($request->all());
 
         if ($request->isXmlHttpRequest()) {
-            return Datatables::eloquent($model->search())
+            return Datatables::eloquent($model->search($request->all()))
 				//->editColumn('id', function ($query) {
 				//	return $query->id;
 				//})
-				//->editColumn('user_id', function ($query) {
-				//	return $query->user_id;
-				//})
-				//->editColumn('reseller_id', function ($query) {
-				//	return $query->reseller_id;
-				//})
+				->editColumn('user', function ($query) {
+					return $query->User->name;
+				})
+				->editColumn('reseller', function ($query) {
+					return $query->Reseller->User->name;
+				})
 				//->editColumn('cnpj', function ($query) {
 				//	return $query->cnpj;
 				//})

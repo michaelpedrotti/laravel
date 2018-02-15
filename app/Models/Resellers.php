@@ -22,8 +22,6 @@ class Resellers extends \Eloquent {
      */
     public $fillable = [
         'id',
-		'name',// only ready, not to submit
-		'email',// only ready, not to submit
         'user_id',
         'distributor_id',
         'cnpj',
@@ -65,8 +63,8 @@ class Resellers extends \Eloquent {
 	 *
      * @return distributors 
      */
-    public function Distributors() {
-        return $this->belongsTo('App\Models\Distributors', 'id', 'distributor_id');
+    public function Distributor() {
+        return $this->hasOne('App\Models\Distributors', 'id', 'distributor_id')->withDefault();
     }
     /**
      * Busca o modelo de users 
@@ -114,26 +112,28 @@ class Resellers extends \Eloquent {
     
         $builder = self::selectRaw($expression);
 		$builder->join('users', 'users.id', '=', 'resellers.user_id');
-
            
-        if(array_key_exists('id', $filter) && !empty($filter['id'])) {
-            $builder->where('id', $filter['id']);
-        }
-           
-        if(array_key_exists('user_id', $filter) && !empty($filter['user_id'])) {
-            $builder->where('user_id', $filter['user_id']);
-        }
-           
-        if(array_key_exists('distributor_id', $filter) && !empty($filter['distributor_id'])) {
+        if(array_has($filter, 'distributor_id')) {
             $builder->where('distributor_id', $filter['distributor_id']);
         }
            
-        if(array_key_exists('cnpj', $filter) && !empty($filter['cnpj'])) {
+        if(array_has($filter, 'cnpj')) {
             $builder->where('cnpj', $filter['cnpj']);
         }
+
+		if(array_has($filter, 'name')) {
+            $builder->where('name', 'LIKE', '%'.array_get($filter, 'name').'%');
+        }
+		
+		if(array_has($filter, 'distributor')) {
+			$builder->whereExists(function($builder) use($filter){
+                $builder->select(\DB::raw(1))
+                    ->from('distributors')
+                    ->whereRaw('distributors.id = '.$this->getTable().'.distributor_id AND user_id IN(SELECT id FROM `users` WHERE `name` LIKE "%'.$filter['distributor'].'%")');
+            });
+        }
         
-        
-        if(array_key_exists('groupBy', $filter) && !empty($filter['groupBy'])) {
+        if(array_has($filter, 'groupBy')) {
             $builder->orderBy($filter['groupBy'], 'ASC');
         }
         else {
@@ -151,6 +151,7 @@ class Resellers extends \Eloquent {
 	public function storage($data = array()){
 		
 		$model = Users::find($this->user_id);
+		$acl_id = Acls::query()->where('UID', 'RESALER')->first()->id;
 
 		if(empty($model)) {
 			
@@ -158,19 +159,17 @@ class Resellers extends \Eloquent {
 				'name' => $data['name'],
 				'email' => $data['email'],
 				'password' => bcrypt(str_shuffle(date('Y-m-d'))),
-				'acl_id' => Acls::query()
-					->where('UID', 'RESALER')
-						->first()->id
+				'acl_id' => $acl_id,
 			]);
 			
 			$this->user_id = $model->id;
 		}
 		else {
 			
-			$model->fill(['name' => $data['name'], 'email' => $data['email']]);
+			$model->fill(['name' => $data['name'], 'email' => $data['email'], 'acl_id' => $acl_id]);
 			$model->save();
 		}
-
+		
 		return parent::save();
 	}
 }

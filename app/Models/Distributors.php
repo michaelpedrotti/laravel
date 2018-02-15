@@ -113,6 +113,10 @@ class Distributors extends \Eloquent {
         if(array_key_exists('cnpj', $filter) && !empty($filter['cnpj'])) {
             $builder->where('cnpj', $filter['cnpj']);
         }
+		
+		if(array_has($filter, 'name')) {
+            $builder->where('name', 'LIKE', '%'.array_get($filter, 'name').'%');
+        }
         
         
         if(array_key_exists('groupBy', $filter) && !empty($filter['groupBy'])) {
@@ -133,6 +137,7 @@ class Distributors extends \Eloquent {
 	public function storage($data = array()) {
 		
 		$model = Users::find($this->user_id);
+		$acl_id = Acls::query()->where('UID', 'DISTRIBUTOR')->first()->id;
 
 		if(empty($model)) {
 			
@@ -140,19 +145,17 @@ class Distributors extends \Eloquent {
 				'name' => $data['name'],
 				'email' => $data['email'],
 				'password' => bcrypt(str_shuffle(date('Y-m-d'))),
-				'acl_id' => Acls::query()
-					->where('UID', 'DISTRIBUTOR')
-						->first()->id,
+				'acl_id' => $acl_id,
 			]);
 			
 			$this->user_id = $model->id;
 		}
 		else {
 			
-			$model->fill(['name' => $data['name'], 'email' => $data['email']]);
+			$model->fill(['name' => $data['name'], 'email' => $data['email'], 'acl_id' => $acl_id]);
 			$model->save();
 		}
-
+		
 		return parent::save();
 	}
 }

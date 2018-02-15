@@ -57,8 +57,8 @@ class Clients extends \Eloquent {
 	 *
      * @return resellers 
      */
-    public function Resellers() {
-		return $this->belongsTo('App\Models\Resellers', 'id', 'reseller_id');
+    public function Reseller() {
+		return $this->hasOne('App\Models\Resellers', 'id', 'reseller_id')->withDefault();
     }
     /**
      * Busca o modelo de users 
@@ -123,7 +123,18 @@ class Clients extends \Eloquent {
             $builder->where('cnpj', $filter['cnpj']);
         }
         
-        
+		if(array_has($filter, 'name')) {
+            $builder->where('name', 'LIKE', '%'.array_get($filter, 'name').'%');
+        }
+		
+        if(array_has($filter, 'reseller')) {
+			$builder->whereExists(function($builder) use($filter){
+                $builder->select(\DB::raw(1))
+                    ->from('resellers')
+                    ->whereRaw('resellers.id = '.$this->getTable().'.`reseller_id` AND user_id IN(SELECT id FROM `users` WHERE `name` LIKE "%'.$filter['reseller'].'%")');
+            });
+        }
+		
         if(array_key_exists('groupBy', $filter) && !empty($filter['groupBy'])) {
             $builder->orderBy($filter['groupBy'], 'ASC');
         }
@@ -142,7 +153,7 @@ class Clients extends \Eloquent {
 	public function storage($data = array()) {
 		
 		$model = Users::find($this->user_id);
-		$acl_id = Acls::query()->where('UID', 'DISTRIBUTOR')->first()->id;
+		$acl_id = Acls::query()->where('UID', 'CUSTUMER')->first()->id;
 
 		if(empty($model)) {
 			

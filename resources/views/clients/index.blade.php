@@ -9,20 +9,20 @@
 @section('search')
 <div class="col-sm-6">
 	<div class="form-body">
-		<label class="control-label">{{ $model->labels['user_id'] }} :</label>
-		{{ Form::select('user_id', \App\Models\Users::getModel()->search()->pluck('id', 'id')->prepend('Selecione', '')->toArray(), $model->user_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
+		<label class="control-label">Revendedor</label>
+		{{ Form::text('reseller', '', ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
 	</div>
 </div>
 <div class="col-sm-6">
 	<div class="form-body">
-		<label class="control-label">{{ $model->labels['reseller_id'] }} :</label>
-		{{ Form::select('reseller_id', \App\Models\Resellers::getModel()->search()->pluck('id', 'id')->prepend('Selecione', '')->toArray(), $model->reseller_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
+		<label class="control-label">Cliente</label>
+		{{ Form::text('name', '', ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
 	</div>
 </div>
 <div class="col-sm-6">
 	<div class="form-body">
-		<label class="control-label">{{ $model->labels['cnpj'] }} :</label>
-		{{ Form::text('cnpj', $model->cnpj, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
+		<label class="control-label">{{ $model->labels['cnpj'] }}</label>
+		{{ Form::text('cnpj', '', ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control cnpj', 'placeholder' => '']) }}
 	</div>
 </div>
    
@@ -31,8 +31,8 @@
 	'url' => url("clients/index"),
 	'columns' => [
 		'id' => $model->labels['id'],
-		'user_id' => $model->labels['user_id'],
-		'reseller_id' => $model->labels['reseller_id'],
+		'user' => 'Cliente',
+		'reseller' => 'Revendedor',
 		'cnpj' => $model->labels['cnpj'],
 	]
 ])

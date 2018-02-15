@@ -9,14 +9,14 @@
 @section('search')
 <div class="col-sm-6">
 	<div class="form-body">
-		<label class="control-label">{{ $model->labels['user_id'] }} :</label>
-		{{ Form::select('user_id', \App\Models\Users::getModel()->search()->pluck('id', 'id')->prepend('Selecione', '')->toArray(), $model->user_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
+		<label class="control-label">Distribuidor</label>
+		{{ Form::text('name', '', ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
 	</div>
 </div>
 <div class="col-sm-6">
 	<div class="form-body">
-		<label class="control-label">{{ $model->labels['cnpj'] }} :</label>
-		{{ Form::text('cnpj', $model->cnpj, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
+		<label class="control-label">{{ $model->labels['cnpj'] }}</label>
+		{{ Form::text('cnpj', '', ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control cnpj', 'placeholder' => '']) }}
 	</div>
 </div>
    
@@ -25,7 +25,7 @@
 	'url' => url("distributors/index"),
 	'columns' => [
 		'id' => $model->labels['id'],
-		'name' => 'Nome',
+		'name' => 'Distribuidor',
 		'cnpj' => $model->labels['cnpj'],
 	]
 ])

@@ -29,16 +29,16 @@ class ResellersController extends Controller {
 		$model = Model::getModel()->fill($request->all());
 
         if ($request->isXmlHttpRequest()) {
-            return Datatables::eloquent($model->search())
+            return Datatables::eloquent($model->search($request->all()))
 				//->editColumn('id', function ($query) {
 				//	return $query->id;
 				//})
 				//->editColumn('user_id', function ($query) {
 				//	return $query->user_id;
 				//})
-				//->editColumn('distributor_id', function ($query) {
-				//	return $query->distributor_id;
-				//})
+				->addColumn('distributor', function ($query) {
+					return $query->Distributor->User->name;
+				})
 				//->editColumn('cnpj', function ($query) {
 				//	return $query->cnpj;
 				//})
