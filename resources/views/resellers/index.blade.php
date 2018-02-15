@@ -29,6 +29,7 @@
 @stop
 @include('layout.partials.datatable', [
 	'url' => url("resellers/index"),
+	'permission' => 'RESELLERS',
 	'columns' => [
 		'id' => $model->labels['id'],
 		'name' => 'Revendedor',

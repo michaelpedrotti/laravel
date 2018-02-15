@@ -17,6 +17,7 @@
 @stop
 @include('layout.partials.datatable', [
 	'url' => url("document-types/index"),
+	'permission' => 'LICENSETYPES',
 	'columns' => [
 		'id' => $model->labels['id'],
 		'name' => $model->labels['name'],

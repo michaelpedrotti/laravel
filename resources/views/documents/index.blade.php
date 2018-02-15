@@ -52,6 +52,7 @@ $(function(){
 
 @include('layout.partials.datatable', [
 	'url' => url("documents/index"),
+	'permission' => 'DOCUMENTS',
 	'columns' => [
 		'id' => $model->labels['id'],
 		'type_id' => $model->labels['type_id'],

@@ -54,6 +54,7 @@ $(function(){
 
 @include('layout.partials.datatable', [
 	'url' => url("acls/index"),
+	'permission' => 'ACLS',
 	'columns' => [
 		'id' => $model->labels['id'],
 		'name' => $model->labels['name'],

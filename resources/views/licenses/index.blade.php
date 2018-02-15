@@ -35,6 +35,7 @@
 @stop
 @include('layout.partials.datatable', [
 	'url' => url("licenses/index"),
+	'permission' => 'LICENSES',
 	'columns' => [
 		'id' => $model->labels['id'],
 		'product_id' => $model->labels['product_id'],

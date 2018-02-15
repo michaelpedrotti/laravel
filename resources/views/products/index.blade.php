@@ -23,6 +23,7 @@
 @stop
 @include('layout.partials.datatable', [
 	'url' => url("products/index"),
+	'permission' => 'PRODUCTS',
 	'columns' => [
 		'id' => $model->labels['id'],
 		'name' => $model->labels['name'],
