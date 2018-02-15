@@ -130,17 +130,12 @@ class Licenses extends \Eloquent {
      * @param array $filter
      * @return Illuminate\Database\Eloquent\Builder
      */
-    public function search(array $filter = [], $expression = '*') {
+    public function search(array $filter = [], $expression = 'licenses.*') {
         
         if(empty($filter)) $filter = $this->toArray();
     
         $builder = self::selectRaw($expression);
 
-           
-        if(array_has($filter, 'id')) {
-            $builder->where('id', array_get($filter, 'id'));
-        }
-           
         if(array_has($filter, 'product_id')) {
             $builder->where('product_id', array_get($filter, 'product_id'));
         }
@@ -161,10 +156,19 @@ class Licenses extends \Eloquent {
             $builder->where('expiration', array_get($filter, 'expiration'));
         }
            
-        if(array_has($filter, 'hash')) {
-            $builder->where('hash', array_get($filter, 'hash'));
-        }
-        
+		if(app_has_permission('DISTRIBUTOR')) {
+		
+			$builder->join('clients', 'licenses.customer_id', '=', 'clients.id');
+			$builder->join('resellers', 'resellers.id', '=', 'clients.reseller_id');
+			$builder->join('distributors', 'distributors.id', '=', 'resellers.distributor_id');
+			$builder->where('distributors.user_id', \Auth::user()->id);
+		}
+		elseif(app_has_permission('RESELLER')){
+			
+			$builder->join('clients', 'licenses.customer_id', '=', 'clients.id');
+			$builder->join('resellers', 'resellers.id', '=', 'clients.reseller_id');
+			$builder->where('clients.user_id', \Auth::user()->id);
+		}
         
         if(array_has($filter, 'groupBy')) {
             $builder->orderBy(array_get($filter, 'groupBy'), 'ASC');
