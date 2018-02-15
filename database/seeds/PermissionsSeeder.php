@@ -6,7 +6,6 @@ class PermissionsSeeder extends Seeder {
 
 	public function run() {
 
-
 		\DB::table('permissions')->insert([
 			[
 				'id' => '1',
@@ -265,5 +264,4 @@ class PermissionsSeeder extends Seeder {
 			],
 		]);
 	}
-
 }

@@ -8,28 +8,9 @@
                     <div class="form-body">
 						<fieldset>
 							<div class="col-sm-12">
-								<div class="form-body {{ $errors->first("type_id", "has-error") }}">
-									<label class="control-label">{{ $model->labels['type_id'] }}  <span class="request">*</span></label>
-									<div class="input-group">
-										{{ Form::select('type_id', app_fetch('LicenseTypes', 'name', 'id'), $model->product_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
-										<a class="btn btn-link input-group-addon" 
-										   data-action="create" 
-										   data-modal="#modal-secondary"
-										   data-url="{{ url('license-types/form') }}" 
-										   fn-callback="APP.loadComboType"><i class="fa fa-plus"></i>
-										</a>	
-									</div>
-									@if ($errors->has('type_id'))
-									<span class="help-block">
-										<strong>{{ $errors->first('type_id') }}</strong>
-									</span>
-									@endif
-								</div>
-							</div>
-							<div class="col-sm-12">
 								<div class="form-body {{ $errors->first("product_id", "has-error") }}">
 									<label class="control-label">{{ $model->labels['product_id'] }}  <span class="request">*</span></label>
-									{{ Form::select('product_id',  app_fetch('Products', 'name', 'id'), $model->product_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
+									{{ Form::select('product_id', app_fetch('Products', 'name', 'id'), $model->product_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
 									@if ($errors->has('product_id'))
 									<span class="help-block">
 										<strong>{{ $errors->first('product_id') }}</strong>
@@ -38,28 +19,39 @@
 								</div>
 							</div>
 							<div class="col-sm-12">
-								<div class="form-body {{ $errors->first("user_id", "has-error") }}">
-									<label class="control-label">{{ $model->labels['user_id'] }}  <span class="request">*</span></label>
-									{{ Form::select('user_id', app_fetch('Users', 'name', 'id'), $model->user_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
-									@if ($errors->has('user_id'))
+								<div class="form-body {{ $errors->first("type_id", "has-error") }}">
+									<label class="control-label">{{ $model->labels['type_id'] }}  <span class="request">*</span></label>
+									{{ Form::select('type_id', app_fetch('LicenseTypes', 'name', 'id'), $model->type_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
+									@if ($errors->has('type_id'))
 									<span class="help-block">
-										<strong>{{ $errors->first('user_id') }}</strong>
+										<strong>{{ $errors->first('type_id') }}</strong>
 									</span>
 									@endif
 								</div>
 							</div>
-							<div class="col-sm-6">
-								<div class="form-body {{ $errors->first("length", "has-error") }}">
-									<label class="control-label">{{ $model->labels['length'] }}</label>
-									{{ Form::number('length', $model->length, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control integer', 'placeholder' => '']) }}
-									@if ($errors->has('length'))
+							<div class="col-sm-12">
+								<div class="form-body {{ $errors->first("customer_id", "has-error") }}">
+									<label class="control-label">{{ $model->labels['customer_id'] }}  <span class="request">*</span></label>
+									{{ Form::select('customer_id', app_fetch('Clients', 'name', 'id'), $model->customer_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
+									@if ($errors->has('customer_id'))
 									<span class="help-block">
-										<strong>{{ $errors->first('length') }}</strong>
+										<strong>{{ $errors->first('customer_id') }}</strong>
 									</span>
 									@endif
 								</div>
 							</div>
-							<div class="col-sm-6">
+							<div class="col-sm-12">
+								<div class="form-body {{ $errors->first("count", "has-error") }}">
+									<label class="control-label">{{ $model->labels['count'] }}  </label>
+									{{ Form::number('count', $model->count, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
+									@if ($errors->has('count'))
+									<span class="help-block">
+										<strong>{{ $errors->first('count') }}</strong>
+									</span>
+									@endif
+								</div>
+							</div>
+							<div class="col-sm-12">
 								<div class="form-body {{ $errors->first("expiration", "has-error") }}">
 									<label class="control-label">{{ $model->labels['expiration'] }}  <span class="request">*</span></label>
 									{{ Form::text('expiration', app_date($model->expiration, 'Y-m-d', 'd/m/Y'), ['placeholder' => 'dd/mm/aaaa', 'data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control datepicker']) }}
@@ -69,7 +61,7 @@
 									</span>
 									@endif
 								</div>
-							</div>          
+							</div>            
 						</fieldset>    
                     </div>
                 {{ Form::close() }}
@@ -77,8 +69,3 @@
         </div>
     </div>
 </div>
-<script type="text/javascript">
-APP.loadComboType = function(button){
-    APP.loadCombo('select[name=type_id]', 'LicenseTypes');
-};
-</script>

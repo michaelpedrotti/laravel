@@ -262,7 +262,81 @@ class AclPermissionsSeeder extends Seeder {
 				'acl_id' => '1',
 				'permission_id' => '51',
 			],
+			[
+				'id' => '52',
+				'acl_id' => '4',
+				'permission_id' => '51',
+			],
+			[
+				'id' => '53',
+				'acl_id' => '4',
+				'permission_id' => '50',
+			],
+			[
+				'id' => '54',
+				'acl_id' => '4',
+				'permission_id' => '49',
+			],
+			[
+				'id' => '55',
+				'acl_id' => '4',
+				'permission_id' => '48',
+			],
+			[
+				'id' => '56',
+				'acl_id' => '4',
+				'permission_id' => '47',
+			],
+			[
+				'id' => '57',
+				'acl_id' => '4',
+				'permission_id' => '46',
+			],
+			[
+				'id' => '58',
+				'acl_id' => '4',
+				'permission_id' => '45',
+			],
+			[
+				'id' => '59',
+				'acl_id' => '4',
+				'permission_id' => '44',
+			],
+			[
+				'id' => '60',
+				'acl_id' => '4',
+				'permission_id' => '43',
+			],
+			[
+				'id' => '61',
+				'acl_id' => '4',
+				'permission_id' => '42',
+			],
+			[
+				'id' => '62',
+				'acl_id' => '2',
+				'permission_id' => '46',
+			],
+			[
+				'id' => '63',
+				'acl_id' => '2',
+				'permission_id' => '45',
+			],
+			[
+				'id' => '64',
+				'acl_id' => '2',
+				'permission_id' => '44',
+			],
+			[
+				'id' => '65',
+				'acl_id' => '2',
+				'permission_id' => '43',
+			],
+			[
+				'id' => '66',
+				'acl_id' => '2',
+				'permission_id' => '42',
+			],
 		]);
 	}
-
 }

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -7,46 +6,58 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * Controle de formulário do modelo especificado
  * @author Michael Pedrotti <michael.pedrotti@hscbrasil.com.br>
- * @version 18/01/2018
+ * @version 15/02/2018
  */
-class LicensesFormRequest extends FormRequest {
+class LicensesFormRequest extends FormRequest
+{
+    /**
+     * Determina se o usuário pode realizar o request
+     *
+     * @return bool
+     */
+    public function authorize() {
+        return true;
+    }
 
-	/**
-	 * Determina se o usuário pode realizar o request
-	 *
-	 * @return bool
-	 */
-	public function authorize() {
-		return true;
-	}
-
-	/**
-	 * Seta os rules para cada campo
-	 *
-	 * @return array
-	 */
-	public function rules() {
-		return [
-			'product_id' => ['required'],
-			'user_id' => ['required'],
-			'expiration' => ['required', 'date_format:d/m/Y']
-		];
-	}
-
-	/**
-	 * Mensagens caso pare nos rules atribuidos
-	 * @return array
-	 */
-	public function messages() {
-		return [
-			'product_id.required' => 'O campo "Produto" não foi preenchido.',
-			'user_id.required' => 'O campo "Usuário" não foi preenchido.',
-			'expiration.required' => 'O campo "Data de expiração" não foi preenchido.',
-			'expiration.date_format' => 'O campo "Data de expiração" está com a formatação inválida.',
-		];
-	}
-
-	/**
+    /**
+     * Seta os rules para cada campo
+     *
+     * @return array
+     */
+    public function rules() {
+        return [
+            'product_id' => ['required'],
+            'type_id' => ['required'],
+            'customer_id' => ['required'],
+            'expiration' => ['required','date_format:d/m/Y'],
+        ];
+    }
+    
+    /**
+     * Mensagens caso pare nos rules atribuidos
+     * @return array
+     */
+    public function messages() {
+        return [
+                        
+                        
+            'product_id.required' => 'O campo "Produto" não foi preenchido.',            
+                        
+            'type_id.required' => 'O campo "Tipo de licença" não foi preenchido.',            
+                        
+            'customer_id.required' => 'O campo "Cliente" não foi preenchido.',            
+                        
+                        
+                        
+            'expiration.required' => 'O campo "Data de expiração" não foi preenchido.',            
+            'expiration.date_format' => 'O campo "Data de expiração" está com a formatação inválida.',            
+                        
+                        
+        ];
+    }
+    
+    
+    /**
      * Validador customizado
      *
      * @return Illuminate\Validation\Validator

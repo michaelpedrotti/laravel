@@ -40,12 +40,6 @@ return [
                 'url' => 'license-types',
                 'icon' => 'fa-barcode',
                 'acl' => 'LICENSETYPES_LIST'
-            ],
-			[
-                'label' => 'Licenças',
-                'url' => 'licenses',
-                'icon' => ' fa-registered',
-                'acl' => 'LICENSES_LIST'
             ]
 		]
 	],
@@ -73,4 +67,10 @@ return [
         'icon' => 'fa-users',
         'acl' => []
     ],
+	[
+		'label' => 'Licenças',
+		'url' => 'licenses',
+		'icon' => ' fa-registered',
+		'acl' => 'LICENSES_LIST'
+	]
 ];

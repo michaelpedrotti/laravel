@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * Class Licenses
  * @package App\Models
  * @author Michael Pedrotti <michael.pedrotti@hscbrasil.com.br>
- * @version 18/01/2018
+ * @version 15/02/2018
  */
 class Licenses extends \Eloquent {
     
@@ -24,8 +24,8 @@ class Licenses extends \Eloquent {
         'id',
         'product_id',
         'type_id',
-        'user_id',
-        'length',
+        'customer_id',
+        'count',
         'expiration',
         'hash',
     ];
@@ -38,9 +38,9 @@ class Licenses extends \Eloquent {
         'id' => 'integer',
         'product_id' => 'integer',
         'type_id' => 'integer',
-        'user_id' => 'integer',
-        'length' => 'integer',
-        'expiration' => 'string',
+        'customer_id' => 'integer',
+        'count' => 'integer',
+        'expiration' => 'data',
         'hash' => 'string',
     ];    
     
@@ -51,11 +51,11 @@ class Licenses extends \Eloquent {
     public $labels = [
         'id' => 'ID',
         'product_id' => 'Produto',
-        'type_id' => 'Tipo',
-        'user_id' => 'Usuário',
-        'length' => 'Limite  ( Usuários ou Mailboxes )',
+        'type_id' => 'Tipo de licença',
+        'customer_id' => 'Cliente',
+        'count' => 'Limite ( Usuários ou Mailboxes )',
         'expiration' => 'Data de expiração',
-        'hash' => 'Storage',
+        'hash' => 'Chave',
     ];
 	
 	/**
@@ -66,37 +66,37 @@ class Licenses extends \Eloquent {
 		
 		if(preg_match('/[0-9]{2}\/[0-9]{2}\/[0-9]{4}/', $value)) {
 			
-			$value = \DateTime::createFromFormat('d/m/Y', $value)->format('Y-m-d 00:00:00');
+			$value = \DateTime::createFromFormat('d/m/Y', $value)->format('Y-m-d');
 		}
 		
 		$this->attributes['expiration'] = $value;
 	}
-		
+	
+    
+
     /**
-     * Busca o modelo de products     
-	 * 
-	 * @return products     
-	 */
+     * Busca o modelo de clients 
+	 *
+     * @return clients 
+     */
+    public function Custumer() {
+        return $this->hasOne('App\Models\Clients', 'id', 'customer_id')->withDefault();
+    }
+    /**
+     * Busca o modelo de products 
+	 *
+     * @return products 
+     */
     public function Product() {
-        return $this->hasOne('App\Models\Products', 'id', 'product_id');
+        return $this->hasOne('App\Models\Products', 'id', 'product_id')->withDefault();
     }
-
     /**
-     * Busca o modelo de license_types     
-	 * 
-	 * @return license_types     
-	 */
+     * Busca o modelo de license_types 
+	 *
+     * @return license_types 
+     */
     public function Type() {
-        return $this->hasOne('App\Models\LicenseTypes', 'id', 'type_id');
-    }
-
-    /**
-     * Busca o modelo de users    
-	 * 
-	 * @return users     
-	 */
-    public function User() {
-        return $this->hasOne('App\Models\Users', 'id', 'user_id');
+        return $this->hasOne('App\Models\LicenseTypes', 'id', 'type_id')->withDefault();
     }
 
     /**
@@ -123,11 +123,12 @@ class Licenses extends \Eloquent {
         } 
     }
     
+    
     /**
      * Realiza a consulta da tabela
      *
      * @param array $filter
-     * @return \Illuminate\Support\Collection
+     * @return Illuminate\Database\Eloquent\Builder
      */
     public function search(array $filter = [], $expression = '*') {
         
@@ -136,34 +137,37 @@ class Licenses extends \Eloquent {
         $builder = self::selectRaw($expression);
 
            
-        if(array_key_exists('id', $filter) && !empty($filter['id'])) {
-            $builder->where('id', $filter['id']);
+        if(array_has($filter, 'id')) {
+            $builder->where('id', array_get($filter, 'id'));
         }
            
-        if(array_key_exists('product_id', $filter) && !empty($filter['product_id'])) {
-            $builder->where('product_id', $filter['product_id']);
+        if(array_has($filter, 'product_id')) {
+            $builder->where('product_id', array_get($filter, 'product_id'));
         }
            
-        if(array_key_exists('type_id', $filter) && !empty($filter['type_id'])) {
-            $builder->where('type_id', $filter['type_id']);
+        if(array_has($filter, 'type_id')) {
+            $builder->where('type_id', array_get($filter, 'type_id'));
         }
            
-        if(array_key_exists('user_id', $filter) && !empty($filter['user_id'])) {
-            $builder->where('user_id', $filter['user_id']);
+        if(array_has($filter, 'customer_id')) {
+            $builder->where('customer_id', array_get($filter, 'customer_id'));
         }
            
-
-        if(array_key_exists('expiration', $filter) && !empty($filter['expiration'])) {
-            $builder->where('expiration', $filter['expiration']);
+        if(array_has($filter, 'count')) {
+            $builder->where('count', array_get($filter, 'count'));
         }
            
-        if(array_key_exists('hash', $filter) && !empty($filter['hash'])) {
-            $builder->where('hash', $filter['hash']);
+        if(array_has($filter, 'expiration')) {
+            $builder->where('expiration', array_get($filter, 'expiration'));
+        }
+           
+        if(array_has($filter, 'hash')) {
+            $builder->where('hash', array_get($filter, 'hash'));
         }
         
         
-        if(array_key_exists('groupBy', $filter) && !empty($filter['groupBy'])) {
-            $builder->orderBy($filter['groupBy'], 'ASC');
+        if(array_has($filter, 'groupBy')) {
+            $builder->orderBy(array_get($filter, 'groupBy'), 'ASC');
         }
         else {
             $builder->orderBy('id', 'DESC');

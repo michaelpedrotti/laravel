@@ -10,43 +10,43 @@ use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
 
 /**
- * Controlador Tipo de licença
+ * Controlador Licença
  *
  * @author Michael Pedrotti <michael.pedrotti@hscbrasil.com.br>
  */
 class LicensesController extends Controller {
         
     /**
-     * Monta a listagem dos Tipos de licenças
+     * Monta a listagem das Licenças
      *
      * @param Illuminate\Http\Request $request
      * @return Illuminate\View\View | Illuminate\Http\JsonResponse
      */
     public function index(Request $request) {
     
-        $this->authorize('LICENSES_LIST');
+        //$this->authorize('LICENSES_LISTAR', 'PermissaoPolicy');
         
 		$model = Model::getModel()->fill($request->all());
 
         if ($request->isXmlHttpRequest()) {
-            return Datatables::eloquent($model->search())
+            return Datatables::eloquent($model->search($request->all()))
 				//->editColumn('id', function ($query) {
 				//	return $query->id;
 				//})
-				->editColumn('product_id', function ($query) {
-					return \App\Models\Products::findOrNew($query->product_id)->name;
+				->addColumn('product_id', function ($query) {
+					return $query->Product->name;
 				})
-				->editColumn('type_id', function ($query) {
-					return \App\Models\LicenseTypes::findOrNew($query->type_id)->name;
+				->addColumn('type_id', function ($query) {
+					return $query->Type->name;
 				})
-				->editColumn('user_id', function ($query) {
-					return \App\Models\Users::findOrNew($query->user_id)->name;
+				->addColumn('customer_id', function ($query) {
+					return $query->Custumer->User->name;
 				})
-				//->editColumn('length', function ($query) {
-				//	return $query->length;	
+				//->editColumn('count', function ($query) {
+				//	return $query->count;
 				//})
 				->editColumn('expiration', function ($query) {
-					return app_date($query->expiration, 'Y-m-d', 'd/m/Y');
+					return \DateTime::createFromFormat('Y-m-d', $query->expiration)->format('d/m/Y');
 				})
 				//->editColumn('hash', function ($query) {
 				//	return $query->hash;
@@ -60,14 +60,14 @@ class LicensesController extends Controller {
     }
         
     /**
-     * Mostra o formulário para criar/editar um Tipo de licença
+     * Mostra o formulário para criar/editar uma Licença
      * 
      * @param Illuminate\Http\Request $request
      * @return Illuminate\View\View
      */
     public function form(Request $request) {
     
-        $this->authorize(($request->route('id') ? 'LICENSES_EDIT' : 'LICENSES_ADD'));
+        //$this->authorize(($request->route('id') ? 'LICENSES_EDITAR' : 'LICENSES_CADASTRAR'), 'PermissaoPolicy');
         
         $model = Model::findOrNew($request->route('id'));
         //$model->authorize();
@@ -85,11 +85,10 @@ class LicensesController extends Controller {
 			
 				app(FormRequest::class);
                 
-				$model->type_id = 1;
                 $model->save();
                 $model->getConnection()->commit();
                 
-                $this->setMessage('Tipo de licença foi salva com sucesso!', 'success'); 
+                $this->setMessage('Licença foi salva com sucesso!', 'success'); 
             }
 			catch(ValidationException $e){
                 
@@ -114,7 +113,7 @@ class LicensesController extends Controller {
      */
     public function show(Request $request) {
     
-        $this->authorize('LICENSES_SHOW');
+        //$this->authorize('LICENSES_VISUALIZAR', 'PermissaoPolicy');
     
         $model = Model::findOrFail($request->route('id')); 
         //$model->authorize($request->route('id'));
@@ -125,14 +124,14 @@ class LicensesController extends Controller {
     }
 
     /**
-     * Ação de destruir/excluir um Tipo de licença
+     * Ação de destruir/excluir uma Licença
      *
      * @param Illuminate\Http\Request $request
      * @return Illuminate\Http\JsonResponse 
      */
     public function remove(Request $request) {
         
-        $this->authorize('LICENSES_REM');
+        //$this->authorize('LICENSES_EXCLUIR', 'PermissaoPolicy');
     
 		$model = Model::getModel();
         $model->getConnection()->beginTransaction();
@@ -144,7 +143,7 @@ class LicensesController extends Controller {
 			$ids = $request->get('id');
 			
 			if(!is_array($ids) || count($ids) <= 0) {
-				throw new Exception('Nenhum Tipo de licença foi especificado');
+				throw new Exception('Nenhum Licença foi especificada');
 			}
 			
 			$model->query()
@@ -158,7 +157,7 @@ class LicensesController extends Controller {
             $model->getConnection()->commit();
 
             $output['success'] = true;
-            $output['msg'] = (count($ids) > 1) ? 'Tipos de licenças foram excluídos com sucesso' : 'Tipo de licença foi excluido com sucesso';
+            $output['msg'] = (count($ids) > 1) ? 'Licenças foram excluídos com sucesso' : 'Licença foi excluido com sucesso';
         } 
         catch (\Exception $e) {
 
