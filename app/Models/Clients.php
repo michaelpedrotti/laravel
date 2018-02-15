@@ -135,6 +135,17 @@ class Clients extends \Eloquent {
             });
         }
 		
+		// Somente os clientes que percente a um revendedor que esta logado
+		if(app_has_permission('RESELLER')) {
+            
+            $builder->whereExists(function($builder) use($filter){
+                $builder->select(\DB::raw(1))
+                    ->from('resellers')
+                    ->whereRaw('resellers.id = clients.`reseller_id` AND resellers.user_id = '.\Auth::user()->id);
+            });
+        }
+		
+		
         if(array_key_exists('groupBy', $filter) && !empty($filter['groupBy'])) {
             $builder->orderBy($filter['groupBy'], 'ASC');
         }

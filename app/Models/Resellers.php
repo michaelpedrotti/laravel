@@ -132,6 +132,16 @@ class Resellers extends \Eloquent {
                     ->whereRaw('distributors.id = '.$this->getTable().'.distributor_id AND user_id IN(SELECT id FROM `users` WHERE `name` LIKE "%'.$filter['distributor'].'%")');
             });
         }
+		
+		// Somente as revendas que percente ao distribuidor que esta logado
+		if(app_has_permission('DISTRIBUTOR')) {
+            
+            $builder->whereExists(function($builder) use($filter){
+                $builder->select(\DB::raw(1))
+                    ->from('distributors')
+                    ->whereRaw('distributors.id = resellers.distributor_id AND distributors.user_id = '.\Auth::user()->id);
+            });
+        }
         
         if(array_has($filter, 'groupBy')) {
             $builder->orderBy($filter['groupBy'], 'ASC');
@@ -151,7 +161,7 @@ class Resellers extends \Eloquent {
 	public function storage($data = array()){
 		
 		$model = Users::find($this->user_id);
-		$acl_id = Acls::query()->where('UID', 'RESALER')->first()->id;
+		$acl_id = Acls::query()->where('UID', 'RESELLER')->first()->id;
 
 		if(empty($model)) {
 			
