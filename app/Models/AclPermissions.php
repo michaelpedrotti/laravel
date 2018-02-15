@@ -85,7 +85,7 @@ class AclPermissions extends \Eloquent {
             //\Log::info($builder->toSql());
 
             if($builder->count() <= 0){
-                die(view('default/403')->render());
+                app_abort(403, trans('Acesso negado para esta permissão'));
             }
         } 
     }

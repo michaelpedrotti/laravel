@@ -15,22 +15,7 @@ class Controller extends BaseController
 	public function authorize($ability){
 
 		if(!app_has_permission($ability)) {
-            
-            if (app('request')->isXmlHttpRequest()) {
-				
-				$response = \Response::json([
-					'success' => false,
-					'msg' => 'Você não tem permissão para acessar'
-				]);
-            }
-            else {
-                $response = \Response::view('layout.errors.401', [
-					'code' => 401,
-					'message' => 'Você não tem permissão para acessar'
-				]);
-            }
-		
-			throw new \Illuminate\Http\Exceptions\HttpResponseException($response);	
+			app_abort(401, 'Você não tem permissão para acessar');
         }
 	}
 	

@@ -126,3 +126,36 @@ if(!function_exists('app_fetch')) {
 						->toArray();
 	}
 }
+
+if(!function_exists('app_abort')) {
+    /**
+     * Retorna uma mensagem de erro padrão para ajax ou uma view com o layout 
+	 * dependendo do tipo de requisição
+     *
+	 * @param number $code 
+	 * @param string $message 
+	 * @link https://laravel.com/docs/5.5/helpers
+     * @throws Illuminate\Http\Exceptions\HttpResponseException
+     */
+	function app_abort($code, $message){
+		
+		if (app('request')->isXmlHttpRequest()) {
+				
+			$response = \Response::json([
+				'success' => false,
+				'code' => $code,
+				'msg' => $message
+			]);
+		}
+		else {
+			$response = \Response::view('layout.errors.401', [
+				'code' => $code,
+				'message' => $message
+			]);
+		}
+
+		throw new \Illuminate\Http\Exceptions\HttpResponseException($response);	
+	}
+}
+
+
