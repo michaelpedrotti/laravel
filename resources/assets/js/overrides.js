@@ -12,6 +12,9 @@ $.extend( true, $.fn.dataTable.defaults, {
        
        $('input[data-check-all]').click(APP.Crud.CheckAll);
     },
+    ajax: {
+        type:"POST"
+    },
     columnDefs: [
         {
             targets: 0,

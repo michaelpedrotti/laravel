@@ -115,7 +115,7 @@ class Products extends \Eloquent {
         else {
             $builder->orderBy('id', 'DESC');
         }
-        
+		
         // Grava em laravel.log
         //
         //\Log::info($builder->getBindings());
