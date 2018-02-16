@@ -25,6 +25,7 @@ class Licenses extends \Eloquent {
         'product_id',
         'type_id',
         'customer_id',
+		'status',
         'count',
         'expiration',
         'hash',
@@ -39,6 +40,7 @@ class Licenses extends \Eloquent {
         'product_id' => 'integer',
         'type_id' => 'integer',
         'customer_id' => 'integer',
+		'status' => 'string',
         'count' => 'integer',
         'expiration' => 'data',
         'hash' => 'string',
@@ -56,7 +58,18 @@ class Licenses extends \Eloquent {
         'count' => 'Limite ( Usuários ou Mailboxes )',
         'expiration' => 'Data de expiração',
         'hash' => 'Chave',
+		'status' => 'Situação',
     ];
+	
+	public function getStatus(){
+		
+		return [
+			'S' => 'Solicitado',
+			'A' => 'Aguardando',
+			'R' => 'Rejeitada',
+			'G' => 'Gerada'
+		];
+	}
 	
 	/**
 	 * Mutator para Data de expiração	 *
@@ -154,6 +167,10 @@ class Licenses extends \Eloquent {
            
         if(array_has($filter, 'expiration')) {
             $builder->where('expiration', array_get($filter, 'expiration'));
+        }
+		
+		if(array_has($filter, 'status')) {
+            $builder->where('status', array_get($filter, 'status'));
         }
            
 		if(app_has_permission('DISTRIBUTOR')) {

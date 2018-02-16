@@ -28,6 +28,7 @@ class ProductsFormRequest extends FormRequest
         return [
             'name' => ['required'],
             'version' => ['required'],
+			'key' => ['required'],
         ];
     }
     
@@ -37,14 +38,9 @@ class ProductsFormRequest extends FormRequest
      */
     public function messages() {
         return [
-                        
-                        
-            'name.required' => 'O campo "Nome" não foi preenchido.',            
-                        
+            'name.required' => 'O campo "Nome" não foi preenchido.',                    
             'version.required' => 'O campo "Versão" não foi preenchido.',            
-                        
-                        
-                        
+            'key.required' => 'O campo "Chave" não foi preenchido.',                   
         ];
     }
     

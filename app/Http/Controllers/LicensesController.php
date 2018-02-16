@@ -24,9 +24,10 @@ class LicensesController extends Controller {
      */
     public function index(Request $request) {
     
-        //$this->authorize('LICENSES_LISTAR', 'PermissaoPolicy');
+        $this->authorize('LICENSES_LIST');
         
 		$model = Model::getModel()->fill($request->all());
+		$mapper = $model->getStatus();
 
         if ($request->isXmlHttpRequest()) {
             return Datatables::eloquent($model->search($request->all()))
@@ -48,9 +49,9 @@ class LicensesController extends Controller {
 				->editColumn('expiration', function ($query) {
 					return \DateTime::createFromFormat('Y-m-d', $query->expiration)->format('d/m/Y');
 				})
-				//->editColumn('hash', function ($query) {
-				//	return $query->hash;
-				//})
+				->editColumn('status', function ($query) use($mapper) {
+					return array_get($mapper, $query->status, $query->status);
+				})
 				->make(true);
         }
        
@@ -67,7 +68,7 @@ class LicensesController extends Controller {
      */
     public function form(Request $request) {
     
-        //$this->authorize(($request->route('id') ? 'LICENSES_EDITAR' : 'LICENSES_CADASTRAR'), 'PermissaoPolicy');
+        $this->authorize($request->route('id') ? 'LICENSES_EDIT' : 'LICENSES_ADD');
         
         $model = Model::findOrNew($request->route('id'));
         //$model->authorize();
@@ -113,7 +114,7 @@ class LicensesController extends Controller {
      */
     public function show(Request $request) {
     
-        //$this->authorize('LICENSES_VISUALIZAR', 'PermissaoPolicy');
+        $this->authorize('LICENSES_SHOW');
     
         $model = Model::findOrFail($request->route('id')); 
         //$model->authorize($request->route('id'));
@@ -131,7 +132,7 @@ class LicensesController extends Controller {
      */
     public function remove(Request $request) {
         
-        //$this->authorize('LICENSES_EXCLUIR', 'PermissaoPolicy');
+        $this->authorize('LICENSES_REM');
     
 		$model = Model::getModel();
         $model->getConnection()->beginTransaction();
@@ -158,6 +159,39 @@ class LicensesController extends Controller {
 
             $output['success'] = true;
             $output['msg'] = (count($ids) > 1) ? 'Licenças foram excluídos com sucesso' : 'Licença foi excluido com sucesso';
+        } 
+        catch (\Exception $e) {
+
+            $model->getConnection()->rollBack();
+            $output['msg'] = $e->getMessage();            
+        }  
+
+        return Response::json($output);
+    }
+	
+    /**
+     * Atualiza a situação para aguardando para o script do artisan gerar a chave
+     *
+     * @param Illuminate\Http\Request $request
+     * @return Illuminate\Http\JsonResponse 
+     */
+    public function update(Request $request) {
+        
+        $this->authorize('ADMIN');
+  
+        $output = ['success' => false, 'msg' => ''];
+            
+		$model = Model::findOrFail($request->route('id'));
+		
+        try {
+			
+			$model->getConnection()->beginTransaction();
+			$model->status = 'A';
+			$model->save();
+            $model->getConnection()->commit();
+
+            $output['success'] = true;
+            $output['msg'] = __('Esta licença foi movida para fila e será gerada em breve');
         } 
         catch (\Exception $e) {
 

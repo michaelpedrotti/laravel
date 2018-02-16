@@ -23,8 +23,7 @@ class Products extends \Eloquent {
     public $fillable = [
         'id',
         'name',
-        'version',
-        'key',
+        'version'
     ];
     
     /**
@@ -34,8 +33,7 @@ class Products extends \Eloquent {
     protected $casts = [
         'id' => 'integer',
         'name' => 'string',
-        'version' => 'string',
-        'key' => 'text',
+        'version' => 'string'
     ];    
     
     /**
@@ -45,16 +43,18 @@ class Products extends \Eloquent {
     public $labels = [
         'id' => 'ID',
         'name' => 'Nome',
-        'version' => 'Versão',
-        'key' => 'Chave',
+        'version' => 'Versão'
     ];
 	
 	
     
     /**
-     * Busca o modelo de licenses     * @return licenses     */
-    public function Licenses() {
-        return $this->hasMany('App\Models\Licenses', 'product_id', 'id');
+     * Busca o modelo de licenses
+	 *      
+	 * @return Illuminate\Database\Eloquent\Relations\HasOne     
+	 */
+    public function License() {
+        return $this->hasOne('App\Models\ProductLicenses', 'product_id', 'id')->withDefault();
     }
 
 
@@ -108,11 +108,6 @@ class Products extends \Eloquent {
         if(array_key_exists('version', $filter) && !empty($filter['version'])) {
             $builder->where('version', 'LIKE', '%'.$filter['version'].'%');
         }
-           
-        if(array_key_exists('key', $filter) && !empty($filter['key'])) {
-            $builder->where('key', $filter['key']);
-        }
-        
         
         if(array_key_exists('groupBy', $filter) && !empty($filter['groupBy'])) {
             $builder->orderBy($filter['groupBy'], 'ASC');
@@ -128,4 +123,32 @@ class Products extends \Eloquent {
 
         return $builder;
     }
+	
+	
+	public function save(array $options = array()) {
+		
+		if(!parent::save($options)) return false;
+		
+		$file = \Illuminate\Support\Facades\Input::file('key');
+            
+        if(!empty($file)) {
+			
+			$model = ProductLicenses::query()
+				->where('product_id', $this->id)
+					->firstOrNew([]);
+			
+			$model->fill([
+				'product_id' => $this->id,
+				'filename' => $file->getClientOriginalName(),
+				'mimetype' => $file->getClientMimeType(),
+				'size' => $file->getSize(),
+				'extension' => $file->getClientOriginalExtension(),
+				'hash' => $file->store('public'),
+			]);
+			
+			return $model->save();
+		}
+		
+		return true;
+	}
 }
