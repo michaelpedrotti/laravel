@@ -46,7 +46,7 @@
 							<div class="col-sm-12">
 								<div class="form-body {{ $errors->first("reseller_id", "has-error") }}">
 									<label class="control-label">{{ $model->labels['reseller_id'] }}  <span class="request">*</span></label>
-									{{ Form::select('reseller_id', app_fetch('Resellers', 'name', 'id'), $model->reseller_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
+									{{ Form::select('reseller_id', $resellers, $model->reseller_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
 									@if ($errors->has('reseller_id'))
 									<span class="help-block">
 										<strong>{{ $errors->first('reseller_id') }}</strong>

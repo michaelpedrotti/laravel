@@ -116,11 +116,11 @@ if(!function_exists('app_fetch')) {
 	 * @link https://laravel.com/docs/5.5/helpers
      * @return array
      */
-	function app_fetch($classname = '', $label = 'name', $value = 'id'){
+	function app_fetch($classname = '', $label = 'name', $value = 'id', $filter = []){
 
 		$model = call_user_func('\App\Models\\'.studly_case($classname).'::getModel');
 		
-		return $model->search()
+		return $model->search($filter)
 				->pluck($label, $value)
 					->prepend('Selecione', '')
 						->toArray();

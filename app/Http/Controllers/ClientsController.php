@@ -96,6 +96,8 @@ class ClientsController extends Controller {
                 $this->setMessage($e->getMessage(), 'danger');                
             }            
         }
+		
+		$view->with('resellers', \App\Models\Resellers::getModel()->toHash($model->Reseller->distributor_id));
     
         return $view;
     }

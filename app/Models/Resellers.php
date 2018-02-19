@@ -120,6 +120,10 @@ class Resellers extends \Eloquent {
         if(array_has($filter, 'cnpj')) {
             $builder->where('cnpj', $filter['cnpj']);
         }
+		
+		if(array_has($filter, 'user_id')) {
+            $builder->where('user_id', $filter['user_id']);
+        }
 
 		if(array_has($filter, 'name')) {
             $builder->where('name', 'LIKE', '%'.array_get($filter, 'name').'%');
@@ -190,5 +194,34 @@ class Resellers extends \Eloquent {
 		}
 		
 		return parent::save();
+	}
+	
+	public function toHash($default){
+		
+		if(app_can('ADMIN')) {
+			
+			return app_fetch('Resellers', 'name', 'id', [
+				'distributor_id' => request('distributor_id', $default)
+			]);
+		}
+		elseif(app_can('DISTRIBUTOR')){
+			
+			$default = \App\Models\Distributors::select()
+					->where('user_id', \Auth::user()->id)
+						->firstOrFail()
+							->id;
+			
+			return app_fetch('Resellers', 'name', 'id', [
+				'distributor_id' => request('distributor_id', $default)
+			]);
+		}
+		elseif(app_can('RESELLER')){
+			
+			return app_fetch('Resellers', 'name', 'id', [
+				'user_id' => \Auth::user()->id
+			]);
+		}
+		
+		return [];
 	}
 }
