@@ -29,7 +29,7 @@ class ClientsFormRequest extends FormRequest
 			'name' => ['required'],
 			//'email' => ['required', 'email', 'exists:users,email'],
 			'email' => ['required', 'email'],
-			'reseller_id' => ['required'],
+			//'reseller_id' => ['required'],
 			'cnpj' => ['required']
         ];
     }
@@ -63,7 +63,7 @@ class ClientsFormRequest extends FormRequest
             $messages = $this->messages();
             $data = $validator->getData();
 			
-			if(array_has($data, 'email')) {
+			if(app_has($data, 'email')) {
 				
 				$builder = \App\Models\Users::query()->where('email', $data['email']);
 				
@@ -74,7 +74,12 @@ class ClientsFormRequest extends FormRequest
 				if($builder->get()->count() > 0) { 
 					$validator->errors()->add('email', $messages['email.exists']);
 				}
-			}            
+			}
+			
+			if(!app_has_permission('RESELLER') && !app_has($data, 'reseller_id')) {
+			
+				$validator->errors()->add('reseller_id', $messages['reseller_id.required']);
+			}
         });
     }
 }

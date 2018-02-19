@@ -135,9 +135,23 @@ class Clients extends \Eloquent {
             });
         }
 		
-		// Somente os clientes que percente a um revendedor que esta logado
-		if(app_has_permission('RESELLER')) {
-            
+		if(app_has_permission('DISTRIBUTOR')) {
+			// Somente os clientes que percente a alguma revenda de um distribuidor
+
+            $builder->whereExists(function($builder) use($filter){
+                $builder->select(\DB::raw(1))
+                    ->from('resellers')
+					->join('distributors', 'distributors.id', '=', 'resellers.distributor_id')
+                    ->whereRaw('resellers.id = clients.`reseller_id`')
+					->whereRaw('distributors.user_id = '.\Auth::user()->id);
+            });
+			
+			//\Log::alert($builder->toSql());
+			//\Log::alert($builder->getBindings());
+        }
+		elseif(app_has_permission('RESELLER')) {
+			// Somente os clientes que percente a um revendedor que esta logado
+			
             $builder->whereExists(function($builder) use($filter){
                 $builder->select(\DB::raw(1))
                     ->from('resellers')
@@ -162,6 +176,16 @@ class Clients extends \Eloquent {
     }
 	
 	public function storage($data = array()) {
+		
+		// Usuário que esta logado é uma revenda recebe seu próprio login
+		if(app_has_permission('RESELLER')) {
+			
+			$this->reseller_id = \App\Models\Resellers::select()
+				->where('user_id', \Auth::user()->id)
+					->firstOrFail()
+						->id;
+		}
+		
 		
 		$model = Users::find($this->user_id);
 		$acl_id = Acls::query()->where('UID', 'CUSTUMER')->first()->id;
