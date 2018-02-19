@@ -158,4 +158,18 @@ class ProductsController extends Controller {
 
         return Response::json($output);
     }
+	
+	public function download(Request $request){
+		
+		$model = \App\Models\ProductLicenses::select()
+			->where('product_id', $request->route('id'))
+				->firstOrFail();
+		
+		//$model->authorize();
+
+        return \Response::download(storage_path('app').'/'.$model->hash, $model->filename,[
+			'Content-Type' => $model->mimetype,
+			'Content-Disposition' => 'attachment"'
+		]);		
+	}
 }
