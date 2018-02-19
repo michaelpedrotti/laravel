@@ -13,11 +13,11 @@ class UsersSeeder extends Seeder {
 				'id' => '1',
 				'name' => 'Administrador',
 				'email' => 'admin@hscbrasil.com.br',
-				'password' => '$2y$10$KSQkZXbgkDsV6YOybPmRROOlnGja3BV37RCboBgbHhPYpo6GKV8Gq',
-				'remember_token' => 'fZrFRicG6OtAJYpQbrd82PZSqxHWVUVmp5Gd3mjJzdmnJctBxzChoEr4jbKm',
+				'password' => bcrypt('admin'),
+				'remember_token' => str_random(10),
 				'created_at' => $datetime,
 				'updated_at' => $datetime,
-			
-		]);
+			]
+		);
 	}
 }

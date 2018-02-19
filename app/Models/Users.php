@@ -62,10 +62,17 @@ class Users extends \Eloquent {
 				
 		$this->attributes['password'] = bcrypt($value);
 	}
+	
+	public function Distributor(){
+		return $this->hasOne('\App\Models\Distributors', 'distributor_id', 'id')->withDefault();
+	}
 
 
     /**
-     * Relations com Acls     * @return Acls     */
+     * Relations com Acls 
+	 *     
+	 * @return Acls     
+	 */
     public function Acls() {
         return $this->hasMany('\App\Models\UserAcls', 'user_id', 'id');
     }

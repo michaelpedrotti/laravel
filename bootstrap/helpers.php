@@ -158,4 +158,20 @@ if(!function_exists('app_abort')) {
 	}
 }
 
-
+if(!function_exists('app_has')){
+	
+	function app_has(&$var, $key) {
+	
+		if(is_array($var) && array_key_exists($key, $var)) {
+			$value = &$var[$key];
+		}
+		elseif(is_object($var) && property_exists($var, $key)){
+			$value = &$var->{$key};
+		}
+		else {
+			$value = null;
+		}
+		
+		return (is_numeric($value) || !empty($value));
+	}
+}

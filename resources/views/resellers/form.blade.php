@@ -29,6 +29,7 @@
 										@endif
 									</div>
 								</div>
+								@can('ADMIN', 'Permission')
 								<div class="col-sm-12">
 									<div class="form-body {{ $errors->first("distributor_id", "has-error") }}">
 										<label class="control-label">{{ $model->labels['distributor_id'] }}  <span class="request">*</span></label>
@@ -40,6 +41,7 @@
 										@endif
 									</div>
 								</div>
+								@endcan
 								<div class="col-sm-12">
 									<div class="form-body {{ $errors->first("cnpj", "has-error") }}">
 										<label class="control-label">{{ $model->labels['cnpj'] }}  <span class="request">*</span></label>

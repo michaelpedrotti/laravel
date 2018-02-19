@@ -160,6 +160,15 @@ class Resellers extends \Eloquent {
 	
 	public function storage($data = array()){
 		
+		// Usuário logado é um distribuidor cadastrando uma 
+		if(app_has_permission('DISTRIBUTOR')) {
+			
+			$this->distributor_id = \App\Models\Distributors::select()
+				->where('user_id', \Auth::user()->id)
+				->firstOrNew([])
+					->id;
+		}
+		
 		$model = Users::find($this->user_id);
 		$acl_id = Acls::query()->where('UID', 'RESELLER')->first()->id;
 
