@@ -14,7 +14,7 @@ class Controller extends BaseController
 	
 	public function authorize($ability){
 
-		if(!app_has_permission($ability)) {
+		if(!app_can($ability)) {
 			app_abort(401, 'Você não tem permissão para acessar');
         }
 	}

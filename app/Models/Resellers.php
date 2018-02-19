@@ -134,7 +134,7 @@ class Resellers extends \Eloquent {
         }
 		
 		// Somente as revendas que percente ao distribuidor que esta logado
-		if(app_has_permission('DISTRIBUTOR')) {
+		if(app_can('DISTRIBUTOR')) {
             
             $builder->whereExists(function($builder) use($filter){
                 $builder->select(\DB::raw(1))
@@ -161,7 +161,7 @@ class Resellers extends \Eloquent {
 	public function storage($data = array()){
 		
 		// Usuário logado é um distribuidor cadastrando uma 
-		if(app_has_permission('DISTRIBUTOR')) {
+		if(app_can('DISTRIBUTOR')) {
 			
 			$this->distributor_id = \App\Models\Distributors::select()
 				->where('user_id', \Auth::user()->id)

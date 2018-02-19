@@ -28,7 +28,21 @@
 									@endif
 								</div>
 							</div>
-							@cannot('RESELLER', 'Permission')
+							@can('ADMIN', 'Permission')
+							<div class="col-sm-12">
+								<div class="form-body {{ $errors->first("distributor_id", "has-error") }}">
+									<label class="control-label">{{ __('Distribuidor') }}  <span class="request">*</span></label>
+									{{ Form::select('distributor_id', app_fetch('Distributors', 'name', 'id'), request('distributor_id', $model->Reseller->distributor_id), ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
+									@if ($errors->has('distributor_id'))
+									<span class="help-block">
+										<strong>{{ $errors->first('distributor_id') }}</strong>
+									</span>
+									@endif
+								</div>
+							</div>
+							@endcan
+							
+							@if(app_can(['ADMIN', 'DISTRIBUTOR']))
 							<div class="col-sm-12">
 								<div class="form-body {{ $errors->first("reseller_id", "has-error") }}">
 									<label class="control-label">{{ $model->labels['reseller_id'] }}  <span class="request">*</span></label>
@@ -40,7 +54,8 @@
 									@endif
 								</div>
 							</div>
-							@endcan
+							@endif
+							
 							<div class="col-sm-12">
 								<div class="form-body {{ $errors->first("cnpj", "has-error") }}">
 									<label class="control-label">{{ $model->labels['cnpj'] }}  </label>

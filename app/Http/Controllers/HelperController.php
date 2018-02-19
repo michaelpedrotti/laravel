@@ -26,7 +26,7 @@ class HelperController extends Controller {
 
 			$model = call_user_func($classname.'::getModel');
 
-			$rsp['options'] = $model->search()
+			$rsp['options'] = $model->search($request->all())
 				->get()
 					->pluck($request->get('text', 'name'), $request->get('value', 'id'))
 						->toArray();

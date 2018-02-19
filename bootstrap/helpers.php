@@ -16,7 +16,7 @@ if(!function_exists('app_menu')) {
 
 			$loop = function(&$item) use (&$loop){
 
-				$item['disabled'] = isset($item['acl']) && !empty($item['acl'])  ? !app_has_permission($item['acl']) : false;
+				$item['disabled'] = isset($item['acl']) && !empty($item['acl'])  ? !app_can($item['acl']) : false;
 				
 				if(isset($item['child'])) {
 					foreach($item['child'] as $key => $child) {
@@ -74,7 +74,7 @@ if(!function_exists('app_bytes_to_size')) {
 	}
 }
 
-if(!function_exists('app_has_permission')) {
+if(!function_exists('app_can')) {
 	
 	/**
      * Verifica se o usuário ter permissão para acessar um recurso do sistema
@@ -82,7 +82,7 @@ if(!function_exists('app_has_permission')) {
 	 * @param string $ability Permissão a ser testada
      * @return bool
      */
-	function app_has_permission($ability){
+	function app_can($ability){
 		
 		$bool = false;
 		$array = (array)$ability;

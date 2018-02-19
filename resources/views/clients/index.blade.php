@@ -27,13 +27,27 @@
 </div>
    
 @stop
+@section('javascript')
+<script type="text/javascript">
+
+$(document).ready(function(){
+	
+	//$( "table" ).delegate( "td", "click", function() {
+
+	
+	$('#modal-primary').delegate('select[name=distributor_id]', 'change', function(){
+		
+		APP.loadCombo($('select[name=reseller_id]'), 'Resellers', {
+			distributor_id:$(this).val()
+		});
+	});
+});
+
+
+</script>
+@append
 @include('layout.partials.datatable', [
 	'url' => url("clients/index"),
 	'permission' => 'CLIENTS',
-	'columns' => [
-		'id' => $model->labels['id'],
-		'user' => 'Cliente',
-		'reseller' => 'Revendedor',
-		'cnpj' => $model->labels['cnpj'],
-	]
+	'columns' => $columns
 ])

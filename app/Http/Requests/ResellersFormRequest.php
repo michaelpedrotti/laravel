@@ -60,14 +60,14 @@ class ResellersFormRequest extends FormRequest
             $messages = $this->messages();
             $data = $validator->getData();
 			
-			if(app_has_permission('ADMIN')) {
+			if(app_can('ADMIN')) {
 				
 				if(!app_has($data, 'distributor_id')) {
 				
 					$validator->errors()->add('distributor_id', $messages['distributor_id.required']);
 				}
 			}
-			elseif(app_has_permission('DISTRIBUTOR')) {
+			elseif(app_can('DISTRIBUTOR')) {
 				// Ok
 			}
 			else {

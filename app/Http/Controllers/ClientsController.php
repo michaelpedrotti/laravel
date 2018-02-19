@@ -29,24 +29,28 @@ class ClientsController extends Controller {
 		$model = Model::getModel()->fill($request->all());
 
         if ($request->isXmlHttpRequest()) {
-            return Datatables::eloquent($model->search($request->all()))
-				//->editColumn('id', function ($query) {
-				//	return $query->id;
-				//})
+
+            $engine = Datatables::eloquent($model->search($request->all()))
 				->editColumn('user', function ($query) {
 					return $query->User->name;
 				})
-				->editColumn('reseller', function ($query) {
+				->editColumn('reseller_id', function ($query) {
 					return $query->Reseller->User->name;
-				})
-				//->editColumn('cnpj', function ($query) {
-				//	return $query->cnpj;
-				//})
-				->make(true);
+				});
+			
+			if(app_can('ADMIN')) {
+				
+				$engine->editColumn('distributor_id', function ($query) {
+					return $query->Reseller->Distributor->User->name;
+				});
+			}	
+			
+			return $engine->make(true);
         }
        
         return view('clients.index', [
-            'model' => $model
+            'model' => $model,
+			'columns' => $model->getColumns()
         ]);
     }
         

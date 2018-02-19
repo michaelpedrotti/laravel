@@ -10,6 +10,6 @@ class Permissions {
 
 	public function __call($name, $arguments) {
 		
-		return app_has_permission($name);
+		return app_can($name);
 	}
 }

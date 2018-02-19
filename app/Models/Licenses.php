@@ -173,14 +173,14 @@ class Licenses extends \Eloquent {
             $builder->where('status', array_get($filter, 'status'));
         }
            
-		if(app_has_permission('DISTRIBUTOR')) {
+		if(app_can('DISTRIBUTOR')) {
 		
 			$builder->join('clients', 'licenses.customer_id', '=', 'clients.id');
 			$builder->join('resellers', 'resellers.id', '=', 'clients.reseller_id');
 			$builder->join('distributors', 'distributors.id', '=', 'resellers.distributor_id');
 			$builder->where('distributors.user_id', \Auth::user()->id);
 		}
-		elseif(app_has_permission('RESELLER')){
+		elseif(app_can('RESELLER')){
 			
 			$builder->join('clients', 'licenses.customer_id', '=', 'clients.id');
 			$builder->join('resellers', 'resellers.id', '=', 'clients.reseller_id');

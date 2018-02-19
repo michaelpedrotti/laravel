@@ -135,7 +135,7 @@ class Clients extends \Eloquent {
             });
         }
 		
-		if(app_has_permission('DISTRIBUTOR')) {
+		if(app_can('DISTRIBUTOR')) {
 			// Somente os clientes que percente a alguma revenda de um distribuidor
 
             $builder->whereExists(function($builder) use($filter){
@@ -149,7 +149,7 @@ class Clients extends \Eloquent {
 			//\Log::alert($builder->toSql());
 			//\Log::alert($builder->getBindings());
         }
-		elseif(app_has_permission('RESELLER')) {
+		elseif(app_can('RESELLER')) {
 			// Somente os clientes que percente a um revendedor que esta logado
 			
             $builder->whereExists(function($builder) use($filter){
@@ -178,7 +178,7 @@ class Clients extends \Eloquent {
 	public function storage($data = array()) {
 		
 		// Usuário que esta logado é uma revenda recebe seu próprio login
-		if(app_has_permission('RESELLER')) {
+		if(app_can('RESELLER')) {
 			
 			$this->reseller_id = \App\Models\Resellers::select()
 				->where('user_id', \Auth::user()->id)
@@ -208,5 +208,22 @@ class Clients extends \Eloquent {
 		}
 
 		return parent::save();
+	}
+	
+	public function getColumns(){
+		
+		$arr = [
+			'id' => $this->labels['id'],
+			'user' => __('Cliente'),
+			'reseller_id' => __('Revendedor')
+		];
+
+		if(app_can('ADMIN')){
+			$arr['distributor_id'] = __('Distribuidor');
+		}
+		
+		$arr['cnpj'] = $this->labels['cnpj'];
+		
+		return $arr;
 	}
 }

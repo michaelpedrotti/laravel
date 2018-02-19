@@ -76,7 +76,7 @@ class ClientsFormRequest extends FormRequest
 				}
 			}
 			
-			if(!app_has_permission('RESELLER') && !app_has($data, 'reseller_id')) {
+			if(!app_can('RESELLER') && !app_has($data, 'reseller_id')) {
 			
 				$validator->errors()->add('reseller_id', $messages['reseller_id.required']);
 			}
