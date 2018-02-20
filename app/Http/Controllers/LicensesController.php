@@ -189,7 +189,7 @@ class LicensesController extends Controller {
         try {
 			
 			$model->getConnection()->beginTransaction();
-			$model->status = 'A';
+			$model->status = app_can('ADMIN') ? 'A' : 'S';
 			$model->save();
             $model->getConnection()->commit();
 
