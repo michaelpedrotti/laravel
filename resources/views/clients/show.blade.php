@@ -5,25 +5,35 @@
             <div class="portlet-body">
 				<fieldset>
 					<div class="col-sm-12">
-						<div class="form-body {{ $errors->first("name", "has-error") }}">
+						<div class="form-body">
 							<label class="control-label">Nome</label>
 							<div class="form-control">{{ $model->User->name }}</div>
 						</div>
 					</div>
 					<div class="col-sm-12">
-						<div class="form-body {{ $errors->first("email", "has-error") }}">
+						<div class="form-body">
 							<label class="control-label">E-mail</label>
 							<div class="form-control">{{ $model->User->email }}</div>
 						</div>
 					</div>
+					@can('ADMIN', 'Permission')
 					<div class="col-sm-12">
-						<div class="form-body {{ $errors->first("reseller_id", "has-error") }}">
+						<div class="form-body">
+							<label class="control-label">{{ __('Distribuidor') }}</label>
+							<div class="form-control">{{ $model->Reseller->Distributor->User->name }}</div>
+						</div>
+					</div>
+					@endif
+					@if(app_can(['ADMIN', 'DISTRIBUTOR']))
+					<div class="col-sm-12">
+						<div class="form-body">
 							<label class="control-label">{{ $model->labels['reseller_id'] }}</label>
 							<div class="form-control">{{ $model->Reseller->User->name }}</div>
 						</div>
 					</div>
+					@endif
 					<div class="col-sm-12">
-						<div class="form-body {{ $errors->first("cnpj", "has-error") }}">
+						<div class="form-body">
 							<label class="control-label">{{ $model->labels['cnpj'] }}</label>
 							<div class="form-control">{{ $model->cnpj }}</div>
 						</div>

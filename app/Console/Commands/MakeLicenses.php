@@ -11,7 +11,7 @@ class MakeLicenses extends Command {
 	 *
 	 * @var string
 	 */
-	protected $signature = 'make:licenses';
+	protected $signature = 'hsc:licenses';
 
 	/**
 	 * The console command description.
@@ -51,7 +51,7 @@ class MakeLicenses extends Command {
 			$this->info(__(sprintf('%s Licenças foram geradas', $collection->count())));
 		}
 		else {
-			$this->warn('Não existem licenças a serem geradas');
+			$this->warn(__('Não existem licenças a serem geradas'));
 		}
 	}
 }
