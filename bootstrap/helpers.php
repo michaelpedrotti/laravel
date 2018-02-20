@@ -14,24 +14,28 @@ if(!function_exists('app_menu')) {
 
 			$config = config('menu');
 
-			$loop = function(&$item) use (&$loop){
+			$loop = function(&$current, &$parent, $index) use (&$loop){
 
-				$item['disabled'] = isset($item['acl']) && !empty($item['acl'])  ? !app_can($item['acl']) : false;
-				
-				if(isset($item['child'])) {
-					foreach($item['child'] as $key => $child) {
-						$loop($item['child'][$key]);	
+				if(app_has($current, 'acl') && !app_can($current['acl'])) {
+					unset($parent[$index]);
+				}
+
+				if(isset($current['child'])) {
+					foreach($current['child'] as $key => $child) {
+						$loop($child, $current, $key);	
 					}
+					
+					if(empty($current['child'])) unset($parent[$index]);
 				}
 			};
 			
-			foreach($config as $key => $item){
-				$loop($config[$key]);
+			foreach($config as $key => $current){
+				$loop($current, $config, $key);
 			}
 				
 			$session->put('menu', $config);
 		} 
-
+			
 		return $session->get('menu');
 	}
 }

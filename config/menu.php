@@ -41,31 +41,32 @@ return [
                 'icon' => 'fa-barcode',
                 'acl' => 'LICENSETYPES_LIST'
             ]
-		]
+		],
+		'acl' => ['PRODUCTS_LIST', 'LICENSETYPES_LIST']
 	],
 	[
         'label' => 'Documentos',
         'url' => 'documents',
         'icon' => 'fa-file-archive-o',
-        'acl' => ['DOCUMENTS_LIST']
+        'acl' => 'DOCUMENTS_LIST'
     ],
 	[
         'label' => 'Distribuidores',
         'url' => 'distributors',
         'icon' => 'fa-truck',
-        'acl' => []
+        'acl' => 'DISTRIBUTORS_LIST'
     ],
 	[
         'label' => 'Revendas',
         'url' => 'resellers',
         'icon' => 'fa-money',
-        'acl' => []
+        'acl' => 'RESELLERS_LIST'
     ],
 	[
         'label' => 'Clientes',
         'url' => 'clients',
         'icon' => 'fa-users',
-        'acl' => []
+        'acl' => 'CLIENTS_LIST'
     ],
 	[
 		'label' => 'Licenças',
