@@ -34,7 +34,7 @@
 							<div class="col-sm-12">
 								<div class="form-body {{ $errors->first("distributor_id", "has-error") }}">
 									<label class="control-label">{{ __('Distribuidor') }}  <span class="request">*</span></label>
-									{{ Form::select('distributor_id', app_fetch('Distributors', 'name', 'id'), '', ['class' => 'form-control select2']) }}
+									{{ Form::select('distributor_id', app_fetch('Distributors', 'name', 'id'), $model->Custumer->Reseller->distributor_id, ['class' => 'form-control select2']) }}
 									@if ($errors->has('distributor_id'))
 									<span class="help-block">
 										<strong>{{ $errors->first('distributor_id') }}</strong>
@@ -48,7 +48,7 @@
 							<div class="col-sm-12">
 								<div class="form-body {{ $errors->first("reseller_id", "has-error") }}">
 									<label class="control-label">{{ __('Revendedor') }}  <span class="request">*</span></label>
-									{{ Form::select('reseller_id', [], '', ['class' => 'form-control select2']) }}
+									{{ Form::select('reseller_id', $resellers, $model->Custumer->reseller_id, ['class' => 'form-control select2']) }}
 									@if ($errors->has('reseller_id'))
 									<span class="help-block">
 										<strong>{{ $errors->first('reseller_id') }}</strong>

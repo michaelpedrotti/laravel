@@ -226,4 +226,34 @@ class Clients extends \Eloquent {
 		
 		return $arr;
 	}
+	
+	public function toHash($default){
+		
+		if(app_can('ADMIN')) {
+			
+			return app_fetch('Clients', 'name', 'id', [
+				'reseller_id' => request('reseller_id', $default)
+			]);
+		}
+		elseif(app_can('DISTRIBUTOR')){
+			
+			$default = \App\Models\Resellers::select('resellers.*')
+				->join('distributors', 'distributors.id', 'resellers.distributor_id')
+				->where('distributors.user_id', \Auth::user()->id)
+					->firstOrFail()
+						->id;
+
+			return app_fetch('Clients', 'name', 'id', [
+				'reseller_id' => request('reseller_id', $default)
+			]);
+		}
+//		elseif(app_can('RESELLER')){
+//			
+//			return app_fetch('Resellers', 'name', 'id', [
+//				'user_id' => \Auth::user()->id
+//			]);
+//		}
+		
+		return [];
+	}
 }

@@ -184,6 +184,11 @@ class Licenses extends \Eloquent {
 			
 			$builder->join('clients', 'licenses.customer_id', '=', 'clients.id');
 			$builder->join('resellers', 'resellers.id', '=', 'clients.reseller_id');
+			$builder->where('resellers.user_id', \Auth::user()->id);
+		}
+		elseif(app_can('CUSTUMER')){
+			
+			$builder->join('clients', 'licenses.customer_id', '=', 'clients.id');
 			$builder->where('clients.user_id', \Auth::user()->id);
 		}
         

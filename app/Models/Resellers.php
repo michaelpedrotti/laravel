@@ -207,10 +207,10 @@ class Resellers extends \Eloquent {
 		elseif(app_can('DISTRIBUTOR')){
 			
 			$default = \App\Models\Distributors::select()
-					->where('user_id', \Auth::user()->id)
-						->firstOrFail()
-							->id;
-			
+				->where('user_id', \Auth::user()->id)
+					->firstOrFail()
+						->id;
+	
 			return app_fetch('Resellers', 'name', 'id', [
 				'distributor_id' => request('distributor_id', $default)
 			]);

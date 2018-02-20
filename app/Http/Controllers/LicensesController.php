@@ -102,7 +102,10 @@ class LicensesController extends Controller {
                 $this->setMessage($e->getMessage(), 'danger');                
             }            
         }
-    
+
+		$view->with('resellers', \App\Models\Resellers::getModel()->toHash($model->Custumer->Reseller->distributor_id));
+		$view->with('customers', \App\Models\Clients::getModel()->toHash($model->customer_id));
+		
         return $view;
     }
 

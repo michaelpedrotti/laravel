@@ -80,9 +80,24 @@ APP.GenerateLicense = function(){
 	
 $(function(){
 	
-	 $('button[data-action=generate-license]').click(APP.GenerateLicense);
+	$('button[data-action=generate-license]').click(APP.GenerateLicense);
+	
+	$('#modal-primary').delegate('select[name=distributor_id]', 'change', function(){
+		
+		APP.loadCombo($('select[name=reseller_id]'), 'Resellers', {
+			distributor_id:$(this).val()
+		});
+	});
+	
+	$('#modal-primary').delegate('select[name=reseller_id]', 'change', function(){
+		
+		APP.loadCombo($('select[name=customer_id]'), 'Clients', {
+			reseller_id:$(this).val()
+		});
+	});
 	
 });
+
 </script>
 @append
 @include('layout.partials.datatable', [

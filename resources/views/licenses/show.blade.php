@@ -18,6 +18,20 @@
 							<div class="form-control">{{ $model->Type->name }}</div>
 						</div>
 					</div>
+					
+					<div class="col-sm-12">
+						<div class="form-body">
+							<label class="control-label">{{ __('Distribuidor') }}</label>
+							<div class="form-control">{{ $model->Custumer->Reseller->Distributor->User->name }}</div>
+						</div>
+					</div>
+
+					<div class="col-sm-12">
+						<div class="form-body {{ $errors->first("reseller_id", "has-error") }}">
+							<label class="control-label">{{ __('Revendedor') }}</label>
+							<div class="form-control">{{ $model->Custumer->Reseller->User->name }}</div>
+						</div>
+					</div>
  
 					<div class="col-sm-12">
 						<div class="form-body">
