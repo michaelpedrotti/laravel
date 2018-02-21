@@ -24,6 +24,8 @@ class Distributors extends \Eloquent {
         'id',
         'user_id',
         'cnpj',
+		'razao_social',
+		'inscricao_estadual',
     ];
     
     /**
@@ -34,6 +36,8 @@ class Distributors extends \Eloquent {
         'id' => 'integer',
         'user_id' => 'integer',
         'cnpj' => 'string',
+		'razao_social' => 'string',
+		'inscricao_estadual' => 'string',
     ];    
     
     /**
@@ -44,6 +48,8 @@ class Distributors extends \Eloquent {
         'id' => 'ID',
         'user_id' => 'Usuário',
         'cnpj' => 'CNPJ',
+		'razao_social' => 'Razão social',
+		'inscricao_estadual' => 'Inscrição Estadual',
     ];
 	
 	

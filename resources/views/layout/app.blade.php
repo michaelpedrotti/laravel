@@ -8,7 +8,7 @@
 
 		<header class="main-header">
 			<!-- Logo -->
-			<a href="index2.html" class="logo">
+			<a href="{{ url('/') }}" class="logo">
 				<!-- mini logo for sidebar mini 50x50 pixels -->
 				<span class="logo-mini"><b>A</b>LT</span>
 				<!-- logo for regular state and mobile devices -->
@@ -24,6 +24,7 @@
 				<div class="navbar-custom-menu">
 					<ul class="nav navbar-nav">
 						<!-- Messages: style can be found in dropdown.less-->
+						@php /* @endphp
 						<li class="dropdown messages-menu">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 								<i class="fa fa-envelope-o"></i>
@@ -100,7 +101,9 @@
 								<li class="footer"><a href="#">See All Messages</a></li>
 							</ul>
 						</li>
+						@php */ @endphp
 						<!-- Notifications: style can be found in dropdown.less -->
+						@php /* @endphp
 						<li class="dropdown notifications-menu">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 								<i class="fa fa-bell-o"></i>
@@ -142,7 +145,9 @@
 								<li class="footer"><a href="#">View all</a></li>
 							</ul>
 						</li>
+						@php */ @endphp
 						<!-- Tasks: style can be found in dropdown.less -->
+						@php /* @endphp
 						<li class="dropdown tasks-menu">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 								<i class="fa fa-flag-o"></i>
@@ -220,6 +225,7 @@
 								</li>
 							</ul>
 						</li>
+						@php */ @endphp
 						@include('layout.partials.user-menu')
 						<li>
 							<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>

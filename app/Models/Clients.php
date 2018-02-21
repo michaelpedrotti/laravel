@@ -25,6 +25,8 @@ class Clients extends \Eloquent {
         'user_id',
         'reseller_id',
         'cnpj',
+		'razao_social',
+		'inscricao_estadual',
     ];
     
     /**
@@ -36,6 +38,8 @@ class Clients extends \Eloquent {
         'user_id' => 'integer',
         'reseller_id' => 'integer',
         'cnpj' => 'string',
+		'razao_social' => 'string',
+		'inscricao_estadual' => 'string',
     ];    
     
     /**
@@ -47,6 +51,8 @@ class Clients extends \Eloquent {
         'user_id' => 'Usuário',
         'reseller_id' => 'Revendedor',
         'cnpj' => 'CNPJ',
+		'razao_social' => 'Razão social',
+		'inscricao_estadual' => 'Inscrição Estadual',
     ];
 	
 	

@@ -11,8 +11,12 @@ class CreateDistributorsTable extends Migration {
 			$table->increments("id");
 			$table->integer("user_id")->unsigned();
 			$table->string("cnpj", 45);
+			$table->string("razao_social", 255)->nullable();
+			$table->string("inscricao_estadual", 255)->nullable();
 			$table->timestamps();
 			$table->softDeletes();
+			
+			$table->unique("cnpj", "uk_distributors");
 			
 			$table->foreign('user_id')
 				->references('id')

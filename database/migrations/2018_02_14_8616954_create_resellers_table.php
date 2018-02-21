@@ -12,8 +12,12 @@ class CreateResellersTable extends Migration {
 			$table->integer("user_id")->unsigned();
 			$table->integer("distributor_id")->unsigned();
 			$table->string("cnpj", 45);
+			$table->string("razao_social", 255)->nullable();
+			$table->string("inscricao_estadual", 255)->nullable();
 			$table->timestamps();
 			$table->softDeletes();
+			
+			$table->unique("cnpj", "uk_resellers");
 			
 			$table->foreign('distributor_id')
 				->references('id')

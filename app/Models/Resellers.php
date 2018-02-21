@@ -25,6 +25,8 @@ class Resellers extends \Eloquent {
         'user_id',
         'distributor_id',
         'cnpj',
+		'razao_social',
+		'inscricao_estadual',
     ];
     
     /**
@@ -36,6 +38,8 @@ class Resellers extends \Eloquent {
         'user_id' => 'integer',
         'distributor_id' => 'integer',
         'cnpj' => 'string',
+		'razao_social' => 'string',
+		'inscricao_estadual' => 'string',
     ];    
     
     /**
@@ -47,6 +51,8 @@ class Resellers extends \Eloquent {
         'user_id' => 'Usuário',
         'distributor_id' => 'Distribuidor',
         'cnpj' => 'CNPJ',
+		'razao_social' => 'Razão social',
+		'inscricao_estadual' => 'Inscrição Estadual',
     ];
 	
 	

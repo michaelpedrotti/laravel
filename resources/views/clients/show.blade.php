@@ -34,8 +34,20 @@
 					@endif
 					<div class="col-sm-12">
 						<div class="form-body">
+							<label class="control-label">{{ $model->labels['razao_social'] }}</label>
+							<div class="form-control">{{ $model->razao_social }}</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-body">
 							<label class="control-label">{{ $model->labels['cnpj'] }}</label>
 							<div class="form-control">{{ $model->cnpj }}</div>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="form-body">
+							<label class="control-label">{{ $model->labels['inscricao_estadual'] }}</label>
+							<div class="form-control">{{ $model->inscricao_estadual }}</div>
 						</div>
 					</div>
 				</fieldset>    

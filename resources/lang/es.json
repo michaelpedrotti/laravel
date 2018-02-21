@@ -1,3 +1,9 @@
 {
-    "I love programming.": "Me encanta programar."
+    "auth":{
+        "failed" : "Usuário ou senha incorretos"
+    },
+    "validation":{
+        
+        "required" : "Campo é obrigatório" 
+    }
 }

@@ -12,8 +12,12 @@ class CreateClientsTable extends Migration {
 			$table->integer("user_id")->unsigned();
 			$table->integer("reseller_id")->unsigned();
 			$table->string("cnpj", 45);
+			$table->string("razao_social", 255)->nullable();
+			$table->string("inscricao_estadual", 255)->nullable();
 			$table->timestamps();
 			$table->softDeletes();
+			
+			$table->unique("cnpj", "uk_clients");
 			
 			$table->foreign('reseller_id')
 				->references('id')
