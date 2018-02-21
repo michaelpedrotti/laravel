@@ -4,7 +4,7 @@
 	<div class="col-md-12">
         <div class="portlet light bordered">
             <div class="portlet-body form">
-                {{ Form::open(['method' => 'post', 'data-action' => 'form-ajax', 'url' => url('contacts/form', ['id' => $model->id]), 'class' => 'form-horizontal', 'files' => true]) }}
+                {{ Form::open(['method' => 'post', 'data-action' => 'form-ajax', 'url' => url($url.'/form', ['id' => $model->id]), 'class' => 'form-horizontal', 'files' => true]) }}
                     <div class="form-body">
                             <fieldset>
 								<div class="col-sm-12">

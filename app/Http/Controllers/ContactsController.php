@@ -23,11 +23,17 @@ class ContactsController extends Controller {
      * @return Illuminate\View\View | Illuminate\Http\JsonResponse
      */
     public function index(Request $request) {
-    
+		    
         //$this->authorize('CONTACTS_LISTAR', 'PermissaoPolicy');
-        
+		
+		if(!app_can('ADMIN') && empty($request->route('entity'))) {
+		
+			$this->setMessage('Tipo não foi especificado', 'warning'); 
+			return redirect(url('/'));//->with('errors', []);
+		}
+		
 		$model = Model::getModel()->fill($request->all());
-
+		
         if ($request->isXmlHttpRequest()) {
             return Datatables::eloquent($model->search($request->all()))
 				//->editColumn('id', function ($query) {
@@ -46,7 +52,8 @@ class ContactsController extends Controller {
         }
        
         return view('contacts.index', [
-            'model' => $model
+            'model' => $model,
+			'url' => $request->route('controller')
         ]);
     }
         
@@ -65,7 +72,8 @@ class ContactsController extends Controller {
         $model->fill($request->all());
 		
 		$view = view('contacts.form', [
-            'model' => $model
+            'model' => $model,
+			'url' => $request->route('controller'),
         ]);
         
         if($request->isMethod('post')) {

@@ -19,7 +19,7 @@ if(!function_exists('app_menu')) {
 				if(app_has($current, 'acl') && !app_can($current['acl'])) {
 					unset($parent[$index]);
 				}
-
+				
 				if(isset($current['child'])) {
 					foreach($current['child'] as $key => $child) {
 						$loop($child, $current, $key);	
@@ -177,5 +177,29 @@ if(!function_exists('app_has')){
 		}
 		
 		return (is_numeric($value) || !empty($value));
+	}
+}
+
+if(!function_exists('app_dispatch')){
+	
+	function app_dispatch($router, $controller, $action, $id) {
+	
+		$route = $router->getCurrentRoute();
+		$route->name($controller.'.'.$action);
+		
+		$controller = 'App\Http\Controllers\\'.studly_case($controller).'Controller';
+		$action = studly_case($action);
+		
+		if(!class_exists($controller)) {
+			abort(404, 'Controller not found');
+		}
+		
+		if(!method_exists($controller, $action)) {
+			abort(404, 'Action not found');
+		}
+		
+		$route->uses($controller.'@'.$action);
+
+		return $router->dispatch($router->getCurrentRequest());
 	}
 }

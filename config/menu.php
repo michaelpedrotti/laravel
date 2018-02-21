@@ -40,6 +40,12 @@ return [
                 'url' => 'license-types',
                 'icon' => 'fa-barcode',
                 'acl' => 'LICENSETYPES_LIST'
+            ],
+			[
+                'label' => 'Contatos',
+                'url' => 'contacts',
+                'icon' => 'fa-book',
+                'acl' => 'CONTACTS_LIST'
             ]
 		],
 		'acl' => ['PRODUCTS_LIST', 'LICENSETYPES_LIST']

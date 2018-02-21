@@ -16,24 +16,15 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::group(['middleware' => ['auth']], function(\Illuminate\Routing\Router $router){
 	
+	$router->match(['POST', 'GET'], '/contacts/{entity}/{fk_id}/{action?}/{id?}', function($entity = null, $fk_id = null, $action = 'index', $id = null) use($router){
+
+		$router->getCurrentRoute()->defaults('controller', 'contacts/'.$entity.'/'.$fk_id);
+
+		return app_dispatch($router, 'contacts', $action, $id);
+	});
+
+	
 	$router->match(['POST', 'GET'], '/{controller?}/{action?}/{id?}', function($controller = 'home', $action = 'index', $id = null) use($router){
-
-		$route = $router->getCurrentRoute();
-		$route->name($controller.'.'.$action);
-		
-		$controller = 'App\Http\Controllers\\'.studly_case($controller).'Controller';
-		$action = studly_case($action);
-		
-		if(!class_exists($controller)) {
-			abort(404, 'Controller not found');
-		}
-		
-		if(!method_exists($controller, $action)) {
-			abort(404, 'Action not found');
-		}
-		
-		$route->uses($controller.'@'.$action);
-
-		return $router->dispatch($router->getCurrentRequest());
+		return app_dispatch($router, $controller, $action, $id);
     });
 });

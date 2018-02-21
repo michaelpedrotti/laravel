@@ -28,8 +28,8 @@
    
 @stop
 @include('layout.partials.datatable', [
-	'url' => url("contacts/index"),
-	'permission' => 'CONTACTS',
+	'url' => url($url),
+	'allowAll' => true,
 	'columns' => [
 		'id' => $model->labels['id'],
 		'type' => $model->labels['type'],

@@ -125,7 +125,32 @@ class Contacts extends \Eloquent {
             $builder->where('email', array_get($filter, 'email'));
         }
         
-        
+		// /contacts/distributors/1/form/5
+		// /contacts/{entity}/{fk_id}/{action}/{id}
+		$params = \Route::getCurrentRoute()->parameters();
+		
+		if(app_has($params, 'entity') && app_has($params, 'fk_id')){
+			
+			switch($params['entity']) {
+
+				case 'clients':
+					$builder->join('client_contacts', 'client_contacts.contact_id', 'contacts.id');
+					$builder->where('client_contacts.client_id', $params['fk_id']);
+					break;
+				
+				case 'distributors':
+					$builder->join('distributor_contacts', 'distributor_contacts.contact_id', 'contacts.id');
+					$builder->where('distributor_contacts.distributor_id', $params['fk_id']);
+					break;
+				
+				case 'resellers':
+					$builder->join('reseller_contacts', 'reseller_contacts.contact_id', 'contacts.id');
+					$builder->where('reseller_contacts.reseller_id', $params['fk_id']);
+					break;
+				
+			}
+		}
+		    
         if(array_has($filter, 'groupBy')) {
             $builder->orderBy(array_get($filter, 'groupBy'), 'ASC');
         }
@@ -140,4 +165,40 @@ class Contacts extends \Eloquent {
 
         return $builder;
     }
+	
+	public function save(array $options = array()) {
+		
+		if(!parent::save($options)) return false;
+		
+		$params = \Route::getCurrentRoute()->parameters();
+		
+		if(app_has($params, 'entity') && app_has($params, 'fk_id')){
+			
+			switch($params['entity']) {
+
+				case 'clients':
+					$model = ClientContacts::findOrNew($this->id);
+					$model->fill(['contact_id' => $this->id, 'client_id' => $params['fk_id']]);
+					break;
+				
+				case 'distributors':
+					$model = DistributorContacts::findOrNew($this->id);
+					$model->fill(['contact_id' => $this->id, 'distributor_id' => $params['fk_id']]);
+					break;
+				
+				case 'resellers':
+					$model = ResellerContacts::findOrNew($this->id);
+					$model->fill(['contact_id' => $this->id, 'reseller_id' => $params['fk_id']]);
+					break;
+				
+				default:
+					return false;
+				
+			}
+			
+			return $model->save();
+		}
+		
+		return true;
+	}
 }

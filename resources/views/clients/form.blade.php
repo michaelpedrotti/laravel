@@ -70,7 +70,7 @@
 
 						<div class="col-sm-6">
 							<div class="form-body {{ $errors->first("cnpj", "has-error") }}">
-								<label class="control-label">{{ $model->labels['cnpj'] }}  </label>
+								<label class="control-label">{{ $model->labels['cnpj'] }}  <span class="request">*</span></label>
 								{{ Form::text('cnpj', $model->cnpj, ['class' => 'form-control cnpj', 'placeholder' => '']) }}
 								@if ($errors->has('cnpj'))
 								<span class="help-block">
