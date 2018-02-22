@@ -10,7 +10,7 @@
 								<div class="col-sm-12">
 									<div class="form-body {{ $errors->first("type", "has-error") }}">
 										<label class="control-label">{{ $model->labels['type'] }}  <span class="request">*</span></label>
-										{{ Form::text('type', $model->type, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
+										{{ Form::select('type', $model->getTypes(), $model->type, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
 										@if ($errors->has('type'))
 										<span class="help-block">
 											<strong>{{ $errors->first('type') }}</strong>

@@ -59,8 +59,8 @@ class ResellerContacts extends \Eloquent {
 	 *
      * @return resellers 
      */
-    public function Resellers() {
-        return $this->belongsTo('App\Models\Resellers', 'id', 'reseller_id');
+    public function Reseller() {
+        return $this->hasOne('App\Models\Resellers', 'id', 'reseller_id')->withDefault();
     }
 
     /**

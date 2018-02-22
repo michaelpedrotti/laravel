@@ -59,8 +59,8 @@ class DistributorContacts extends \Eloquent {
 	 *
      * @return distributors 
      */
-    public function Distributors() {
-        return $this->belongsTo('App\Models\Distributors', 'id', 'distributor_id');
+    public function Distributor() {
+        return $this->hasOne('App\Models\Distributors', 'id', 'distributor_id')->withDefault();
     }
 
     /**

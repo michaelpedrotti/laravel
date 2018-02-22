@@ -8,7 +8,7 @@
 					<div class="col-sm-12">
 						<div class="form-body">
 							<label class="control-label">{{ $model->labels['type'] }}</label>
-							<div class="form-control">{{ $model->type }}</div>
+							<div class="form-control">{{ array_get($model->getTypes(), $model->type, $model->type) }}</div>
 						</div>
 					</div>
  

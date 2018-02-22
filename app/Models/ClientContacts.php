@@ -51,8 +51,8 @@ class ClientContacts extends \Eloquent {
 	 *
      * @return clients 
      */
-    public function Clients() {
-        return $this->belongsTo('App\Models\Clients', 'id', 'client_id');
+    public function Client() {
+        return $this->hasOne('App\Models\Clients', 'id', 'client_id')->withDefault();
     }
     /**
      * Busca o modelo de contacts 

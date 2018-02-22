@@ -33,27 +33,20 @@ class ContactsController extends Controller {
 		}
 		
 		$model = Model::getModel()->fill($request->all());
+		$mapper = $model->getTypes();
 		
         if ($request->isXmlHttpRequest()) {
             return Datatables::eloquent($model->search($request->all()))
-				//->editColumn('id', function ($query) {
-				//	return $query->id;
-				//})
-				//->editColumn('type', function ($query) {
-				//	return $query->type;
-				//})
-				//->editColumn('name', function ($query) {
-				//	return $query->name;
-				//})
-				//->editColumn('email', function ($query) {
-				//	return $query->email;
-				//})
+				->editColumn('type', function($query) use($mapper) {
+					return array_get($mapper, $query->type, $query->type);
+				})
 				->make(true);
         }
        
         return view('contacts.index', [
             'model' => $model,
-			'url' => $request->route('controller')
+			'url' => $request->route('controller'),
+			'ownerName' => $model->getOwnerName()
         ]);
     }
         

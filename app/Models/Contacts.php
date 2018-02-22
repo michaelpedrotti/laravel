@@ -44,14 +44,10 @@ class Contacts extends \Eloquent {
      */
     public $labels = [
         'id' => 'ID',
-        'type' => 'Tipo',
+        'type' => 'Contato',
         'name' => 'Nome',
         'email' => 'E-mail',
     ];
-	
-	
-    
-
 
     /**
      * Relations com Clients     * @return Clients     */
@@ -118,11 +114,11 @@ class Contacts extends \Eloquent {
         }
            
         if(array_has($filter, 'name')) {
-            $builder->where('name', array_get($filter, 'name'));
+            $builder->where('name', 'LIKE', '%'.array_get($filter, 'name').'%');
         }
            
         if(array_has($filter, 'email')) {
-            $builder->where('email', array_get($filter, 'email'));
+            $builder->where('email', 'LIKE', '%'.array_get($filter, 'email').'%');
         }
         
 		// /contacts/distributors/1/form/5
@@ -200,5 +196,55 @@ class Contacts extends \Eloquent {
 		}
 		
 		return true;
+	}
+	
+	public function getOwnerName(){
+		
+		$name = '';
+		$params = \Route::getCurrentRoute()->parameters();
+		
+		if(app_has($params, 'entity') && app_has($params, 'fk_id')){
+			
+			switch($params['entity']) {
+
+				case 'clients':
+					$model = ClientContacts::select()
+						->where('client_id', $params['fk_id'])
+							->firstOrNew([])
+								->Client
+									->User
+										->name;
+					break;
+				
+				case 'distributors':
+					$model = DistributorContacts::select()
+						->where('distributor_id', $params['fk_id'])
+							->firstOrNew([])
+								->Distributor
+									->User
+										->name;
+					break;
+				
+				case 'resellers':
+					$name = ResellerContacts::select()
+						->where('reseller_id', $params['fk_id'])
+							->firstOrNew([])
+								->Reseller
+									->User
+										->name;
+					break;
+			}
+			
+			return $name;
+		}
+	}
+	
+	public function getTypes(){
+		
+		return [
+			'INTERNAL' => __('Interno'), 
+			'TECHNICAL' => __('Técnico'), 
+			'SIMPLE' => __('Contato')
+		];
 	}
 }

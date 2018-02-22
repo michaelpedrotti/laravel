@@ -126,6 +126,19 @@ if(!APP.Crud) APP.Crud = {};
 
 APP.Crud.url = '';
 
+APP.Crud.getSelected = function(button){
+ 
+    var table = $(button.attr('data-table') || 'table.dataTable');
+    var selector = table.find('tbody').find('input[type=checkbox]:checked');
+
+    if(selector.length <= 0) {
+            APP.flash('Selecine um registro', 'warning');
+            return false;
+    }
+
+    return selector.first().val();
+};
+
 /**
  * Carrega o formuário para cadastrar um registro
  * 
@@ -155,15 +168,11 @@ APP.Crud.Edit = function(){
     
     var button = $(this);
     var modal = $(button.attr('data-modal') || '#modal-primary');
-    var table = $(button.attr('data-table') || 'table.dataTable');
-    var selector = table.find('tbody').find('input[type=checkbox]:checked');
+    var id = APP.Crud.getSelected(button);
 
-    if(selector.length <= 0) {
-        APP.flash('Selecine um registro', 'warning');
-        return false;
-    }
+    if(!id) return false;
 
-    APP.Crud.url = APP.current_controller + '/form/' + selector.first().val();
+    APP.Crud.url = APP.current_controller + '/form/' + id;
     
     modal.find('a[data-action=save], button[data-action=save]').show();
     modal.find('.modal-body').empty().html('Carregando...');
@@ -179,15 +188,11 @@ APP.Crud.Show = function(){
     
     var button = $(this);
     var modal = $(button.attr('data-modal') || '#modal-primary');
-    var table = $(button.attr('data-table') || 'table.dataTable');
-    var selector = table.find('tbody').find('input[type=checkbox]:checked');
+    var id = APP.Crud.getSelected(button);
+    
+    if(!id) return false;
 
-    if(selector.length <= 0) {
-        APP.flash('Selecine um registro', 'warning');
-        return false;
-    }
-
-    APP.Crud.url = APP.current_controller + '/show/' + selector.first().val();
+    APP.Crud.url = APP.current_controller + '/show/' + id;
     
     modal.find('a[data-action=save], button[data-action=save]').hide();
     modal.find('.modal-body').empty().html('Carregando...');

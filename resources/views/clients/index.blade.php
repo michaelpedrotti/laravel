@@ -27,13 +27,25 @@
 </div>
    
 @stop
+@section('toolbar')
+<span class="btn-lg"></span>
+<a href="javascript:void(0)" title="@lang('Contatos')" data-action="contact" class="btn btn-primary">
+	<i class="fa fa-book"></i>
+</a>
+@stop
 @section('javascript')
 <script type="text/javascript">
 
 $(document).ready(function(){
 	
-	//$( "table" ).delegate( "td", "click", function() {
-
+	$('button[data-action=contact], a[data-action=contact]').click(function(){
+		
+		var id = APP.Crud.getSelected($(this));
+		
+		if(!id) return false;
+		
+		window.location = APP.base_url + 'contacts/clients/' + id;
+	});
 	
 	$('#modal-primary').delegate('select[name=distributor_id]', 'change', function(){
 		
@@ -42,8 +54,6 @@ $(document).ready(function(){
 		});
 	});
 });
-
-
 </script>
 @append
 @include('layout.partials.datatable', [
