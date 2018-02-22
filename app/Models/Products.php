@@ -149,7 +149,7 @@ class Products extends \Eloquent {
 				'hash' => $file->store('public'),
 			]);
 			
-			return $model->save();
+			$model->save();
 		}
 		//----------------------------------------------------------------------
 		// Salvar atributos do produto

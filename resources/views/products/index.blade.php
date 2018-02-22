@@ -26,41 +26,55 @@ $(document).ready(function(){
 	
 	//$('#modal-primary').delegate('select[name=distributor_id]', 'change', function(){
 	$('#modal-primary').delegate('button[data-action=json-add], a[data-action=json-add]', 'click', function(){
-		
+	
 		// fieldset data-target="#jsontable"
 		
-		var container = $('fieldset[data-target]');
-		var table = $(container.attr('data-target'));
-		var store = container.find('input[name=attributes]');
-		var rows = JSON.parse(store.val() || []);
-		var row = {}, field;
+		var button = $(this);
+		var form = button.closest('form');
+		var table = $(button.attr('data-table'));
+		var field = $(button.attr('data-store'));
+		var html = '<tr>';
+		var rows = JSON.parse(field.val() || []);
+		var row = {};
 		
-		container.find('input,select,textarea').not('input[name=attributes]').each(function(index, el){
-
-			field = $(el);
-			row[field.attr('name')] = field.val();
-			field.val('');
+		$.each(form.serializeArray(), function(index, obj){
+			row[obj.name] = obj.value;
+			html += '<td>' + obj.value + '</td>';
 		});
-
+		
+		form.get(0).reset();
+		
 		rows.push(row);
 		
-		store.val(JSON.stringify(rows));
+		field.val(JSON.stringify(rows));
 		
-		var content = '<tr>';
+		html += '<td>';
+		html += '<a href="javascript:void(0)" data-action="json-rem" data-store="' + button.attr('data-store') +'" class="btn btn-xs btn-danger">';
+		html += '<i class="fa fa-remove"></i></a>';
+		html += '</td>';
+		html += '</tr>'; 
 		
-		$.each(row, function(key, value){
-			content += '<td>' + value + '</td>';
+		table.find('tbody').append(html);		
+	});
+	
+	$('#modal-primary').delegate('button[data-action=json-rem], a[data-action=json-rem]', 'click', function(){
+		
+		var button = $(this);
+		var field = $(button.attr('data-store'));
+		var tr = button.closest('tr');
+		var index = tr.index();
+		var rows = [];
+		
+		tr.remove();
+		
+		$.each(JSON.parse(field.val() || []), function(key, obj){
+			
+			if(index != key) rows.push(obj);
+			
 		});
 		
-		content += '<td>';
-		content += '<a href="javascript:void(0)" data-action="json-rem" class="btn btn-xs btn-danger">';
-		content += '<i class="fa fa-remove"></i></a>';
-		content += '</td>';
-		content += '</tr>';
 		
-		
-		table.find('tbody').append(content);
-		
+		field.val(JSON.stringify(rows));
 	});
 	
 });
