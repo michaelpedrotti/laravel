@@ -128,7 +128,10 @@ class Products extends \Eloquent {
 	public function save(array $options = array()) {
 		
 		if(!parent::save($options)) return false;
-		
+			
+		//----------------------------------------------------------------------
+		// Salvar o anexo no store
+		//----------------------------------------------------------------------
 		$file = \Illuminate\Support\Facades\Input::file('key');
             
         if(!empty($file)) {
@@ -148,6 +151,18 @@ class Products extends \Eloquent {
 			
 			return $model->save();
 		}
+		//----------------------------------------------------------------------
+		// Salvar atributos do produto
+		$rows = json_decode(request('attributes', '[]'), true);
+		
+		foreach($rows as $row){
+			
+			\Log::alert($row);
+		}
+		
+		
+		
+		//----------------------------------------------------------------------
 		
 		return true;
 	}
