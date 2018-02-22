@@ -443,6 +443,62 @@ APP.Crud.Reset = function(e){
     container.find('table.dataTable').DataTable().ajax.reload();
 };
 
+//------------------------------------------------------------------------------
+// JSON GRID + FORM
+//------------------------------------------------------------------------------
+if(!APP.Json) APP.Json = {};
+
+APP.Json.Add = function(){
+	
+    var button = $(this);
+    var form = button.closest('form');
+    var table = $(button.attr('data-table'));
+    var field = $(button.attr('data-store'));
+    var html = '<tr>';
+    var rows = JSON.parse(field.val() || []);
+    var row = {};
+
+    $.each(form.serializeArray(), function(index, obj){
+        
+        // @todo: required
+        row[obj.name] = obj.value;
+        html += '<td>' + obj.value + '</td>';
+    });
+
+    form.get(0).reset();
+
+    rows.push(row);
+
+    field.val(JSON.stringify(rows));
+
+    html += '<td>';
+    html += '<a href="javascript:void(0)" data-action="json-rem" data-store="' + button.attr('data-store') +'" class="btn btn-xs btn-danger">';
+    html += '<i class="fa fa-remove"></i></a>';
+    html += '</td>';
+    html += '</tr>'; 
+
+    table.find('tbody').append(html);		
+};
+
+APP.Json.Rem = function(){
+    
+    var button = $(this);
+    var field = $(button.attr('data-store'));
+    //var table = button.closest('table');
+    var tr = button.closest('tr');
+    var index = tr.index();
+    var rows = [];
+
+    tr.remove();
+   
+    $.each(JSON.parse(field.val() || []), function(key, obj){			
+            if(index != key) rows.push(obj);
+    });
+
+    field.val(JSON.stringify(rows));
+};
+
+//------------------------------------------------------------------------------
 /**
  * Contrutor para atachar os eventos
  * 
@@ -477,8 +533,10 @@ $(document).ready(function() {
         
     }).on('confirmed.bs.confirmation', APP.Crud.Remove);
     
+    $(document).on('click', 'button[data-action=json-add], a[data-action=json-add]', APP.Json.Add);
+    $(document).on('click', 'button[data-action=json-rem], a[data-action=json-rem]', APP.Json.Rem);
+    
     APP.openMenu();
     
     APP.Crud.Bootstrap($(document));
 });
-//------------------------------------------------------------------------------

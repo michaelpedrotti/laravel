@@ -16,7 +16,7 @@
 								<a href="#tab_2" data-toggle="tab" aria-expanded="false">Módulos da licença</a>
 							</li>
 						</ul>
-						<div class="tab-content">
+						<div class="tab-content" style="min-height:250px">
 							<div class="tab-pane active" id="tab_1">
 								{{ Form::open(['method' => 'post', 'data-action' => 'form-ajax', 'url' => url('/products/form', ['id' => $model->id]), 'class' => 'form-horizontal', 'files' => true]) }}
 									<fieldset>
@@ -55,30 +55,7 @@
 								{{ Form::close() }}
 							</div>
 							<div class="tab-pane" id="tab_2">
-								<form>
-									<div class="col-sm-5" style="padding-left:0">
-										{{ Form::text('name', '', ['class' => 'form-control', 'placeholder' => 'Nome']) }}
-									</div>
-									<div class="col-sm-5" style="padding-left:0">
-										{{ Form::text('key', '', ['class' => 'form-control', 'placeholder' => 'Attributo']) }}
-									</div>
-									<div class="col-sm-2" style="padding-right:0">
-										<a href="javascript:void(0)" data-action="json-add" data-table="#jsontable" data-store="#jsonstore" class="btn btn-success  pull-right">
-											<i class="fa fa-plus"></i>
-										</a>
-									</div>
-									<div class="clearfix" style="margin-bottom:10px"></div>
-								</form>
-								<table id="jsontable" class="table">
-									<thead>
-										<tr>
-											<th style="width:50%">Nome</th>
-											<th style="width:50%">Atributo</th>
-											<th style="width:10px"></th>
-										</tr>
-									</thead>
-									<tbody></tbody>
-								</table>
+								@include('layout.partials.jsontable')
 							</div>
 						</div>
 					</div>
