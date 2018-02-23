@@ -21,6 +21,21 @@ APP.getNs = function(str){
     
     return current;
 };
+
+APP.ns = function(str){
+    
+    var current = window;
+    
+    $.each(str.split('.'), function(index, namespace){
+        if(!current[namespace]) {
+            current[namespace] = {};
+        }
+        current = current[namespace];
+    });
+    
+    return current;
+};
+
 /**
  * Envia uma mensagem de alerta para o usuário
  * 

@@ -204,4 +204,13 @@ class LicensesController extends Controller {
 
         return Response::json($output);
     }
+	
+	public function productAttributes(Request $request){
+
+		return view('licenses.product-attributes', [
+			'collection' => \App\Models\ProductAttributes::select()
+				->where('product_id', $request->route('id'))
+					->get()
+		]);
+	}
 }

@@ -57,8 +57,8 @@ class ProductAttributes extends \Eloquent {
 	 *
      * @return products 
      */
-    public function Products() {
-        return $this->belongsTo('App\Models\Products', 'id', 'product_id');
+    public function Product() {
+        return $this->hasOne('App\Models\Products', 'id', 'product_id')->withDefault();
     }
 
     /**

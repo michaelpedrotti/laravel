@@ -28,7 +28,7 @@ class ProductsFormRequest extends FormRequest
         return [
             'name' => ['required'],
             'version' => ['required'],
-			'key' => ['required'],
+			//'key' => ['required'],
         ];
     }
     
@@ -50,16 +50,17 @@ class ProductsFormRequest extends FormRequest
      *
      * @return Illuminate\Validation\Validator
      */
-    /*
     protected function getValidatorInstance() {
         
         return parent::getValidatorInstance()->after(function($validator) {
 
-            $messages = $validator->getCustomMessages();
+            $messages = $this->messages();
             $data = $validator->getData();
 
-            $validator->errors()->add('id', $messages['id.required']);
+			if(!app('request')->route('id') && !array_has($data, 'key')) {
+			
+				$validator->errors()->add('key', $messages['key.required']);
+			}
         });
     }
-    */
 }

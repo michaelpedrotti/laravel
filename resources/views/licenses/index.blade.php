@@ -43,7 +43,9 @@
 @section('javascript')
 <script type="text/javascript">	
 
-APP.GenerateLicense = function(){
+var NS = APP.ns('APP.modules.Licenses');
+
+NS.GenerateLicense = function(){
 	
 	var button = $(this);
 	var table = $(button.attr('data-table') || 'table.dataTable');
@@ -77,25 +79,52 @@ APP.GenerateLicense = function(){
         }  
     });
 };
+
+NS.onProductChange = function(){
+	
+	var selector = $('#tab-license-secondary').empty();
+	var id = $(this).val();
+	
+	if(!id) return false;
+
+	$.ajax({
+
+        method:'GET',
+        url:APP.current_controller + '/product-attributes/' + id,
+        dataType:'html',
+        headers: {
+            'X-CSRF-TOKEN':APP.token
+        },
+        error:function(jqXHR){
+			selector.html('<pre>' + jqXHR.responseText + '</pre>');     
+        }, 
+        success:function(content){
+			selector.html(content);      
+        }  
+    });
+};
+
+NS.onResellerChange = function(){
+	
+	APP.loadCombo($('select[name=customer_id]'), 'Clients', {
+		reseller_id:$(this).val()
+	});
+};
+
+NS.onDistributorChange = function(){
+	
+	APP.loadCombo($('select[name=reseller_id]'), 'Resellers', {
+		distributor_id:$(this).val()
+	});
+};
 	
 $(function(){
 	
-	$('button[data-action=generate-license]').click(APP.GenerateLicense);
+	$('button[data-action=generate-license]').click(NS.GenerateLicense);
 	
-	$('#modal-primary').delegate('select[name=distributor_id]', 'change', function(){
-		
-		APP.loadCombo($('select[name=reseller_id]'), 'Resellers', {
-			distributor_id:$(this).val()
-		});
-	});
-	
-	$('#modal-primary').delegate('select[name=reseller_id]', 'change', function(){
-		
-		APP.loadCombo($('select[name=customer_id]'), 'Clients', {
-			reseller_id:$(this).val()
-		});
-	});
-	
+	$('#modal-primary').delegate('select[name=distributor_id]', 'change', NS.onDistributorChange);
+	$('#modal-primary').delegate('select[name=reseller_id]', 'change', NS.onResellerChange);
+	$('#modal-primary').delegate('select[name=product_id]', 'change', NS.onProductChange);
 });
 
 </script>

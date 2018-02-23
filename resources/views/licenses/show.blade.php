@@ -4,7 +4,6 @@
         <div class="portlet light bordered">
             <div class="portlet-body">
 				<fieldset>
- 
 					<div class="col-sm-12">
 						<div class="form-body">
 							<label class="control-label">{{ $model->labels['product_id'] }}</label>
