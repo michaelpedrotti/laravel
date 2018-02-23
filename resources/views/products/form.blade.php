@@ -50,12 +50,12 @@
 											</div>
 										</div>
 									</fieldset>
-									{{ Form::hidden('attributes', '[]', ['id' => 'jsonstore']) }}
+									{{ Form::hidden('attributes', json_encode($attributes), ['id' => 'jsonstore']) }}
 								
 								{{ Form::close() }}
 							</div>
 							<div class="tab-pane" id="tab_2">
-								@include('layout.partials.jsontable')
+								@include('layout.partials.jsontable', ['rows' => $attributes])
 							</div>
 						</div>
 					</div>

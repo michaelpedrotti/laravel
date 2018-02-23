@@ -65,7 +65,11 @@ class ProductsController extends Controller {
         $model->fill($request->all());
 		
 		$view = view('products.form', [
-            'model' => $model
+            'model' => $model,
+			'attributes' => \App\Models\ProductAttributes::select(['name', 'key'])
+				->where('product_id', $model->id)
+					->get()
+						->toArray()
         ]);
         
         if($request->isMethod('post')) {

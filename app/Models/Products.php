@@ -56,8 +56,10 @@ class Products extends \Eloquent {
     public function License() {
         return $this->hasOne('App\Models\ProductLicenses', 'product_id', 'id')->withDefault();
     }
-
-
+	
+	public function Attributes(){
+		return $this->hasMany('App\Models\ProductAttributes', 'product_id', 'id');
+	}
 
     /**
      * Verifica se o usuário tem permissão pra acessar o registro
@@ -153,15 +155,18 @@ class Products extends \Eloquent {
 		}
 		//----------------------------------------------------------------------
 		// Salvar atributos do produto
-		$rows = json_decode(request('attributes', '[]'), true);
-		
-		foreach($rows as $row){
+		\App\Models\ProductAttributes::select()
+			->where('product_id', $this->id)
+				->delete();
+
+		foreach(json_decode(request('attributes', '[]'), true) as $row){
 			
-			\Log::alert($row);
+			\App\Models\ProductAttributes::create([
+				'product_id' => $this->id,
+				'name' => $row['name'],
+				'key' => $row['key']
+			]);
 		}
-		
-		
-		
 		//----------------------------------------------------------------------
 		
 		return true;

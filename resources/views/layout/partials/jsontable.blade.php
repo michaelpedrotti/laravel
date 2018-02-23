@@ -22,5 +22,18 @@
 			<th style="width:10px"></th>
 		</tr>
 	</thead>
-	<tbody></tbody>
+	<tbody>
+		@foreach($rows as $row)
+		<tr>
+			@foreach($row as $value)
+				<td>{{ $value }}</td>
+			@endforeach
+			<td>
+				<a href="javascript:void(0)" data-action="json-rem" data-store="#jsonstore" class="btn btn-xs btn-danger">
+					<i class="fa fa-remove"></i>
+				</a>
+			</td>
+		</tr>
+		@endforeach
+	</tbody>
 </table>
