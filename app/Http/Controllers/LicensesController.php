@@ -206,10 +206,11 @@ class LicensesController extends Controller {
     }
 	
 	public function productAttributes(Request $request){
-
+		
 		return view('licenses.product-attributes', [
-			'collection' => \App\Models\ProductAttributes::select()
-				->where('product_id', $request->route('id'))
+			'license_id' => $request->get('license_id', 0),
+			'collection' => \App\Models\ProductAttributes::getModel()
+				->search($request->all())
 					->get()
 		]);
 	}

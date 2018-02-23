@@ -3,17 +3,17 @@ namespace App\Models;
 
 
 /**
- * Class ProductAttributes
+ * Class LicenseAttributes
  * @package App\Models
  * @author Michael Pedrotti <michael.pedrotti@hscbrasil.com.br>
- * @version 22/02/2018
+ * @version 23/02/2018
  */
-class ProductAttributes extends \Eloquent {
+class LicenseAttributes extends \Eloquent {
     
     
     protected $primaryKey = 'id';
     
-    public $table = 'product_attributes';
+    public $table = 'license_attributes';
     public $timestamps = false;
     
     /**
@@ -22,9 +22,8 @@ class ProductAttributes extends \Eloquent {
      */
     public $fillable = [
         'id',
-        'product_id',
-        'name',
-        'key',
+        'license_id',
+        'attr_id',
     ];
     
     /**
@@ -33,9 +32,8 @@ class ProductAttributes extends \Eloquent {
      */
     protected $casts = [
         'id' => 'integer',
-        'product_id' => 'integer',
-        'name' => 'string',
-        'key' => 'string',
+        'license_id' => 'integer',
+        'attr_id' => 'integer',
     ];    
     
     /**
@@ -44,18 +42,28 @@ class ProductAttributes extends \Eloquent {
      */
     public $labels = [
         'id' => 'ID',
-        'product_id' => 'Produto',
-        'name' => 'Nome',
-        'key' => 'Atributo',
-    ];  
+        'license_id' => 'Licença',
+        'attr_id' => 'Atributo do produto',
+    ];
+	
+	
+    
 
     /**
-     * Busca o modelo de products 
+     * Busca o modelo de licenses 
 	 *
-     * @return products 
+     * @return licenses 
      */
-    public function Product() {
-        return $this->hasOne('App\Models\Products', 'id', 'product_id')->withDefault();
+    public function Licenses() {
+        return $this->belongsTo('App\Models\Licenses', 'id', 'license_id');
+    }
+    /**
+     * Busca o modelo de product_attributes 
+	 *
+     * @return product_attributes 
+     */
+    public function ProductAttributes() {
+        return $this->belongsTo('App\Models\ProductAttributes', 'id', 'attr_id');
     }
 
     /**
@@ -77,11 +85,12 @@ class ProductAttributes extends \Eloquent {
             //\Log::info($builder->toSql());
 
             if($builder->count() <= 0){
-                app_abort(403, trans('Acesso negado para este Atributo do produto'));
+                app_abort(403, trans('Acesso negado para este Atributo do produto na licença'));
             }
         } 
     }
-  
+    
+    
     /**
      * Realiza a consulta da tabela
      *
@@ -99,16 +108,12 @@ class ProductAttributes extends \Eloquent {
             $builder->where('id', array_get($filter, 'id'));
         }
            
-        if(app_has($filter, 'product_id')) {
-            $builder->where('product_id', array_get($filter, 'product_id'));
+        if(array_has($filter, 'license_id')) {
+            $builder->where('license_id', array_get($filter, 'license_id'));
         }
            
-        if(array_has($filter, 'name')) {
-            $builder->where('name', array_get($filter, 'name'));
-        }
-           
-        if(array_has($filter, 'key')) {
-            $builder->where('key', array_get($filter, 'key'));
+        if(array_has($filter, 'attr_id')) {
+            $builder->where('attr_id', array_get($filter, 'attr_id'));
         }
         
         
@@ -126,14 +131,4 @@ class ProductAttributes extends \Eloquent {
 
         return $builder;
     }
-	
-	public function isCheck($license_id = 0){
-
-		$count = \App\Models\LicenseAttributes::select()
-			->where('attr_id', $this->id)
-			->where('license_id', $license_id)
-				->count();
-
-		return $count > 0 ? true : false;
-	}
 }

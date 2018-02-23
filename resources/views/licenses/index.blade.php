@@ -83,14 +83,19 @@ NS.GenerateLicense = function(){
 NS.onProductChange = function(){
 	
 	var selector = $('#tab-license-secondary').empty();
-	var id = $(this).val();
+	var product_id = $(this).val();
+	var license_id = $(this).closest('form').attr('action').replace(/^\D+/g, '');
 	
-	if(!id) return false;
+	if(!product_id) return false;
 
 	$.ajax({
 
         method:'GET',
-        url:APP.current_controller + '/product-attributes/' + id,
+        url:APP.current_controller + '/product-attributes/',
+		data:{
+			product_id:product_id,
+			license_id:license_id
+		},
         dataType:'html',
         headers: {
             'X-CSRF-TOKEN':APP.token

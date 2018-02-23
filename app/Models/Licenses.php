@@ -136,7 +136,6 @@ class Licenses extends \Eloquent {
         } 
     }
     
-    
     /**
      * Realiza a consulta da tabela
      *
@@ -206,4 +205,21 @@ class Licenses extends \Eloquent {
 
         return $builder;
     }
+	
+	public function save(array $options = array()) {
+		
+		if(!parent::save($options)) return false;
+		
+		\App\Models\LicenseAttributes::select()
+			->where('license_id', $this->id)
+				->delete();
+		
+		foreach(request('attributes', []) as $attr_id => $bool){
+			
+			\App\Models\LicenseAttributes::create([
+				'license_id' => $this->id,
+				'attr_id' => $attr_id
+			]);
+		}
+	}
 }

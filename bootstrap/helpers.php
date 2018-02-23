@@ -180,6 +180,14 @@ if(!function_exists('app_has')){
 	}
 }
 
+if(!function_exists('app_model')) {
+	
+	function app_model($classname, $id = 0){
+
+		return call_user_func('App\Models\\'.studly_case($classname).'::findOrNew', $id);
+	}
+}
+
 if(!function_exists('app_dispatch')){
 	
 	function app_dispatch($router, $controller, $action, $id) {
