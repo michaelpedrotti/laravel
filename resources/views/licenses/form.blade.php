@@ -115,7 +115,14 @@
 										</div> 
 									</fieldset>   
 								</div>
-								<div class="tab-pane" id="tab-license-secondary"></div>
+								<div class="tab-pane" id="tab-license-secondary">
+									@if(!empty($model->id))				
+										@include('licenses.product-attributes', [
+											'collection' => $collection,
+											'license_id' => $model->id
+										])
+									@endif
+								</div>
 							</div>
 						</div>
                     </div>

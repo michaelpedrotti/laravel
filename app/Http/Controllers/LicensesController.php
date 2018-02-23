@@ -78,7 +78,10 @@ class LicensesController extends Controller {
         $model->fill($request->all());
 		
 		$view = view('licenses.form', [
-            'model' => $model
+            'model' => $model,
+			'collection' => \App\Models\ProductAttributes::getModel()
+				->search(['product_id' => $model->product_id])
+					->get()
         ]);
         
         if($request->isMethod('post')) {
