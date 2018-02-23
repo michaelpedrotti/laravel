@@ -13,7 +13,8 @@ class CreateLicensesTable extends Migration {
             $table->integer("type_id")->unsigned();
             $table->integer("customer_id")->unsigned();
             $table->integer("count")->unsigned();
-            $table->date("expiration");
+            $table->date("expiration_app");
+			$table->date("expiration_upd");
             $table->string("hash", 120)->nullable();
 			$table->enum(['S','A','R','G'])->default('S');
 			$table->timestamps();

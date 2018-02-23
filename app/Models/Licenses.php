@@ -27,7 +27,8 @@ class Licenses extends \Eloquent {
         'customer_id',
 		'status',
         'count',
-        'expiration',
+        'expiration_app',
+		'expiration_upd',
         'hash',
     ];
     
@@ -42,7 +43,8 @@ class Licenses extends \Eloquent {
         'customer_id' => 'integer',
 		'status' => 'string',
         'count' => 'integer',
-        'expiration' => 'data',
+        'expiration_app' => 'data',
+		'expiration_upd' => 'data',
         'hash' => 'string',
     ];    
     
@@ -56,7 +58,8 @@ class Licenses extends \Eloquent {
         'type_id' => 'Tipo de licença',
         'customer_id' => 'Cliente',
         'count' => 'Limite ( Usuários ou Mailboxes )',
-        'expiration' => 'Data de expiração',
+        'expiration_app' => 'Expiração da interface',
+		'expiration_upd' => 'Expiração do update',
         'hash' => 'Chave',
 		'status' => 'Situação',
     ];
@@ -75,16 +78,25 @@ class Licenses extends \Eloquent {
 	 * Mutator para Data de expiração	 *
 	 * @link https://laravel.com/docs/5.5/eloquent-mutators 
 	 */
-	public function setExpirationAttribute($value){
+	public function setExpirationAppAttribute($value){
 		
 		if(preg_match('/[0-9]{2}\/[0-9]{2}\/[0-9]{4}/', $value)) {
-			
 			$value = \DateTime::createFromFormat('d/m/Y', $value)->format('Y-m-d');
 		}
-		
-		$this->attributes['expiration'] = $value;
+		$this->attributes['expiration_app'] = $value;
 	}
 	
+	/**
+	 * Mutator para Data de expiração	 *
+	 * @link https://laravel.com/docs/5.5/eloquent-mutators 
+	 */
+	public function setExpirationUpdAttribute($value){
+		
+		if(preg_match('/[0-9]{2}\/[0-9]{2}\/[0-9]{4}/', $value)) {	
+			$value = \DateTime::createFromFormat('d/m/Y', $value)->format('Y-m-d');
+		}		
+		$this->attributes['expiration_upd'] = $value;
+	}
     
 
     /**
@@ -164,8 +176,8 @@ class Licenses extends \Eloquent {
             $builder->where('count', array_get($filter, 'count'));
         }
            
-        if(array_has($filter, 'expiration')) {
-            $builder->where('expiration', array_get($filter, 'expiration'));
+        if(array_has($filter, 'expiration_app')) {
+            $builder->where('expiration_app', array_get($filter, 'expiration_app'));
         }
 		
 		if(array_has($filter, 'status')) {

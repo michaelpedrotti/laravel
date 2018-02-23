@@ -91,17 +91,28 @@
 												@endif
 											</div>
 										</div>
-										<div class="col-sm-12">
-											<div class="form-body {{ $errors->first("expiration", "has-error") }}">
-												<label class="control-label">{{ $model->labels['expiration'] }}  <span class="request">*</span></label>
-												{{ Form::text('expiration', app_date($model->expiration, 'Y-m-d', 'd/m/Y'), ['placeholder' => 'dd/mm/aaaa', 'class' => 'form-control datepicker']) }}
-												@if ($errors->has('expiration'))
+										<div class="col-sm-6">
+											<div class="form-body {{ $errors->first("expiration_app", "has-error") }}">
+												<label class="control-label">{{ $model->labels['expiration_app'] }}  <span class="request">*</span></label>
+												{{ Form::text('expiration_app', app_date($model->expiration_app, 'Y-m-d', 'd/m/Y'), ['placeholder' => 'dd/mm/aaaa', 'class' => 'form-control datepicker']) }}
+												@if ($errors->has('expiration_app'))
 												<span class="help-block">
-													<strong>{{ $errors->first('expiration') }}</strong>
+													<strong>{{ $errors->first('expiration_app') }}</strong>
 												</span>
 												@endif
 											</div>
-										</div>            
+										</div>
+										<div class="col-sm-6">
+											<div class="form-body {{ $errors->first("expiration_upd", "has-error") }}">
+												<label class="control-label">{{ $model->labels['expiration_upd'] }}  <span class="request">*</span></label>
+												{{ Form::text('expiration_upd', app_date($model->expiration_upd, 'Y-m-d', 'd/m/Y'), ['placeholder' => 'dd/mm/aaaa', 'class' => 'form-control datepicker']) }}
+												@if ($errors->has('expiration_upd'))
+												<span class="help-block">
+													<strong>{{ $errors->first('expiration_upd') }}</strong>
+												</span>
+												@endif
+											</div>
+										</div> 
 									</fieldset>   
 								</div>
 								<div class="tab-pane" id="tab-license-secondary"></div>

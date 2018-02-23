@@ -142,7 +142,8 @@ $(function(){
 		'product_id' => $model->labels['product_id'],
 		'type_id' => $model->labels['type_id'],
 		'customer_id' => $model->labels['customer_id'],
-		'expiration' => $model->labels['expiration'],
+		'expiration_app' => $model->labels['expiration_app'],
+		'expiration_upd' => $model->labels['expiration_upd'],
 		'status' => $model->labels['status'],
 	]
 ])

@@ -46,8 +46,11 @@ class LicensesController extends Controller {
 				//->editColumn('count', function ($query) {
 				//	return $query->count;
 				//})
-				->editColumn('expiration', function ($query) {
-					return \DateTime::createFromFormat('Y-m-d', $query->expiration)->format('d/m/Y');
+				->editColumn('expiration_app', function ($query) {
+					return \DateTime::createFromFormat('Y-m-d', $query->expiration_app)->format('d/m/Y');
+				})
+				->editColumn('expiration_upd', function ($query) {
+					return \DateTime::createFromFormat('Y-m-d', $query->expiration_upd)->format('d/m/Y');
 				})
 				->editColumn('status', function ($query) use($mapper) {
 					return array_get($mapper, $query->status, $query->status);

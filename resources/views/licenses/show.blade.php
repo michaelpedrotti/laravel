@@ -46,10 +46,17 @@
 						</div>
 					</div>
  
-					<div class="col-sm-12">
+					<div class="col-sm-6">
 						<div class="form-body">
-							<label class="control-label">{{ $model->labels['expiration'] }}</label>
-							<div class="form-control">{{ app_date($model->expiration, 'Y-m-d', 'd/m/Y') }}</div>
+							<label class="control-label">{{ $model->labels['expiration_app'] }}</label>
+							<div class="form-control">{{ app_date($model->expiration_app, 'Y-m-d', 'd/m/Y') }}</div>
+						</div>
+					</div>
+					
+					<div class="col-sm-6">
+						<div class="form-body">
+							<label class="control-label">{{ $model->labels['expiration_upd'] }}</label>
+							<div class="form-control">{{ app_date($model->expiration_upd, 'Y-m-d', 'd/m/Y') }}</div>
 						</div>
 					</div>
 
