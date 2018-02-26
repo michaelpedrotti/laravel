@@ -25,13 +25,7 @@ class LicensesFormRequest extends FormRequest
      * @return array
      */
     public function rules() {
-        return [
-            'product_id' => ['required'],
-            'type_id' => ['required'],
-            'customer_id' => ['required'],
-            'expiration_app' => ['required','date_format:d/m/Y'],
-			'expiration_upd' => ['required','date_format:d/m/Y'],
-        ];
+        return [];
     }
     
     /**
@@ -40,15 +34,15 @@ class LicensesFormRequest extends FormRequest
      */
     public function messages() {
         return [
-                        
+            
+			'zend_id.required' => 'O campo "Código de licenciamento" não foi preenchido.',   
             'product_id.required' => 'O campo "Produto" não foi preenchido.',            
             'type_id.required' => 'O campo "Tipo de licença" não foi preenchido.',            
             'customer_id.required' => 'O campo "Cliente" não foi preenchido.',                      
             'expiration_app.required' => 'O campo "Data de expiração" não foi preenchido.',            
             'expiration_app.date_format' => 'O campo "Data de expiração" está com a formatação inválida.',            
             'expiration_upd.required' => 'O campo "Data de expiração" não foi preenchido.',            
-            'expiration_upd.date_format' => 'O campo "Data de expiração" está com a formatação inválida.',         
-                        
+            'expiration_upd.date_format' => 'O campo "Data de expiração" está com a formatação inválida.'                   
         ];
     }
     
@@ -58,16 +52,28 @@ class LicensesFormRequest extends FormRequest
      *
      * @return Illuminate\Validation\Validator
      */
-    /*
     protected function getValidatorInstance() {
         
-        return parent::getValidatorInstance()->after(function($validator) {
+		$validator = parent::getValidatorInstance();
+		
+		if(empty(app('request')->route('id'))){
+		
+			$validator->addRules([
+				'zend_id' => ['required'],
+				'product_id' => ['required'],
+				'type_id' => ['required'],
+				'customer_id' => ['required'],
+				'expiration_app' => ['required','date_format:d/m/Y'],
+				'expiration_upd' => ['required','date_format:d/m/Y'],
+			]);
+		}
 
-            $messages = $validator->getCustomMessages();
+        return $validator->after(function($validator) {
+
+            $messages = $this->messages();
             $data = $validator->getData();
 
-            $validator->errors()->add('id', $messages['id.required']);
+            //$validator->errors()->add('id', $messages['id.required']);
         });
     }
-    */
 }

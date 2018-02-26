@@ -70,19 +70,14 @@ class LicensesController extends Controller {
      * @return Illuminate\View\View
      */
     public function form(Request $request) {
-    
+		
         $this->authorize($request->route('id') ? 'LICENSES_EDIT' : 'LICENSES_ADD');
         
         $model = Model::findOrNew($request->route('id'));
         //$model->authorize();
         $model->fill($request->all());
 		
-		$view = view('licenses.form', [
-            'model' => $model,
-			'collection' => \App\Models\ProductAttributes::getModel()
-				->search(['product_id' => $model->product_id])
-					->get()
-        ]);
+		$view = view('licenses.form');
         
         if($request->isMethod('post')) {
            
@@ -109,12 +104,44 @@ class LicensesController extends Controller {
             }            
         }
 
-		$view->with('resellers', \App\Models\Resellers::getModel()->toHash($model->Custumer->Reseller->distributor_id));
-		$view->with('customers', \App\Models\Clients::getModel()->toHash($model->customer_id));
+		$view->with('model', $model);
+		
+		$view->with('resellers', \App\Models\Resellers::getModel()
+			->toHash($model->Custumer->Reseller->distributor_id));
+		
+		$view->with('customers', \App\Models\Clients::getModel()
+			->toHash($model->customer_id));
+		
+		$view->with('networks', \App\Models\LicenseNetworks::getModel()
+			->search(['license_id' => intval($model->id)])
+				->get()
+					->pluck('network')
+						->toArray());
+		
+		$view->with('attributes', \App\Models\ProductAttributes::getModel()
+			->search(['product_id' => $model->product_id])
+				->get());
+		
+		
+//		if($request->isMethod('post')) {
+//			
+//			try{
+//				
+//				$view->render();
+//				
+//			}
+//			catch (\Exception $e) {
+//				print $e->getPrevious()->getPrevious()->getLine().PHP_EOL;
+//				print $e->getPrevious()->getPrevious()->getFile().PHP_EOL;
+//				die($e->getPrevious()->getPrevious()->getTraceAsString());
+//			
+//			}
+//		}
+		
 		
         return $view;
     }
-
+	
     /**
      * Mostra o detalhe
      *
@@ -218,6 +245,16 @@ class LicensesController extends Controller {
 			'collection' => \App\Models\ProductAttributes::getModel()
 				->search($request->all())
 					->get()
+		]);
+	}
+	
+	public function addNetwork(Request $request){
+		
+		app(\App\Http\Requests\NetworkFormRequest::class);
+		
+		
+		return view('licenses.form.network', [
+			'networks' => [$request->get('network', '0.0.0.0')]
 		]);
 	}
 }

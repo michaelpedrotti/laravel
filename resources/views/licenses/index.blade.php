@@ -6,14 +6,6 @@
 	<li class="active">Licença</li>
 </ol>
 @stop
-@section('toolbar')
-	@can('ADMIN', 'Permission')
-		<span class="btn-lg"></span>
-		<button type="button" class="btn btn-warning" data-action="generate-license">
-			<i class="fa fa-key"></i> Gerar Licença 
-		</button>
-	@endcan
-@stop
 @section('search')
 <div class="col-sm-6">
 	<div class="form-body">
@@ -82,7 +74,7 @@ NS.GenerateLicense = function(){
 
 NS.onProductChange = function(){
 	
-	var selector = $('#tab-license-secondary').empty();
+	var selector = $('#tab-license-attributes').empty();
 	var product_id = $(this).val();
 	var license_id = $(this).closest('form').attr('action').replace(/^\D+/g, '');
 	
@@ -122,14 +114,67 @@ NS.onDistributorChange = function(){
 		distributor_id:$(this).val()
 	});
 };
+
+NS.addNetwork = function(){
 	
+	var button = $(this);
+    var field = button.closest('.form-body').find('input[type=text]');
+	
+    button.attr('disabled', 'disabled');
+    
+    $.ajax({
+
+        method:"POST",
+        type:"POST",
+        url:'{{ url("/licenses/add-network") }}',
+		data:{
+			network:field.val()
+		},
+        dataType:'html',
+        headers: {
+            'X-CSRF-TOKEN':APP.token
+         },
+        complete:function() {
+            button.removeAttr('disabled');
+        },
+        error:function(jqXHR, textStatus, errorThrown){
+			
+			var message = errorThrown;
+			
+			try {
+				
+				var data = JSON.parse(jqXHR.responseText);
+				console.log('data', data);
+				message = data.errors.network[0];
+			}
+			catch(e){}
+		
+			// 
+			APP.flash(message, 'warning');
+        }, 
+        success:function(content, textStatus, jqXHR){
+			$('#license-network-items').prepend(content);
+			field.val('');
+        }  
+    });
+};
+
+NS.remNetwork = function(){
+	console.log('form', $(this).closest('.form-body'));
+	$(this).closest('.form-body').remove();
+};
+
 $(function(){
 	
-	$('button[data-action=generate-license]').click(NS.GenerateLicense);
+	var modal = $('#modal-primary');
 	
-	$('#modal-primary').delegate('select[name=distributor_id]', 'change', NS.onDistributorChange);
-	$('#modal-primary').delegate('select[name=reseller_id]', 'change', NS.onResellerChange);
-	$('#modal-primary').delegate('select[name=product_id]', 'change', NS.onProductChange);
+	modal.delegate('select[name=distributor_id]', 'change', NS.onDistributorChange);
+	modal.delegate('select[name=reseller_id]', 'change', NS.onResellerChange);
+	modal.delegate('select[name=product_id]', 'change', NS.onProductChange);
+	modal.delegate('[data-action=add-network]', 'click', NS.addNetwork);
+	modal.delegate('[data-action=rem-network]', 'click', NS.remNetwork);
+	
+	$('button[data-action=generate-license]').click(NS.GenerateLicense);
 });
 
 </script>

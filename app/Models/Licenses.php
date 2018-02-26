@@ -30,6 +30,7 @@ class Licenses extends \Eloquent {
         'expiration_app',
 		'expiration_upd',
         'hash',
+		'zend_id'
     ];
     
     /**
@@ -46,6 +47,7 @@ class Licenses extends \Eloquent {
         'expiration_app' => 'data',
 		'expiration_upd' => 'data',
         'hash' => 'string',
+		'zend_id' => 'string',
     ];    
     
     /**
@@ -62,6 +64,7 @@ class Licenses extends \Eloquent {
 		'expiration_upd' => 'Expiração do update',
         'hash' => 'Chave',
 		'status' => 'Situação',
+		'zend_id' => 'Código de licenciamento',
     ];
 	
 	public function getStatus(){
@@ -218,10 +221,32 @@ class Licenses extends \Eloquent {
         return $builder;
     }
 	
+	/**
+	 * Gera uma chave
+	 */
+	
 	public function save(array $options = array()) {
 		
 		if(!parent::save($options)) return false;
 		
+		//----------------------------------------------------------------------
+		// IP/Rede
+		//----------------------------------------------------------------------
+		\App\Models\LicenseNetworks::select()
+			->where('license_id', $this->id)
+				->delete();
+		
+		foreach(request('networks', []) as $network){
+			
+			\App\Models\LicenseNetworks::create([
+				'license_id' => $this->id,
+				'network' => $network
+			]);
+		}
+
+		//----------------------------------------------------------------------
+		// Atributos do produto
+		//----------------------------------------------------------------------
 		\App\Models\LicenseAttributes::select()
 			->where('license_id', $this->id)
 				->delete();
@@ -233,5 +258,6 @@ class Licenses extends \Eloquent {
 				'attr_id' => $attr_id
 			]);
 		}
+		//----------------------------------------------------------------------
 	}
 }
