@@ -1,66 +1,42 @@
+@include('layout.flash')
 <div class="row">
     <title class="hidden">Visualizar Licença</title>
 	<div class="col-md-12">
         <div class="portlet light bordered">
-            <div class="portlet-body">
-				<fieldset>
-					<div class="col-sm-12">
-						<div class="form-body">
-							<label class="control-label">{{ $model->labels['product_id'] }}</label>
-							<div class="form-control">{{ $model->Product->name }}</div>
+            <div class="portlet-body form">
+                    <div class="form-body">
+						<div class="nav-tabs-custom">
+							<ul class="nav nav-tabs">
+								<li class="active">
+									<a href="#tab-license-default" data-toggle="tab" aria-expanded="true">Produto</a>
+								</li>
+								@can('ADMIN', 'Permission')
+								<li class="">
+									<a href="#tab-license-attributes" data-toggle="tab" aria-expanded="false">Módulos da licença</a>
+								</li>
+								@endcan
+								<li class="">
+									<a href="#tab-license-network" data-toggle="tab" aria-expanded="false">Rede</a>
+								</li>
+							</ul>
+							<div class="tab-content" style="min-height:250px">
+								<div class="tab-pane active" id="tab-license-default">
+									<fieldset>
+										@include('licenses.show.default')
+									</fieldset>   
+								</div>
+								<div class="tab-pane" id="tab-license-attributes">
+									@include('licenses.show.attributes', [
+										'collection' => $attributes,
+										'license_id' => $model->id
+									])
+								</div>
+								<div class="tab-pane" id="tab-license-network">
+									@include('licenses.show.network')
+								</div>
+							</div>
 						</div>
-					</div>
- 
-					<div class="col-sm-12">
-						<div class="form-body">
-							<label class="control-label">{{ $model->labels['type_id'] }}</label>
-							<div class="form-control">{{ $model->Type->name }}</div>
-						</div>
-					</div>
-					
-					<div class="col-sm-12">
-						<div class="form-body">
-							<label class="control-label">{{ __('Distribuidor') }}</label>
-							<div class="form-control">{{ $model->Custumer->Reseller->Distributor->User->name }}</div>
-						</div>
-					</div>
-
-					<div class="col-sm-12">
-						<div class="form-body {{ $errors->first("reseller_id", "has-error") }}">
-							<label class="control-label">{{ __('Revendedor') }}</label>
-							<div class="form-control">{{ $model->Custumer->Reseller->User->name }}</div>
-						</div>
-					</div>
- 
-					<div class="col-sm-12">
-						<div class="form-body">
-							<label class="control-label">{{ $model->labels['customer_id'] }}</label>
-							<div class="form-control">{{ $model->Custumer->User->name }}</div>
-						</div>
-					</div>
- 
-					<div class="col-sm-12">
-						<div class="form-body">
-							<label class="control-label">{{ $model->labels['count'] }}</label>
-							<div class="form-control">{{ $model->count }}</div>
-						</div>
-					</div>
- 
-					<div class="col-sm-6">
-						<div class="form-body">
-							<label class="control-label">{{ $model->labels['expiration_app'] }}</label>
-							<div class="form-control">{{ app_date($model->expiration_app, 'Y-m-d', 'd/m/Y') }}</div>
-						</div>
-					</div>
-					
-					<div class="col-sm-6">
-						<div class="form-body">
-							<label class="control-label">{{ $model->labels['expiration_upd'] }}</label>
-							<div class="form-control">{{ app_date($model->expiration_upd, 'Y-m-d', 'd/m/Y') }}</div>
-						</div>
-					</div>
-
-				</fieldset>    
+                    </div>
             </div>
         </div>
     </div>

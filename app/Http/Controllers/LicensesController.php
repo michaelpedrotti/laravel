@@ -31,9 +31,6 @@ class LicensesController extends Controller {
 
         if ($request->isXmlHttpRequest()) {
             return Datatables::eloquent($model->search($request->all()))
-				//->editColumn('id', function ($query) {
-				//	return $query->id;
-				//})
 				->addColumn('product_id', function ($query) {
 					return $query->Product->name;
 				})
@@ -43,9 +40,6 @@ class LicensesController extends Controller {
 				->addColumn('customer_id', function ($query) {
 					return $query->Custumer->User->name;
 				})
-				//->editColumn('count', function ($query) {
-				//	return $query->count;
-				//})
 				->editColumn('expiration_app', function ($query) {
 					return \DateTime::createFromFormat('Y-m-d', $query->expiration_app)->format('d/m/Y');
 				})
@@ -156,7 +150,15 @@ class LicensesController extends Controller {
         //$model->authorize($request->route('id'));
         
         return view('licenses.show', [
-            'model' => $model
+            'model' => $model,
+			'attributes' => \App\Models\ProductAttributes::getModel()
+				->search(['product_id' => $model->product_id])
+					->get(),
+			'networks' => \App\Models\LicenseNetworks::getModel()
+				->search(['license_id' => intval($model->id)])
+					->get()
+						->pluck('network')
+							->toArray()
         ]);
     }
 

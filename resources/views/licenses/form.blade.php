@@ -32,12 +32,10 @@
 								</div>
 								@can('ADMIN', 'Permission')
 								<div class="tab-pane" id="tab-license-attributes">
-									@if(!empty($model->id))				
-										@include('licenses.product-attributes', [
-											'collection' => $attributes,
-											'license_id' => $model->id
-										])
-									@endif
+									@include('licenses.product-attributes', [
+										'collection' => $attributes,
+										'license_id' => $model->id
+									])
 								</div>
 								@endcan
 								<div class="tab-pane" id="tab-license-network">
@@ -52,7 +50,6 @@
 									</div>
 									
 									<fieldset id="license-network-items">
-										{{ print_r( $networks )}}
 										@if(!empty($networks) && !app('request')->isMethod('post'))
 											@include('licenses.form.network')
 										@endif

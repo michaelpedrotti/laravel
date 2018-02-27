@@ -184,9 +184,9 @@ $(function(){
 	'permission' => 'LICENSES',
 	'columns' => [
 		'id' => $model->labels['id'],
+		'customer_id' => $model->labels['customer_id'],
 		'product_id' => $model->labels['product_id'],
 		'type_id' => $model->labels['type_id'],
-		'customer_id' => $model->labels['customer_id'],
 		'expiration_app' => $model->labels['expiration_app'],
 		'expiration_upd' => $model->labels['expiration_upd'],
 		'status' => $model->labels['status'],
