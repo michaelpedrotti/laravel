@@ -28,7 +28,7 @@
 <div class="col-sm-6">
 	<div class="form-body">
 		<label class="control-label">{{ $model->labels['status'] }}</label>
-		{{ Form::select('status', array_merge(['' => 'Selecione'], $model->getStatus()), '', ['class' => 'form-control select2']) }}
+		{{ Form::select('status', array_merge(['' => 'Selecione'], $model->statusMapper()), '', ['class' => 'form-control select2']) }}
 	</div>
 </div>
 @stop
@@ -144,7 +144,6 @@ NS.addNetwork = function(){
 			try {
 				
 				var data = JSON.parse(jqXHR.responseText);
-				console.log('data', data);
 				message = data.errors.network[0];
 			}
 			catch(e){}
@@ -160,7 +159,6 @@ NS.addNetwork = function(){
 };
 
 NS.remNetwork = function(){
-	console.log('form', $(this).closest('.form-body'));
 	$(this).closest('.form-body').remove();
 };
 

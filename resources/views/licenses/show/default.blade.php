@@ -19,6 +19,13 @@
 
 <div class="col-sm-12">
 	<div class="form-body">
+		<label class="control-label">{{ $model->labels['status'] }}</label>
+		<div class="form-control">{{ array_get($model->statusMapper(), $model->status, $model->status) }}</div>
+	</div>
+</div>
+
+<div class="col-sm-12">
+	<div class="form-body">
 		<label class="control-label">{{ __('Distribuidor') }}</label>
 		<div class="form-control">{{ $model->Custumer->Reseller->User->name }}</div>
 	</div>

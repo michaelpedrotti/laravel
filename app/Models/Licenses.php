@@ -67,14 +67,43 @@ class Licenses extends \Eloquent {
 		'zend_id' => 'Código de licenciamento',
     ];
 	
-	public function getStatus(){
+	public function statusMapperName(){
+		
+		$array = $this->statusMapper();
+		
+		return array_key_exists($this->status, $array) ? $array[$this->status] : $this->status;
+	}
+	
+	public function statusMapper(){
 		
 		return [
 			'S' => 'Solicitado',
-			'A' => 'Aguardando',
+			'A' => 'Em geração',
 			'R' => 'Rejeitada',
 			'G' => 'Gerada'
 		];
+	}
+	
+	public function statusMapperWithRoles(){
+		
+		$mapper = $this->statusMapper();
+		
+		$array = [];
+		
+		// admin cria uma nova licença
+		if(empty($this->id)) {
+			
+			$array['S'] = $mapper['S'];
+			$array['A'] = $mapper['A'];
+		}
+		// Já existe
+		else {
+			
+			$array['A'] = $mapper['A'];
+			$array['R'] = $mapper['R'];
+		}
+		
+		return $array;
 	}
 	
 	/**
@@ -227,6 +256,17 @@ class Licenses extends \Eloquent {
 	
 	public function save(array $options = array()) {
 		
+		if(!app_can('ADMIN')) {
+			// Se a solicitação de criação de licença é nova e o usuário não é o
+			// admin sempre deverá passar para o status de Solicitado
+			if(empty($this->id)) { 
+				$this->status =  'S'; 
+			}
+			else {
+				// Não deixa mudar o status da licença caso não seja o admin
+				unset($this->status);
+			}
+		}
 		if(!parent::save($options)) return false;
 		
 		//----------------------------------------------------------------------

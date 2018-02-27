@@ -25,7 +25,25 @@ class LicensesFormRequest extends FormRequest
      * @return array
      */
     public function rules() {
-        return [];
+		
+		$rules = [];
+		
+		if(empty(app('request')->route('id'))){
+		
+			$rules['zend_id'] = ['required'];
+			$rules['product_id'] = ['required'];
+			$rules['type_id'] = ['required'];
+			$rules['customer_id'] = ['required'];
+		}
+		
+		if(app_can('ADMIN')){
+			
+			$rules['expiration_app'] = ['required','date_format:d/m/Y'];
+			$rules['expiration_upd'] = ['required','date_format:d/m/Y'];
+		}
+		
+		
+        return $rules;
     }
     
     /**
@@ -54,21 +72,7 @@ class LicensesFormRequest extends FormRequest
      */
     protected function getValidatorInstance() {
         
-		$validator = parent::getValidatorInstance();
-		
-		if(empty(app('request')->route('id'))){
-		
-			$validator->addRules([
-				'zend_id' => ['required'],
-				'product_id' => ['required'],
-				'type_id' => ['required'],
-				'customer_id' => ['required'],
-				'expiration_app' => ['required','date_format:d/m/Y'],
-				'expiration_upd' => ['required','date_format:d/m/Y'],
-			]);
-		}
-
-        return $validator->after(function($validator) {
+        return parent::getValidatorInstance()->after(function($validator) {
 
             $messages = $this->messages();
             $data = $validator->getData();

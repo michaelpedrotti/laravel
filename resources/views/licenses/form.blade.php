@@ -23,11 +23,7 @@
 							<div class="tab-content" style="min-height:250px">
 								<div class="tab-pane active" id="tab-license-default">
 									<fieldset>
-										@if(empty($model->id))
-											@include('licenses.form.default')
-										@else
-											@include('licenses.show.default')
-										@endif
+										@include('licenses.form.default')
 									</fieldset>   
 								</div>
 								@can('ADMIN', 'Permission')

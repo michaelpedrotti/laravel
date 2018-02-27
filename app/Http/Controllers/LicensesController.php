@@ -27,7 +27,7 @@ class LicensesController extends Controller {
         $this->authorize('LICENSES_LIST');
         
 		$model = Model::getModel()->fill($request->all());
-		$mapper = $model->getStatus();
+		$mapper = $model->statusMapper();
 
         if ($request->isXmlHttpRequest()) {
             return Datatables::eloquent($model->search($request->all()))
@@ -41,10 +41,10 @@ class LicensesController extends Controller {
 					return $query->Custumer->User->name;
 				})
 				->editColumn('expiration_app', function ($query) {
-					return \DateTime::createFromFormat('Y-m-d', $query->expiration_app)->format('d/m/Y');
+					return app_date($query->expiration_app, 'Y-m-d', 'd/m/Y');
 				})
 				->editColumn('expiration_upd', function ($query) {
-					return \DateTime::createFromFormat('Y-m-d', $query->expiration_upd)->format('d/m/Y');
+					return app_date($query->expiration_upd, 'Y-m-d', 'd/m/Y');
 				})
 				->editColumn('status', function ($query) use($mapper) {
 					return array_get($mapper, $query->status, $query->status);
