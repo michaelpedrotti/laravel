@@ -54,16 +54,16 @@ class LicenseAttributes extends \Eloquent {
 	 *
      * @return licenses 
      */
-    public function Licenses() {
-        return $this->belongsTo('App\Models\Licenses', 'id', 'license_id');
+    public function License() {
+        return $this->hasOne('App\Models\Licenses', 'id', 'license_id')->withDefault();
     }
     /**
      * Busca o modelo de product_attributes 
 	 *
      * @return product_attributes 
      */
-    public function ProductAttributes() {
-        return $this->belongsTo('App\Models\ProductAttributes', 'id', 'attr_id');
+    public function ProductAttr() {
+        return $this->hasOne('App\Models\ProductAttributes', 'id', 'attr_id');
     }
 
     /**

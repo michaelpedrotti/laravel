@@ -25,6 +25,7 @@ class ProductAttributes extends \Eloquent {
         'product_id',
         'name',
         'key',
+		'default'
     ];
     
     /**
@@ -36,6 +37,7 @@ class ProductAttributes extends \Eloquent {
         'product_id' => 'integer',
         'name' => 'string',
         'key' => 'string',
+		'default' => 'string'
     ];    
     
     /**
@@ -47,6 +49,7 @@ class ProductAttributes extends \Eloquent {
         'product_id' => 'Produto',
         'name' => 'Nome',
         'key' => 'Atributo',
+		'default' => 'Valor padrão'
     ];  
 
     /**

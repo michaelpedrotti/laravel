@@ -11,6 +11,7 @@ class CreateProductsTable extends Migration {
 			$table->increments("id");
 			$table->string("name", 150);
 			$table->string("version", 100);
+			$table->enum("uid", ['iss', 'mli']);
 
 			$table->timestamps();
 			$table->softDeletes();

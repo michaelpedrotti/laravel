@@ -23,7 +23,8 @@ class Products extends \Eloquent {
     public $fillable = [
         'id',
         'name',
-        'version'
+        'version',
+		'uid'
     ];
     
     /**
@@ -33,7 +34,8 @@ class Products extends \Eloquent {
     protected $casts = [
         'id' => 'integer',
         'name' => 'string',
-        'version' => 'string'
+        'version' => 'string',
+		'uid' => 'string'
     ];    
     
     /**
@@ -43,7 +45,8 @@ class Products extends \Eloquent {
     public $labels = [
         'id' => 'ID',
         'name' => 'Nome',
-        'version' => 'Versão'
+        'version' => 'Versão',
+		'uid' => 'Identificador'
     ];
 	
 	

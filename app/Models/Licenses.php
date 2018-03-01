@@ -155,6 +155,10 @@ class Licenses extends \Eloquent {
     public function Type() {
         return $this->hasOne('App\Models\LicenseTypes', 'id', 'type_id')->withDefault();
     }
+	
+	public function LicenseAttrs(){
+		return $this->hasMany('App\Models\LicenseAttributes', 'license_id', 'id');
+	}
 
     /**
      * Verifica se o usuário tem permissão pra acessar o registro

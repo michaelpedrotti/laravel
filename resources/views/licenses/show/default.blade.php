@@ -7,7 +7,7 @@
 <div class="col-sm-12">
 	<div class="form-body">
 		<label class="control-label">{{ $model->labels['product_id'] }}</label>
-		<div class="form-control">{{ $model->Product->name }}</div>
+		<div class="form-control">{{ $model->Product->name }} - {{ $model->Product->version }}</div>
 	</div>
 </div>
 <div class="col-sm-12">

@@ -21,9 +21,9 @@
 		<label class="control-label">{{ $model->labels['product_id'] }}  <span class="request">*</span></label>
 		
 		@if(empty($model->id))
-			{{ Form::select('product_id', app_fetch('Products', 'name', 'id'), $model->product_id, ['class' => 'form-control select2']) }}
+			{{ Form::select('product_id', $products, $model->product_id, ['class' => 'form-control select2']) }}
 		@else
-			<div class="form-control">{{ $model->Product->name }}</div>
+			<div class="form-control">{{ $model->Product->name }} - {{ $model->Product->version }}</div>
 		@endif
 		
 		@if ($errors->has('product_id'))
@@ -79,7 +79,7 @@
 			@if(empty($model->id))
 				{{ Form::select('distributor_id', app_fetch('Distributors', 'name', 'id'), $model->Custumer->Reseller->distributor_id, ['class' => 'form-control select2']) }}
 			@else
-				<div class="form-control">{{ $model->Custumer->Reseller->User->name }}</div>
+				<div class="form-control">{{ $model->Custumer->Reseller->Distributor->User->name }}</div>
 			@endif
 			
 			@if ($errors->has('distributor_id'))
@@ -99,7 +99,7 @@
 		@if(empty($model->id))
 			{{ Form::select('reseller_id', $resellers, $model->Custumer->reseller_id, ['class' => 'form-control select2']) }}
 		@else
-			<div class="form-control">{{ $model->Custumer->User->name }}</div>
+			<div class="form-control">{{ $model->Custumer->Reseller->User->name }}</div>
 		@endif
 		
 		@if ($errors->has('reseller_id'))

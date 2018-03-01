@@ -112,6 +112,15 @@ class LicensesController extends Controller {
 					->pluck('network')
 						->toArray());
 		
+		$view->with('products', \App\Models\Products::getModel()
+			->search()
+				->get()
+					->each(function($model) {
+						$model->name = $model->name .' - '.$model->version;
+					})
+					->pluck('name', 'id')
+						->toArray());
+		
 		$view->with('attributes', \App\Models\ProductAttributes::getModel()
 			->search(['product_id' => $model->product_id])
 				->get());

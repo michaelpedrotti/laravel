@@ -23,6 +23,8 @@ class LicenseTypes extends \Eloquent {
     public $fillable = [
         'id',
         'name',
+		'product_id',
+		'val'
     ];
     
     /**
@@ -32,6 +34,8 @@ class LicenseTypes extends \Eloquent {
     protected $casts = [
         'id' => 'integer',
         'name' => 'string',
+		'product_id' => 'integer',
+		'val' => 'string'
     ];    
     
     /**
@@ -41,6 +45,8 @@ class LicenseTypes extends \Eloquent {
     public $labels = [
         'id' => 'ID',
         'name' => 'Nome',
+		'product_id' => 'Produto',
+		'val' => 'Valor'
     ];
 	
 	
@@ -51,7 +57,9 @@ class LicenseTypes extends \Eloquent {
         return $this->hasMany('App\Models\Licenses', 'type_id', 'id');
     }
 
-
+	public function Product(){
+		return $this->hasOne('App\Models\Products', 'id', 'product_id');
+	}
 
     /**
      * Verifica se o usuário tem permissão pra acessar o registro

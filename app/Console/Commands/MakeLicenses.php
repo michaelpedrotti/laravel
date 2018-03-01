@@ -3,9 +3,13 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Models\Licenses as Model;
 
 class MakeLicenses extends Command {
 
+	
+	const ZEND_COMMAND = '/opt/Zend/ZendGuard-5_5_0/plugins/com.zend.guard.core.resources.linux.x86_5.5.0/resources/zendenc_sign';
+	
 	/**
 	 * The name and signature of the console command.
 	 *
@@ -28,7 +32,7 @@ class MakeLicenses extends Command {
 	public function __construct() {
 		parent::__construct();
 	}
-
+	
 	/**
 	 * Execute the console command.
 	 *
@@ -36,7 +40,7 @@ class MakeLicenses extends Command {
 	 */
 	public function handle() {
 			
-		$collection = \App\Models\Licenses::select()
+		$collection = Model::select()
 			->where('status', 'A')
 				->get();
 
@@ -44,10 +48,12 @@ class MakeLicenses extends Command {
 			
 			$collection->each(function($model){
 				
-				$model->status = 'G';
-				$model->save();
+				
+				print view('layout.zend', ['model' => $model]);
+				//$model->status = 'G';
+				//$model->save();
 			});
-			
+					
 			$this->info(__(sprintf('%s Licenças foram geradas', $collection->count())));
 		}
 		else {
