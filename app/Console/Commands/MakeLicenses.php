@@ -48,8 +48,19 @@ class MakeLicenses extends Command {
 			
 			$collection->each(function($model){
 				
-				
-				print view('layout.zend', ['model' => $model]);
+				// App\Models\Licenses
+				$attach = $model->Type->Product->License;
+
+				$filepath = storage_path('app/'.$attach->hash);
+
+				if(!file_exists($filepath)) {
+					file_put_contents($filepath, $attach->stream);
+				}
+			
+				print view('layout.zend', [
+					'model' => $model,
+					'filepath' => $filepath
+				]);
 				//$model->status = 'G';
 				//$model->save();
 			});

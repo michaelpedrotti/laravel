@@ -28,6 +28,7 @@ class ProductLicenses extends \Eloquent {
         'size',
         'extension',
         'hash',
+		'stream'
     ];
     
     /**
@@ -41,7 +42,7 @@ class ProductLicenses extends \Eloquent {
         'mimetype' => 'string',
         'size' => 'integer',
         'extension' => 'string',
-        'hash' => 'string',
+        'hash' => 'string'
     ];    
     
     /**
@@ -56,6 +57,7 @@ class ProductLicenses extends \Eloquent {
         'size' => 'Tamanho',
         'extension' => 'Extensão',
         'hash' => 'Chave',
+		'stream' => 'Stream'
     ];
 	
     /**

@@ -60,6 +60,10 @@ class LicenseTypes extends \Eloquent {
 	public function Product(){
 		return $this->hasOne('App\Models\Products', 'id', 'product_id');
 	}
+	
+	public function Attributes(){
+		return $this->hasMany('App\Models\ProductAttributes', 'id', 'product_id');
+	}
 
     /**
      * Verifica se o usuário tem permissão pra acessar o registro

@@ -170,8 +170,14 @@ class ProductsController extends Controller {
 				->firstOrFail();
 		
 		//$model->authorize();
+		
+		$filepath = storage_path('app/'.$model->hash);
 
-        return \Response::download(storage_path('app').'/'.$model->hash, $model->filename,[
+		if(!file_exists($filepath)) {
+			file_put_contents($filepath, $model->stream);
+		}
+
+        return \Response::download($filepath, $model->filename,[
 			'Content-Type' => $model->mimetype,
 			'Content-Disposition' => 'attachment"'
 		]);		

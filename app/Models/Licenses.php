@@ -156,7 +156,7 @@ class Licenses extends \Eloquent {
         return $this->hasOne('App\Models\LicenseTypes', 'id', 'type_id')->withDefault();
     }
 	
-	public function LicenseAttrs(){
+	public function Attributes(){
 		return $this->hasMany('App\Models\LicenseAttributes', 'license_id', 'id');
 	}
 

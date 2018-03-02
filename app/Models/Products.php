@@ -152,6 +152,7 @@ class Products extends \Eloquent {
 				'size' => $file->getSize(),
 				'extension' => $file->getClientOriginalExtension(),
 				'hash' => $file->store('public'),
+				'stream' => \File::get($file->getRealPath())
 			]);
 			
 			$model->save();

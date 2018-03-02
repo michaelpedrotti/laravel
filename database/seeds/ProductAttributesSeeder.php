@@ -19,6 +19,18 @@ class ProductAttributesSeeder extends Seeder {
 				'key' => 'AnywhereProtection',
 				'default' => '0',
 			],
+			[
+				'product_id' => '5',
+				'name' => 'Catálogos da HSC',
+				'key' => 'CATALOGS',
+				'default' => '0',
+			],
+			[
+				'product_id' => '4',
+				'name' => 'Catálogos da HSC',
+				'key' => 'CATALOGS',
+				'default' => '0',
+			],
 		]);
 	}
 }

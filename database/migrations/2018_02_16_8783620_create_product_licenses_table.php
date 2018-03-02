@@ -18,6 +18,7 @@ class CreateProductLicensesTable extends Migration {
             $table->string("extension", 45);
             $table->string("hash", 255);
 			$table->enum("status", ['S', 'A', 'R', 'G'])->default('S');
+			$table->binary('stream');
 			$table->timestamps();        
 			$table->softDeletes();      
 			
