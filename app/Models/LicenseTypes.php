@@ -97,18 +97,20 @@ class LicenseTypes extends \Eloquent {
         if(empty($filter)) $filter = $this->toArray();
     
         $builder = self::selectRaw($expression);
-
-           
-        if(array_key_exists('id', $filter) && !empty($filter['id'])) {
+ 
+        if(array_has($filter, 'id')) {
             $builder->where('id', $filter['id']);
         }
            
-        if(array_key_exists('name', $filter) && !empty($filter['name'])) {
-            $builder->where('name', $filter['name']);
+        if(array_has($filter, 'name')) {
+            $builder->where('name', 'LIKE', '%'.$filter['name'].'%');
+        }
+		
+        if(array_has($filter, 'product_id')) {
+            $builder->where('product_id', $filter['product_id']);
         }
         
-        
-        if(array_key_exists('groupBy', $filter) && !empty($filter['groupBy'])) {
+        if(array_has($filter, 'groupBy')) {
             $builder->orderBy($filter['groupBy'], 'ASC');
         }
         else {

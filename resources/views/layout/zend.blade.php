@@ -3,7 +3,7 @@ Registered-To = {{ $model->Custumer->User->name }}
 Expires = {{ app_date($model->expiration_app, 'Y-m-d', 'd-b-Y') }}
 Host-ID = {{ $model->zend_id }}
 Hardware-Locked = Yes
-Licence-Type = 3
+Licence-Type = {{ $model->Type->val }}
 Version = /opt/hsc/keys/iss-3.x.key
 @if($model->uid == 'iss')
 msn = 0

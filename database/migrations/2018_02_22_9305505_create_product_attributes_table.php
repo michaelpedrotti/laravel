@@ -19,7 +19,7 @@ class CreateProductAttributesTable extends Migration {
                     ->onDelete('cascade');
 		});	
 		
-		//app(ProductAttributesSeeder::class);
+		app(ProductAttributesSeeder::class)->run();
     }
 
     public function down() {

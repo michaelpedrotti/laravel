@@ -79,7 +79,11 @@ NS.onProductChange = function(){
 	var license_id = $(this).closest('form').attr('action').replace(/^\D+/g, '');
 	
 	if(!product_id) return false;
-
+	
+	APP.loadCombo($('select[name=type_id]'), 'license-types', {
+		product_id:product_id
+	});
+	
 	$.ajax({
 
         method:'GET',

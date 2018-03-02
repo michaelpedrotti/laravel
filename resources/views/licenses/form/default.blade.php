@@ -1,4 +1,4 @@
-<div class="col-sm-12">
+ <div class="col-sm-12">
 	<div class="form-body {{ $errors->first('zend_id', 'has-error') }}">
 		<label class="control-label">{{ $model->labels['zend_id'] }}  <span class="request">*</span></label>
 		
@@ -39,7 +39,7 @@
 		<label class="control-label">{{ $model->labels['type_id'] }}  <span class="request">*</span></label>
 		
 		@if(empty($model->id))
-			{{ Form::select('type_id', app_fetch('LicenseTypes', 'name', 'id'), $model->type_id, ['class' => 'form-control select2']) }}
+			{{ Form::select('type_id', app_fetch('LicenseTypes', 'name', 'id', ['product_id' => $model->product_id]), $model->type_id, ['class' => 'form-control select2']) }}
 		@else
 			<div class="form-control">{{ $model->Type->name }}</div>
 		@endif
@@ -51,7 +51,6 @@
 		@endif
 	</div>
 </div>
-
 
 @can('ADMIN', 'Permission')
 	<div class="col-sm-12">
