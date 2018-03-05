@@ -47,13 +47,12 @@ class UpdatePasswordFormRequest extends FormRequest {
             $messages = $this->messages();
             $data = $validator->getData();
 
-            if(array_key_exists('password_current', $data) && !empty($data['password_current'])) {
+            if(app_has($data, 'password_current')) {
                 
                 $model = \App\User::findOrFail(\Auth::user()->id);
-                
-                if($model->password != md5($data['password_current'])) {
-                    
-                    $validator->errors()->add('password_current', $messages['password_current.wrong']);
+
+                if(!\Hash::check($data['password_current'], $model->password)) {
+					$validator->errors()->add('password_current', $messages['password_current.wrong']);
                 }
             }
         });

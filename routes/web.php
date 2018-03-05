@@ -14,7 +14,7 @@ Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
-Route::group(['middleware' => ['auth']], function(\Illuminate\Routing\Router $router){
+Route::group(['middleware' => ['auth', 'csrf', 'first-login']], function(\Illuminate\Routing\Router $router){
 	
 	$router->match(['POST', 'GET'], '/contacts/{entity}/{fk_id}/{action?}/{id?}', function($entity = null, $fk_id = null, $action = 'index', $id = null) use($router){
 

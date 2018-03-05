@@ -57,9 +57,8 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-		
-		//'csrf' => \App\Http\Middleware\VerifyCsrfToken::class,
-		//'first-login' => \App\Http\Middleware\FirstLogin::class,
+		'csrf' => \App\Http\Middleware\VerifyCsrfToken::class,
+		'first-login' => \App\Http\Middleware\FirstLogin::class,
 		
 		//'rest' => \App\Http\Middleware\Rest::class,
         //'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class,

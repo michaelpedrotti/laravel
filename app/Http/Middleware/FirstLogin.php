@@ -21,10 +21,10 @@ class FirstLogin {
         
         if(($user instanceof \App\User) && $user->first_login == 'Y') {
 
-            if(\Route::getCurrentRoute()->getParameter('controller') !== 'login') {
+            if(!in_array(\Route::getCurrentRoute()->parameter('controller'), ['login', 'users'])) {
             
 				flash('Obrigatória a troca de senha antes de prosseguir', 'warning');
-                $response = redirect()->to('login/password');
+                $response = redirect()->to('users/password');
             }
         }
         return $response;

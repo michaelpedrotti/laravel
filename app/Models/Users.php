@@ -26,7 +26,8 @@ class Users extends \Eloquent {
         'email',
         'password',
         'remember_token',
-		'acl_id'
+		'acl_id',
+		'first_login'
     ];
     
     /**
@@ -39,7 +40,8 @@ class Users extends \Eloquent {
         'email' => 'string',
         'password' => 'string',
         'remember_token' => 'string',
-		'acl_id' => 'integer'
+		'acl_id' => 'integer',
+		'first_login' => 'string'
     ];    
     
     /**
@@ -52,6 +54,7 @@ class Users extends \Eloquent {
         'email' => 'E-mail',
         'password' => 'Senha',
         'remember_token' => 'Token',
+		'first_login' => 'Primeiro Login'
     ];
 	
     /**
