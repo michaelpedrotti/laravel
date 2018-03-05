@@ -14,6 +14,8 @@ class CreateDocumentTypesTable extends Migration {
 			$table->timestamps();
 			$table->softDeletes();
 		});
+		
+		app(\DocumentTypesSeeder::class)->run();
 	}
 
 	public function down() {

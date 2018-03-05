@@ -12,6 +12,13 @@
 								<div class="form-control">{{ $model->DocumentTypes->name }}</div>
 							</div>
 						</div>
+						
+						<div class="col-sm-12">
+							<div class="form-body">
+								<label class="control-label">{{ $model->labels['acl_id'] }}</label>
+								<div class="form-control">{{ $model->Acl->name }}</div>
+							</div>
+						</div>
 
 						<div class="col-sm-12">
 							<div class="form-body">

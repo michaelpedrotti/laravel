@@ -29,6 +29,7 @@ class DocumentsFormRequest extends FormRequest
             'type_id' => ['required'],
             'name' => ['required'],
             //'attach' => ['required'],
+			'acl_id' => ['required'],
         ];
     }
     
@@ -40,7 +41,8 @@ class DocumentsFormRequest extends FormRequest
         return [   
             'type_id.required' => 'O campo "Tipo" não foi preenchido.',                   
             'name.required' => 'O campo "Nome" não foi preenchido.',            
-            'attach.required' => 'O campo "Storage" não foi preenchido.',                
+            'attach.required' => 'O campo "Storage" não foi preenchido.', 
+			'acl_id.required' => 'O campo "Perfil" não foi preenchido.', 
         ];
     }
     

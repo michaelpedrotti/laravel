@@ -23,6 +23,7 @@ class Documents extends \Eloquent {
     public $fillable = [
         'id',
         'type_id',
+		'acl_id',
         'name',
 		'extension',
         'mimetype',
@@ -37,6 +38,7 @@ class Documents extends \Eloquent {
     protected $casts = [
         'id' => 'integer',
         'type_id' => 'integer',
+		'acl_id' => 'integer',
         'name' => 'string',
 		'extension' => 'string',
         'mimetype' => 'string',
@@ -51,6 +53,7 @@ class Documents extends \Eloquent {
     public $labels = [
         'id' => 'ID',
         'type_id' => 'Tipo',
+		'acl_id' => 'Perfil',
         'name' => 'Nome',
 		'extension' => 'Extensão',
         'mimetype' => 'Mime-Type',
@@ -69,9 +72,16 @@ class Documents extends \Eloquent {
 	}
 
     /**
-     * Busca o modelo de document_types     * @return document_types     */
+     * Busca o modelo de document_types     
+	 * 
+	 * @return Illuminate\Database\Eloquent\Relations\HasOne     
+	 */
     public function DocumentTypes() {
         return $this->hasOne('App\Models\DocumentTypes', 'id', 'type_id');
+    }
+	
+	public function Acl() {
+        return $this->hasOne('App\Models\Acls', 'id', 'type_id')->withDefault();
     }
 
     /**
@@ -109,7 +119,7 @@ class Documents extends \Eloquent {
      * @param array $filter
      * @return \Illuminate\Support\Collection
      */
-    public function search(array $filter = [], $expression = '*') {
+    public function search(array $filter = [], $expression = 'documents.*') {
         
         if(empty($filter)) $filter = $this->toArray();
     
@@ -139,7 +149,23 @@ class Documents extends \Eloquent {
         if(array_key_exists('hash', $filter) && !empty($filter['hash'])) {
             $builder->where('hash', $filter['hash']);
         }
-        
+		
+		
+		if(app_can('DISTRIBUTOR')) {
+		
+			$builder->join('acls', 'acls.id', '=', 'documents.acl_id');
+			$builder->whereIn('acls.uid', ['DISTRIBUTOR', 'RESELLER', 'CUSTUMER']);
+		}
+		elseif(app_can('RESELLER')){
+			
+			$builder->join('acls', 'acls.id', '=', 'documents.acl_id');
+			$builder->whereIn('acls.uid', ['RESELLER', 'CUSTUMER']);
+		}
+		elseif(app_can('CUSTUMER')){
+			
+			$builder->join('acls', 'acls.id', '=', 'documents.acl_id');
+			$builder->whereIn('acls.uid', ['CUSTUMER']);
+		}
         
         if(array_key_exists('groupBy', $filter) && !empty($filter['groupBy'])) {
             $builder->orderBy($filter['groupBy'], 'ASC');
