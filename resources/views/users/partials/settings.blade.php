@@ -5,7 +5,7 @@
 		<!-- Profile Image -->
 		<div class="box box-primary">
 			<div class="box-body box-profile">
-				<img class="profile-user-img img-responsive img-circle" src="/assets/adminlte/dist/img/user2-160x160.jpg" alt="User profile picture">
+				<img class="profile-user-img img-responsive img-circle" src="/assets/img/anyone.jpg" alt="User profile picture">
 
 				<h3 class="profile-username text-center">{{ \Auth::user()->name }}</h3>
 
@@ -13,13 +13,7 @@
 
 				<ul class="list-group list-group-unbordered">
 					<li class="list-group-item">
-						<b>Followers</b> <a class="pull-right">1,322</a>
-					</li>
-					<li class="list-group-item">
-						<b>Following</b> <a class="pull-right">543</a>
-					</li>
-					<li class="list-group-item">
-						<b>Friends</b> <a class="pull-right">13,287</a>
+						<b>Avatar</b> <a href="javascript:void(0)" class="pull-right disabled">Alterar</a>
 					</li>
 				</ul>
 			</div>

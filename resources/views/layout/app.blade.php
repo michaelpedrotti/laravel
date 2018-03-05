@@ -38,7 +38,7 @@
 										<li><!-- start message -->
 											<a href="#">
 												<div class="pull-left">
-													<img src="/assets/adminlte/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+													<img src="/assets/img/anyone.jpg" class="img-circle" alt="User Image">
 												</div>
 												<h4>
 													Support Team
@@ -228,7 +228,7 @@
 						@php */ @endphp
 						@include('layout.partials.user-menu')
 						<li>
-							<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+							<a href="#" data-toggle="control-sidebar"><i class="fa fa-th-large"></i></a>
 						</li>
 					</ul>
 				</div>
@@ -241,7 +241,7 @@
 				<!--
 				<div class="user-panel">
 					<div class="pull-left image">
-						<img src="/assets/adminlte/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+						<img src="/assets/img/anyone.jpg" class="img-circle" alt="User Image">
 					</div>
 					<div class="pull-left info">
 						<p>Alexander Pierce</p>
