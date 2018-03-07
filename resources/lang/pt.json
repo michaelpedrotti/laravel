@@ -1,9 +1,4 @@
 {
-    "auth":{
-        "failed" : "Usuário ou senha incorretos"
-    },
-    "validation":{
-        
-        "required" : "Campo é obrigatório" 
-    }
+    "auth.failed":"Usuário ou senha incorretos",
+    "validation.required":"Campo é obrigatório"
 }

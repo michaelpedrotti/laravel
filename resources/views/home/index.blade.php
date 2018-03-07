@@ -4,7 +4,7 @@
 <div class="box box-primary">
 	<div class="box-body">
 		Start creating your amazing application!
-		@lang('Super programa')
+		@lang('Super programa') 
 	</div>
 </div>
 @endsection
