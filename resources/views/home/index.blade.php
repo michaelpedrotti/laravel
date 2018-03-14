@@ -3,8 +3,7 @@
 @section('content')
 <div class="box box-primary">
 	<div class="box-body">
-		Start creating your amazing application!
-		@lang('Super programa') 
+		@lang('Bem vindo ao portal da HSC Brasil') 
 	</div>
 </div>
 @endsection

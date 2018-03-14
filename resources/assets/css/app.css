@@ -9,3 +9,12 @@
 .help-block strong {
     font-weight: normal !important
 }
+
+
+.logo-lg-hsc{ 
+    height:48px;
+    background-image:url("/assets/img/logo-lg-hscbrasil.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size:70%;
+}
