@@ -1,0 +1,1 @@
+Nova licença foi gera para fulano

@@ -304,4 +304,43 @@ class Licenses extends \Eloquent {
 		}
 		//----------------------------------------------------------------------
 	}
+	
+	public static function boot() {
+		
+		static::saved(function(Licenses $model){
+			
+			// Seleciona todos os usuários administradores da HSC
+			$collection = \App\Models\Users::query()
+				->whereExists(function($builder){
+					$builder->select(\DB::raw(1))
+						->from('user_acls')
+						->whereRaw('user_acls.user_id = users.`id` AND acl_id IN(SELECT id FROM `acls` WHERE `uid` = "ADMIN")');
+				})
+				->get();
+
+			// Adiciona o cliente
+			$collection->add($model->Custumer->User);
+			// Adiciona o revendedor
+			$collection->add($model->Custumer->Reseller->User);	
+			// Adiciona o distribuidor
+			$collection->add($model->Custumer->Reseller->Distributor->User);	
+
+			$alert = \App\Models\Alerts::create([
+				'title' => __('Licenciamento'),  
+				'msg' => view('layout.partials.alert')
+			]);
+
+			$collection->each(function($model) use($alert){
+
+				\App\Models\AlertUsers::create([
+					'alert_id' => $alert->id, 
+					'user_id' => $model->id, 
+					'readed' => 'N'
+				]);
+			});
+
+		});
+		
+		parent::boot();
+	}
 }
