@@ -62,7 +62,8 @@ class Users extends \Eloquent {
 	 * @link https://laravel.com/docs/5.5/eloquent-mutators 
 	 */
 	public function setPasswordAttribute($value){
-				
+		
+		$this->addHidden(['password_plain' => $value]); 
 		$this->attributes['password'] = bcrypt($value);
 	}
 	
@@ -162,21 +163,59 @@ class Users extends \Eloquent {
 		
 		if(parent::save($options)) {
 			
-			$model = UserAcls::query()
-				->where('user_id', $this->id)
-				->where('acl_id', $acl_id)
-					->get()
-						->first();
+			if($acl_id) {
 			
-			if(!$model) {
-				$model = UserAcls::newModelInstance([
-					'user_id' => $this->id,
-					'acl_id' => $acl_id
-				]);
+				$model = UserAcls::query()
+					->where('user_id', $this->id)
+					->where('acl_id', $acl_id)
+						->get()
+							->first();
+
+				if(!$model) {
+					$model = UserAcls::newModelInstance([
+						'user_id' => $this->id,
+						'acl_id' => $acl_id
+					]);
+				}
+
+				return $model->save();
 			}
-			
-			return $model->save();
 		}
 		return false;
+	}
+	
+	public static function boot() {
+		
+		static::creating(function($model){
+            
+			$data = $model->getHidden();
+			
+			if(!empty($data) && array_has($data, 'password_plain')) {
+			
+				$mailable = app(\App\Mail\WelcomeMail::class)
+					->subject(__('Portal HSC'))
+					->with('password', $data['password_plain'])
+					->with('model', $model);
+				
+				\Mail::to($model->email)->send($mailable);
+			}
+        });
+		
+		static::updating(function($model){
+			
+			$data = $model->getHidden();
+			
+			if(!empty($data) && array_has($data, 'password_plain')) {
+			
+				$mailable = app(\App\Mail\ResetPassMail::class)
+					->subject(__('Troca de senha'))
+					->with('password', $data['password_plain'])
+					->with('model', $model);
+				
+				\Mail::to($model->email)->send($mailable);
+			}
+		});
+		
+		parent::boot();
 	}
 }

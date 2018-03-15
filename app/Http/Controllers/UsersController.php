@@ -208,7 +208,7 @@ class UsersController extends Controller {
 	
 	public function password(Request $request){
 		
-		$model = \App\User::findOrFail(\Auth::user()->id);
+		$model = \App\Models\Users::findOrFail(\Auth::user()->id);
         $model->fill($request->all());
         
         if($request->isMethod('post')) {
@@ -219,9 +219,10 @@ class UsersController extends Controller {
 			
             try {
                 
-				$model->password = bcrypt($request->get('password'));
-				$model->first_login = 'N';
-				$model->save();
+				$model->update([
+					'password' => $request->get('password'),
+					'first_login' => 'N'
+				]);
 				
 				$model->getConnection()->commit();
 				
