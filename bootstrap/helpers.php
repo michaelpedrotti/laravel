@@ -211,3 +211,54 @@ if(!function_exists('app_dispatch')){
 		return $router->dispatch($router->getCurrentRequest());
 	}
 }
+
+if(!function_exists('app_alerts')){
+	
+	/**
+     * Retorna uma coleção com os alertas do sistema
+     *
+     * @return \Illuminate\Support\Collection
+     */
+	function app_alerts() {
+	
+		return \App\Models\AlertUsers::select()
+			->where('user_id', \Auth::user()->id)
+			->where('readed', 'N')
+				->get();
+		
+	}
+}
+
+if(!function_exists('app_elapsed_time')) {
+
+	function app_elapsed_time($datetime, $full = false) {
+		$now = new DateTime;
+		$ago = new DateTime($datetime);
+		$diff = $now->diff($ago);
+
+		$diff->w = floor($diff->d / 7);
+		$diff->d -= $diff->w * 7;
+
+		$string = array(
+			'y' => __('ano'),
+			'm' => __('mês'),
+			'w' => __('sem'),
+			'd' => __('dia'),
+			'h' => __('hor'),
+			'i' => __('min'),
+			's' => __('seg'),
+		);
+		foreach ($string as $k => &$v) {
+			if ($diff->$k) {
+				$v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? '(s)' : '');
+			} else {
+				unset($string[$k]);
+			}
+		}
+
+		if (!$full)
+			$string = array_slice($string, 0, 1);
+		return $string ? implode(', ', $string) . ' atrás' : ' à pouco';
+	}
+
+}

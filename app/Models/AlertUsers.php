@@ -57,16 +57,16 @@ class AlertUsers extends \Eloquent {
 	 *
      * @return alerts 
      */
-    public function Alerts() {
-        return $this->belongsTo('App\Models\Alerts', 'id', 'alert_id');
+    public function Alert() {
+        return $this->hasOne('App\Models\Alerts', 'id', 'alert_id');
     }
     /**
      * Busca o modelo de users 
 	 *
      * @return users 
      */
-    public function Users() {
-        return $this->belongsTo('App\Models\Users', 'id', 'user_id');
+    public function User() {
+        return $this->hasOne('App\Models\Users', 'id', 'user_id');
     }
 
     /**

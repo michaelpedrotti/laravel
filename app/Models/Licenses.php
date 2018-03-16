@@ -307,8 +307,11 @@ class Licenses extends \Eloquent {
 	
 	public static function boot() {
 		
-		static::saved(function(Licenses $model){
+		static::saved(function(Licenses $license){
 			
+			//------------------------------------------------------------------
+			// Envia alerta para os envolvidos
+			//------------------------------------------------------------------
 			// Seleciona todos os usuários administradores da HSC
 			$collection = \App\Models\Users::query()
 				->whereExists(function($builder){
@@ -319,26 +322,35 @@ class Licenses extends \Eloquent {
 				->get();
 
 			// Adiciona o cliente
-			$collection->add($model->Custumer->User);
+			$collection->add($license->Custumer->User);
 			// Adiciona o revendedor
-			$collection->add($model->Custumer->Reseller->User);	
+			$collection->add($license->Custumer->Reseller->User);	
 			// Adiciona o distribuidor
-			$collection->add($model->Custumer->Reseller->Distributor->User);	
+			$collection->add($license->Custumer->Reseller->Distributor->User);	
+			
 
 			$alert = \App\Models\Alerts::create([
 				'title' => __('Licenciamento'),  
-				'msg' => view('layout.partials.alert')
+				'route' => '/licenses',
+				'msg' => __('Licença para o cliente :custumer com a situação :status', [
+					'custumer' => $license->Custumer->User->name,
+					'status' => $license->statusMapperName()
+				])
 			]);
 
-			$collection->each(function($model) use($alert){
+			$collection->each(function($model) use($alert, $license){
 
 				\App\Models\AlertUsers::create([
 					'alert_id' => $alert->id, 
 					'user_id' => $model->id, 
 					'readed' => 'N'
 				]);
+				
+				\Mail::to($model->email)->send(app(\App\Mail\NewLicense::class)
+					->subject(__('Licenciamento'))
+					->with('model', $license)
+				);
 			});
-
 		});
 		
 		parent::boot();

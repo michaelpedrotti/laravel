@@ -1,0 +1,1 @@
+<p>Solicitação de geração de licença efetuada para o cliente {{ $model->Custumer->User->name }} com a situação {{ $model->statusMapperName() }}</p>

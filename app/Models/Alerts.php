@@ -24,6 +24,7 @@ class Alerts extends \Eloquent {
         'id',
 		'title',
         'msg',
+		'route'
     ];
     
     /**
@@ -34,6 +35,7 @@ class Alerts extends \Eloquent {
         'id' => 'integer',
 		'title' => 'string',
         'msg' => 'text',
+		'route' => 'string',
     ];    
     
     /**
@@ -44,14 +46,14 @@ class Alerts extends \Eloquent {
         'id' => 'ID',
 		'title' => 'Título',
         'msg' => 'Mensagem',
+		'route' => 'URL',
     ];
 	
 	
-    
-
-
     /**
-     * Relations com Users     * @return Users     */
+     * Relations com Users     
+	 * @return Users     
+	 */
     public function Users() {
         return $this->belongsToMany('App\Models\Users', 'alert_users', 'alert_id', 'user_id');
     }

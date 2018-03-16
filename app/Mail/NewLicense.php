@@ -7,17 +7,11 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class ResetPassMail extends Mailable {
+class NewLicense extends Mailable {
 
 	use Queueable, SerializesModels;
 
-	/**
-	 * Build the message.
-	 *
-	 * @return $this
-	 */
 	public function build() {
-		
-		return $this->view('mail.reset-pass');
+		return $this->view('mail.new-license');
 	}
 }
