@@ -118,30 +118,15 @@ class LicensesController extends Controller {
 					->each(function($model) {
 						$model->name = $model->name .' - '.$model->version;
 					})
+					
 					->pluck('name', 'id')
+					->prepend(__('Selecione'), '')
 						->toArray());
 		
 		$view->with('attributes', \App\Models\ProductAttributes::getModel()
 			->search(['product_id' => $model->product_id])
 				->get());
-		
-		
-//		if($request->isMethod('post')) {
-//			
-//			try{
-//				
-//				$view->render();
-//				
-//			}
-//			catch (\Exception $e) {
-//				print $e->getPrevious()->getPrevious()->getLine().PHP_EOL;
-//				print $e->getPrevious()->getPrevious()->getFile().PHP_EOL;
-//				die($e->getPrevious()->getPrevious()->getTraceAsString());
-//			
-//			}
-//		}
-		
-		
+				
         return $view;
     }
 	

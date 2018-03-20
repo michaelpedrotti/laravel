@@ -10,20 +10,32 @@ class ProductAttributesSeeder extends Seeder {
 			
 			[
 				'product_id' => 1,
-				'name' => 'Catálogos da HSC',
-				'key' => 'CATALOGS',
-				'default' => 0,
-			],
-			[
-				'product_id' => 2,
 				'name' => 'Cache de Conteúdo Dinâmico',
 				'key' => 'DynamicContentCache',
 				'default' => 0,
 			],
 			[
-				'product_id' => 2,
+				'product_id' => 1,
 				'name' => 'Any Where Protection',
 				'key' => 'AnywhereProtection',
+				'default' => 0,
+			],
+			[
+				'product_id' => 2,
+				'name' => 'TAP',
+				'key' => 'TAP',
+				'default' => 0,
+			],
+			[
+				'product_id' => 2,
+				'name' => 'SANDBOX',
+				'key' => 'SANDBOX',
+				'default' => 0,
+			],
+			[
+				'product_id' => 2,
+				'name' => 'Cryptografia',
+				'key' => 'CRYPT',
 				'default' => 0,
 			]
 		]);
