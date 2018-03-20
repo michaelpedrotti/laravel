@@ -16,6 +16,8 @@ class CreateProductsTable extends Migration {
 			$table->timestamps();
 			$table->softDeletes();
 		});
+		
+		app(ProductsSeeder::class)->run();
 	}
 
 	public function down() {

@@ -14,7 +14,7 @@ class CreateProductAttributesTable extends Migration {
             $table->string("key", 255);
 			$table->string('default', 255)->default('0');
                         
-        $table->foreign('product_id')
+        $table->foreign('product_id', 'fk_productattributes_products')
             ->references('id')
                 ->on('products')
                     ->onDelete('cascade');

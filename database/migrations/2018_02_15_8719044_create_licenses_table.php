@@ -16,9 +16,9 @@ class CreateLicensesTable extends Migration {
             $table->integer("count")->nullable()->unsigned();
             $table->date("expiration_app")->nullable();
 			$table->date("expiration_upd")->nullable();
-			$table->string("zend_id", 255)->nullable()->unsigned();
+			$table->string("zend_id", 255)->nullable();
             $table->string("hash", 120)->nullable();
-			$table->enum(['S','A','R','G'])->default('S');
+			$table->enum('status', ['S','A','R','G'])->default('S');
 			$table->timestamps();
 			$table->softDeletes(); 
 			

@@ -187,7 +187,7 @@ class Resellers extends \Eloquent {
 			$model = Users::create([
 				'name' => $data['name'],
 				'email' => $data['email'],
-				'password' => bcrypt(str_shuffle(date('Y-m-d'))),
+				'password' => str_shuffle(date('Ymd')),
 				'acl_id' => $acl_id,
 			]);
 			
