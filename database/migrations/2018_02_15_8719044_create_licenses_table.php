@@ -19,11 +19,10 @@ class CreateLicensesTable extends Migration {
 			$table->string("zend_id", 255)->nullable();
             $table->string("hash", 120)->nullable();
 			$table->enum('status', ['S','A','R','G'])->default('S');
+			$table->binary('stream')->nullable();
 			$table->timestamps();
 			$table->softDeletes(); 
-			
-			
-			
+
 			$table->foreign('customer_id')
 				->references('id')
 					->on('clients')

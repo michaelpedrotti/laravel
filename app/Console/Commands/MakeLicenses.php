@@ -34,6 +34,21 @@ class MakeLicenses extends Command {
 	}
 	
 	/**
+	 * 
+	 * @return string filepath
+	 */
+	protected function makeTempFile($prefix = 'zend', $content = ''){
+		
+		$filepath = tempnam('/tmp', $prefix);
+		
+		if(file_put_contents($filepath, $content) === false) {
+			throw new \Exception(__('Falha ao gerar o arquivo temporário'));
+		}
+		
+		return $filepath;
+	}
+	
+	/**
 	 * Execute the console command.
 	 *
 	 * @return mixed
@@ -43,7 +58,7 @@ class MakeLicenses extends Command {
 		$collection = Model::select()
 			->where('status', 'A')
 				->get();
-
+				
 		if($collection->count() > 0){
 			
 			$collection->each(function($model){
@@ -51,21 +66,37 @@ class MakeLicenses extends Command {
 				// App\Models\Licenses
 				$attach = $model->Type->Product->License;
 
-				$filepath = storage_path('app/'.$attach->hash);
+				$zendKeyPath = storage_path('app/'.$attach->hash);
 
-				if(!file_exists($filepath)) {
-					file_put_contents($filepath, $attach->stream);
+				if(!file_exists($zendKeyPath)) {
+					if(empty($attach->stream)) throw new \Exception(__('Falha ao carregar a licença'));
+					file_put_contents($zendKeyPath, $attach->stream);
 				}
-			
-				print view('layout.zend', [
-					'model' => $model,
-					'filepath' => $filepath
-				]);
-				//$model->status = 'G';
-				//$model->save();
+				
+				$licensePath = tempnam('/tmp', 'license');
+				$templatePath = $this->makeTempFile('temp', view('layout.zend', ['model' => $model]));
+				
+				$command = sprintf('%s %s %s %s',
+					self::ZEND_COMMAND,
+					$templatePath,
+					$licensePath,
+					$zendKeyPath
+				);
+				
+				system($command);
+				
+				$licensePath .= '.zl';
+				
+				if(!file_exists($licensePath)) {
+					throw new \Exception(__('Falha ao gerar a licença'));
+				}
+				
+				$model->stream = file_get_contents($licensePath);
+				$model->status = 'G';
+				$model->save();
 			});
 					
-			$this->info(__(sprintf('%s Licenças foram geradas', $collection->count())));
+			$this->info(__(sprintf('%s Licença(s) foram gerada(s)', $collection->count())));
 		}
 		else {
 			$this->warn(__('Não existem licenças a serem geradas'));

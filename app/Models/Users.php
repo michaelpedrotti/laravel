@@ -212,7 +212,12 @@ class Users extends \Eloquent {
 					->with('password', $data['password_plain'])
 					->with('model', $model);
 				
-				\Mail::to($model->email)->send($mailable);
+				try {	
+					\Mail::to($model->email)->send($mailable);
+				} 
+				catch (\Exception $e) {
+					flash(__('Falha ao enviar o e-mail de boas vindas'), 'warning');
+				}
 			}
 		});
 		

@@ -30,7 +30,8 @@ class Licenses extends \Eloquent {
         'expiration_app',
 		'expiration_upd',
         'hash',
-		'zend_id'
+		'zend_id',
+		'stream',
     ];
     
     /**
@@ -48,6 +49,7 @@ class Licenses extends \Eloquent {
 		'expiration_upd' => 'data',
         'hash' => 'string',
 		'zend_id' => 'string',
+		'stream' => 'string'
     ];    
     
     /**
@@ -65,6 +67,7 @@ class Licenses extends \Eloquent {
         'hash' => 'Chave',
 		'status' => 'Situação',
 		'zend_id' => 'Código de licenciamento',
+		'stream' => 'Licença'
     ];
 	
 	public function statusMapperName(){

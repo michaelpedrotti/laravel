@@ -12,10 +12,13 @@ class CreateAlertsTable extends Migration {
 
 			$table->increments("id");
 			$table->string("title", 255);
+			$table->string("route", 255);
 			$table->text("msg");
-			$table->string("url", 255);
+			$table->timestamps();
+			$table->softDeletes();
 		});
 
+		
 		//app(AlertsSeeder::class);
 	}
 
