@@ -265,7 +265,13 @@ class Licenses extends \Eloquent {
 	
 	public function save(array $options = array()) {
 		
-		if(!app_can('ADMIN')) {
+		if(app_can('ADMIN')) {
+			
+			if(!empty($this->verification_code)){
+				$this->status =  'G'; 
+			}
+		}
+		else {
 			// Se a solicitação de criação de licença é nova e o usuário não é o
 			// admin sempre deverá passar para o status de Solicitado
 			if(empty($this->id)) { 

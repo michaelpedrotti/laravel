@@ -16,24 +16,24 @@
 	</div>
 </div>
 
-@if($model->status == 'G')
-	<div class="col-sm-12">
-	   <div class="form-body {{ $errors->first('verification_code', 'has-error') }}">
-		   <label class="control-label">{{ $model->labels['verification_code'] }}</label>
-		   @if(app_can('ADMIN') && empty($model->verification_code))
-			   {{ Form::text('verification_code', $model->verification_code, ['class' => 'form-control']) }}
-
-			   @if ($errors->has('verification_code'))
-			   <span class="help-block">
-				   <strong>{{ $errors->first('verification_code') }}</strong>
-			   </span>
-			   @endif
-		   @else
-			   <div class="form-control">{{ $model->verification_code }}</div>
-		   @endif
-	   </div>
+<div class="col-sm-12">
+   <div class="form-body {{ $errors->first('verification_code', 'has-error') }}">
+		<label class="control-label">{{ $model->labels['verification_code'] }}</label>
+		@if(app_can('ADMIN') && empty($model->verification_code))
+			{{ Form::text('verification_code', $model->verification_code, ['class' => 'form-control']) }}
+			@if ($errors->has('verification_code'))
+			<span class="help-block">
+				<strong>{{ $errors->first('verification_code') }}</strong>
+			</span>
+			@endif
+			<span class="help-block" style="height:45px">
+			   <strong>@lang('Esse campo sera preenchido ao gerar a licença. Caso, seja preenchido antes da situação Gerado não irá gerar a licença.')</strong>
+			</span>
+		@else
+		   <div class="form-control">{{ $model->verification_code }}</div>
+		@endif
    </div>
-@endif
+</div>
 
 <div class="col-sm-12">
 	<div class="form-body {{ $errors->first("product_id", "has-error") }}">

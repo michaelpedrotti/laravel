@@ -48,13 +48,11 @@ class LicensesController extends Controller {
 				})
 				->editColumn('status', function ($query) use($mapper) {
 					
-					if($query->status == 'G') {
+					if($query->status == 'G' && !empty($query->stream)) {
 						return view('licenses.index.download', ['model' => $query]);
 					}
-					else {
 					
-						return array_get($mapper, $query->status, $query->status);
-					}
+					return array_get($mapper, $query->status, $query->status);
 				})
 				->make(true);
         }

@@ -4,6 +4,14 @@
 		<div class="form-control">{{ $model->zend_id }}</div>
 	</div>
 </div>
+@if(!empty($model->verification_code))
+	<div class="col-sm-12">
+		<div class="form-body">
+			<label class="control-label">{{ $model->labels['verification_code'] }}</label>
+			<div class="form-control">{{ $model->verification_code }}</div>
+		</div>
+	</div>
+@endif
 <div class="col-sm-12">
 	<div class="form-body">
 		<label class="control-label">{{ $model->labels['product_id'] }}</label>
