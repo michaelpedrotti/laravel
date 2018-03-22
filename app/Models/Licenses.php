@@ -31,6 +31,7 @@ class Licenses extends \Eloquent {
 		'expiration_upd',
         'hash',
 		'zend_id',
+		'verification_code',
 		'stream',
     ];
     
@@ -49,6 +50,7 @@ class Licenses extends \Eloquent {
 		'expiration_upd' => 'data',
         'hash' => 'string',
 		'zend_id' => 'string',
+		'verification_code' => 'string',
 		'stream' => 'string'
     ];    
     
@@ -67,6 +69,7 @@ class Licenses extends \Eloquent {
         'hash' => 'Chave',
 		'status' => 'Situação',
 		'zend_id' => 'Código de licenciamento',
+		'verification_code' => 'Código de verificação',
 		'stream' => 'Licença'
     ];
 	
@@ -169,22 +172,21 @@ class Licenses extends \Eloquent {
      * @return null
      */
     public function authorize(){
-    
-        if(!empty($this->id)) {
 
-            $builder = self::select(); 
-            $builder->where('id', $this->id);
-            //$builder->where('user_id', \Auth::user()->id);
+		if(app_can('ADMIN')) return true;
+		
+		$user_id = \Auth::user()->id;
 
-            // Grava em laravel.log
-            //
-            //\Log::info($builder->getBindings());
-            //\Log::info($builder->toSql());
+		// Cliente
+		if($user_id == $this->Custumer->User->id) return true;
+		
+		// Revendedor
+		if($user_id == $this->Custumer->Reseller->User->id) return true;	
+		
+		// Distribuidor
+		if($user_id == $this->Custumer->Reseller->Distributor->User->id) return true;	
 
-            if($builder->count() <= 0){
-                die(view('default/403')->render());
-            }
-        } 
+		app_abort('403', __('Vão não tem permissão para acesso')); 
     }
     
     /**
@@ -356,6 +358,20 @@ class Licenses extends \Eloquent {
 			});
 		});
 		
+		static::retrieved(function(Licenses $model){
+			
+			$filepath = storage_path('app/'.$model->hash);
+			
+			if(!file_exists($filepath)){
+				file_put_contents($filepath, $model->stream);
+			}			
+		});
+		
 		parent::boot();
+	}
+	
+	public function getStorageFileName(){
+		
+		return 'private/'.md5($this->id).'.zl';
 	}
 }

@@ -398,6 +398,7 @@ APP.Crud.Bootstrap = function(selector){
     selector.find(".datepicker").datepicker($.fn.datepicker.dates['pt-BR']);
     selector.find('.datepicker').inputmask("99/99/9999");
     selector.find('.cnpj').inputmask('99.999.999/9999-99');
+    selector.find('.ip').inputmask('9{1,3}.9{1,3}.9{1,3}.9{1,3}');
     selector.find(".integer").inputmask('integer', {min:1, max:99999});
 };
 

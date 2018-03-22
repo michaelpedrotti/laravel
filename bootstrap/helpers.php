@@ -88,6 +88,8 @@ if(!function_exists('app_can')) {
      */
 	function app_can($ability){
 		
+		if(\App::runningInConsole()) return true;
+		
 		$bool = false;
 		$array = (array)$ability;
 		

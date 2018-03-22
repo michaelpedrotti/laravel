@@ -3,12 +3,13 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Licenses as Model;
 
 class MakeLicenses extends Command {
 
 	
-	const ZEND_COMMAND = '/opt/Zend/ZendGuard-5_5_0/plugins/com.zend.guard.core.resources.linux.x86_5.5.0/resources/zendenc_sign';
+	const ZEND_PATH = '/opt/Zend/ZendGuard-5_5_0/plugins/com.zend.guard.core.resources.linux.x86_5.5.0/resources/zendenc_sign';
 	
 	/**
 	 * The name and signature of the console command.
@@ -48,18 +49,41 @@ class MakeLicenses extends Command {
 		return $filepath;
 	}
 	
+	protected function getVerCodeFromContent($content = ''){
+		
+		$matches = [];
+		$string = '';
+		
+		preg_match('/Verification-Code\s+=\s+(\S+)/', $content, $matches);
+		
+		if(count($matches) > 1) {
+			$string= array_pop($matches);
+		}
+		
+		return $string;
+	}
+	
 	/**
 	 * Execute the console command.
 	 *
 	 * @return mixed
 	 */
 	public function handle() {
-			
+		
+		$model = Model::getModel();
+		
 		$collection = Model::select()
 			->where('status', 'A')
 				->get();
-				
-		if($collection->count() > 0){
+
+		if($collection->count() <= 0){
+			$this->warn(__('Não existem licenças a serem geradas'));
+			return false;
+		}
+		
+		$model->getConnection()->beginTransaction();
+		
+		try {
 			
 			$collection->each(function($model){
 				
@@ -76,8 +100,8 @@ class MakeLicenses extends Command {
 				$licensePath = tempnam('/tmp', 'license');
 				$templatePath = $this->makeTempFile('temp', view('layout.zend', ['model' => $model]));
 				
-				$command = sprintf('%s %s %s %s',
-					self::ZEND_COMMAND,
+				$command = sprintf('%s %s %s %s > /dev/null 2>&1',
+					self::ZEND_PATH,
 					$templatePath,
 					$licensePath,
 					$zendKeyPath
@@ -91,15 +115,29 @@ class MakeLicenses extends Command {
 					throw new \Exception(__('Falha ao gerar a licença'));
 				}
 				
-				$model->stream = file_get_contents($licensePath);
+				$storagePath = $model->getStorageFileName();
+				
+				$content = file_get_contents($licensePath);
+				
+				Storage::put($storagePath, $content);
+				
+				$model->stream = $content;
+				$model->hash = $storagePath;
+				$model->verification_code = $this->getVerCodeFromContent($content);
 				$model->status = 'G';
 				$model->save();
 			});
-					
+			
+			$model->getConnection()->commit();
+			
 			$this->info(__(sprintf('%s Licença(s) foram gerada(s)', $collection->count())));
 		}
-		else {
-			$this->warn(__('Não existem licenças a serem geradas'));
-		}
+		 catch(\Exception $e) {
+                
+			$model->getConnection()->rollBack();
+			$this->warn($e->getMessage()); 
+			
+			return false;
+        } 
 	}
 }

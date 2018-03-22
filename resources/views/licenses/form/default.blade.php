@@ -16,6 +16,25 @@
 	</div>
 </div>
 
+@if($model->status == 'G')
+	<div class="col-sm-12">
+	   <div class="form-body {{ $errors->first('verification_code', 'has-error') }}">
+		   <label class="control-label">{{ $model->labels['verification_code'] }}</label>
+		   @if(app_can('ADMIN') && empty($model->verification_code))
+			   {{ Form::text('verification_code', $model->verification_code, ['class' => 'form-control']) }}
+
+			   @if ($errors->has('verification_code'))
+			   <span class="help-block">
+				   <strong>{{ $errors->first('verification_code') }}</strong>
+			   </span>
+			   @endif
+		   @else
+			   <div class="form-control">{{ $model->verification_code }}</div>
+		   @endif
+	   </div>
+   </div>
+@endif
+
 <div class="col-sm-12">
 	<div class="form-body {{ $errors->first("product_id", "has-error") }}">
 		<label class="control-label">{{ $model->labels['product_id'] }}  <span class="request">*</span></label>

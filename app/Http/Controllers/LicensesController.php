@@ -47,7 +47,14 @@ class LicensesController extends Controller {
 					return app_date($query->expiration_upd, 'Y-m-d', 'd/m/Y');
 				})
 				->editColumn('status', function ($query) use($mapper) {
-					return array_get($mapper, $query->status, $query->status);
+					
+					if($query->status == 'G') {
+						return view('licenses.index.download', ['model' => $query]);
+					}
+					else {
+					
+						return array_get($mapper, $query->status, $query->status);
+					}
 				})
 				->make(true);
         }
@@ -251,6 +258,23 @@ class LicensesController extends Controller {
 		
 		return view('licenses.form.network', [
 			'networks' => [$request->get('network', '0.0.0.0')]
+		]);
+	}
+	
+	/**
+	 * Baixa a licença
+	 */
+	public function download(Request $request){
+		
+		$model = Model::find($request->route('id'));
+		
+		if(!$model) abort(404, __('Arquivo não foi encontrado'));
+		
+		$model->authorize();
+		
+		return \Response::download(storage_path('app/'.$model->hash), 'license.zl',[
+			'Content-Type' => 'text/plain',
+			'Content-Disposition' => 'attachment'
 		]);
 	}
 }
