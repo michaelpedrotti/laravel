@@ -28,8 +28,6 @@ class UsersFormRequest extends FormRequest
         return [
             'name' => ['required'],
             'email' => 'required|unique:users,email,'.app('request')->route('id'),
-            //'password' => ['required'],
-			//'confirm_password' => ['required'],
 			'acl_id' => ['required'],
         ];
     }
@@ -43,9 +41,6 @@ class UsersFormRequest extends FormRequest
 			'name.required' => 'O campo "Nome" não foi preenchido.',
 			'email.required' => 'O campo "E-mail" não foi preenchido.',
 			'email.unique' => 'O email já esta sendo utilizado em outro cadastro.',
-			'password.required' => 'O campo "Senha" não foi preenchido.',
-			'confirm_password.required' => 'O campo "Confirmar Senha" não foi preenchido.',
-			'confirm_password.notequal' => 'Os campos "Senha" e "Confirmar Senha" não são iguais.',
 			'acl_id.required' => 'O campo "Perfil" não foi preenchido.',
 		];
 	}
@@ -54,28 +49,14 @@ class UsersFormRequest extends FormRequest
      * Validador customizado
      *
      * @return Illuminate\Validation\Validator
-     */
+     
     protected function getValidatorInstance() {
         
         return parent::getValidatorInstance()->after(function($validator) {
 
             $messages = $this->messages();
             $data = $validator->getData();
-			
-			if(empty(app('request')->route('id'))) {	
-				
-				if(empty(array_get($data, 'password'))) {
-					$validator->errors()->add('password', $messages['password.required']);
-				}
-				
-				if(empty(array_get($data, 'confirm_password'))) {
-					$validator->errors()->add('confirm_password', $messages['confirm_password.required']);
-				}
-				
-				if(array_get($data, 'password') != array_get($data, 'confirm_password')) {
-					$validator->errors()->add('password', $messages['confirm_password.notequal']);
-				}
-			}
         });
     }
+	 */
 }

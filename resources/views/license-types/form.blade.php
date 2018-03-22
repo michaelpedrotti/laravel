@@ -12,7 +12,13 @@
                                     <div class="col-sm-12">
                                         <div class="form-body {{ $errors->first("name", "has-error") }}">
                                             <label class="control-label">{{ $model->labels['name'] }}  <span class="request">*</span></label>
-                                            {{ Form::text('name', $model->name, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
+                                            {{ Form::text('name', $model->name, ['class' => 'form-control', 'placeholder' => '']) }}
+                                        </div>
+                                    </div>
+									<div class="col-sm-12">
+                                        <div class="form-body {{ $errors->first("product_id", "has-error") }}">
+                                            <label class="control-label">{{ $model->labels['product_id'] }}  <span class="request">*</span></label>
+                                            {{ Form::select('product_id', app_fetch('Products', 'name', 'id'), $model->product_id, ['class' => 'form-control select2']) }}
                                         </div>
                                     </div>
                                                   

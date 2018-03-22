@@ -27,6 +27,7 @@ class LicenseTypesFormRequest extends FormRequest
     public function rules() {
         return [
             'name' => ['required'],
+			'product_id' => ['required'],
         ];
     }
     
@@ -39,7 +40,7 @@ class LicenseTypesFormRequest extends FormRequest
                         
                         
             'name.required' => 'O campo "Nome" não foi preenchido.',            
-                        
+            'product_id.required' => 'O campo "Produto" não foi preenchido.',           
         ];
     }
     

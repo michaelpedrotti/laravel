@@ -47,7 +47,9 @@ class UserAcls extends \Eloquent {
     ];
 	
 	
-    
+    public function Acl() {
+        return $this->hasOne('App\Models\Acls', 'id', 'acl_id')->withDefault();
+    }
 
     /**
      * Busca o modelo de acls     

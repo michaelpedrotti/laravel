@@ -21,5 +21,6 @@
 	'columns' => [
 		'id' => $model->labels['id'],
 		'name' => $model->labels['name'],
+		'product_id' => $model->labels['product_id'],
 	]
 ])

@@ -26,6 +26,7 @@
 	'columns' => [
 		'id' => $model->labels['id'],
 		'name' => $model->labels['name'],
-		'email' => $model->labels['email']
+		'email' => $model->labels['email'],
+		'acl' => __('Perfil')
 	]
 ])

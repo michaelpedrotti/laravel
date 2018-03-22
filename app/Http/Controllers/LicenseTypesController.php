@@ -30,12 +30,9 @@ class LicenseTypesController extends Controller {
 
         if ($request->isXmlHttpRequest()) {
             return Datatables::eloquent($model->search())
-				//->editColumn('id', function ($query) {
-				//	return $query->id;
-				//})
-				//->editColumn('name', function ($query) {
-				//	return $query->name;
-				//})
+				->editColumn('product_id', function ($query) {
+					return $query->Product->name;
+				})
 				->make(true);
         }
        

@@ -30,21 +30,9 @@ class UsersController extends Controller {
 
         if ($request->isXmlHttpRequest()) {
             return Datatables::eloquent($model->search())
-				//->editColumn('id', function ($query) {
-				//	return $query->id;
-				//})
-				//->editColumn('name', function ($query) {
-				//	return $query->name;
-				//})
-				//->editColumn('email', function ($query) {
-				//	return $query->email;
-				//})
-				//->editColumn('password', function ($query) {
-				//	return $query->password;
-				//})
-				//->editColumn('remember_token', function ($query) {
-				//	return $query->remember_token;
-				//})
+				->addColumn('acl', function ($query) {
+					return $query->Acls->first()->Acl->name;
+				})
 				->make(true);
         }
        
@@ -112,7 +100,7 @@ class UsersController extends Controller {
      */
     public function show(Request $request) {
     
-        $this->authorize('USERS_DELETE');
+        $this->authorize('USERS_SHOW');
     
         $model = Model::findOrFail($request->route('id')); 
         //$model->authorize($request->route('id'));
