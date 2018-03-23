@@ -31,6 +31,9 @@ class LicensesController extends Controller {
 
         if ($request->isXmlHttpRequest()) {
             return Datatables::eloquent($model->search($request->all()))
+				->addColumn('expires_app', function($query){					
+					return $query->isNearToExpires();
+				})
 				->addColumn('product_id', function ($query) {
 					return $query->Product->name;
 				})

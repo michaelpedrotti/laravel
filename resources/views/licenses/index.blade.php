@@ -181,7 +181,7 @@ $(function(){
 
 </script>
 @append
-@include('layout.partials.datatable', [
+@include('licenses.index.datatable', [
 	'url' => url("licenses/index"),
 	'permission' => 'LICENSES',
 	'columns' => [

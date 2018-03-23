@@ -136,7 +136,6 @@ class Licenses extends \Eloquent {
 		$this->attributes['expiration_upd'] = $value;
 	}
     
-
     /**
      * Busca o modelo de clients 
 	 *
@@ -150,7 +149,8 @@ class Licenses extends \Eloquent {
 	 *
      * @return products 
      */
-    public function Product() {
+    
+	public function Product() {
         return $this->hasOne('App\Models\Products', 'id', 'product_id')->withDefault();
     }
     /**
@@ -323,22 +323,7 @@ class Licenses extends \Eloquent {
 			//------------------------------------------------------------------
 			// Envia alerta para os envolvidos
 			//------------------------------------------------------------------
-			// Seleciona todos os usuários administradores da HSC
-			$collection = \App\Models\Users::query()
-				->whereExists(function($builder){
-					$builder->select(\DB::raw(1))
-						->from('user_acls')
-						->whereRaw('user_acls.user_id = users.`id` AND acl_id IN(SELECT id FROM `acls` WHERE `uid` = "ADMIN")');
-				})
-				->get();
-
-			// Adiciona o cliente
-			$collection->add($license->Custumer->User);
-			// Adiciona o revendedor
-			$collection->add($license->Custumer->Reseller->User);	
-			// Adiciona o distribuidor
-			$collection->add($license->Custumer->Reseller->Distributor->User);	
-			
+			$collection = $license->stakeholders();
 
 			$alert = \App\Models\Alerts::create([
 				'title' => __('Licenciamento'),  
@@ -376,8 +361,46 @@ class Licenses extends \Eloquent {
 		parent::boot();
 	}
 	
+	
+	/**
+	 * Retorna todos os envolvidos com a licenças selecionada
+	 * 
+	 * @return Illuminate\Support\Collection [ Users ]
+	 */
+	public function stakeholders(){
+		
+		// Seleciona todos os usuários administradores da HSC
+		$collection = \App\Models\Users::query()
+			->whereExists(function($builder){
+				$builder->select(\DB::raw(1))
+					->from('user_acls')
+					->whereRaw('user_acls.user_id = users.`id` AND acl_id IN(SELECT id FROM `acls` WHERE `uid` = "ADMIN")');
+			})
+			->get();
+
+		// Adiciona o cliente
+		$collection->add($this->Custumer->User);
+		// Adiciona o revendedor
+		$collection->add($this->Custumer->Reseller->User);	
+		// Adiciona o distribuidor
+		$collection->add($this->Custumer->Reseller->Distributor->User);
+		
+		return $collection;
+	}
+	
 	public function getStorageFileName(){
 		
 		return 'private/'.md5($this->id).'.zl';
+	}
+	
+	/**
+	 * Verifica se a licença esta próxima de expirar
+	 * 
+	 * @param string $expr Expressão para projetar data futura
+	 * @return bool
+	 */
+	public function isNearToExpires($expr = 'today + 30 days'){
+		
+		return (strtotime($this->expiration_app.' 00:00:00') == strtotime($expr));
 	}
 }

@@ -157,6 +157,10 @@ class Users extends \Eloquent {
 	
 	public function save(array $options = array()) {
 		
+		if(empty($this->id)){
+			$this->password = str_shuffle(date('Ymd'));
+		}
+		
 		$acl_id = $this->acl_id;
 
 		unset($this->acl_id);// Remove do fillable		
