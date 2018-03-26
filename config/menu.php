@@ -51,6 +51,21 @@ return [
 		'acl' => ['PRODUCTS_LIST', 'LICENSETYPES_LIST']
 	],
 	[
+        'label' => 'Extreme Update',
+        'url' => '',
+        'icon' => 'fa-refresh',
+		'child' => [
+			
+			[
+                'label' => 'Assinaturas de SPAM',
+                'url' => 'upd-rules',
+                'icon' => 'fa-paint-brush',
+                //'acl' => 'PRODUCTS_LIST'
+            ]
+		],
+        //'acl' => 'DOCUMENTS_LIST'
+    ],
+	[
         'label' => 'Documentos',
         'url' => 'documents',
         'icon' => 'fa-file-archive-o',
