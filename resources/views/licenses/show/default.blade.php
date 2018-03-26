@@ -35,21 +35,21 @@
 <div class="col-sm-12">
 	<div class="form-body">
 		<label class="control-label">{{ __('Distribuidor') }}</label>
-		<div class="form-control">{{ $model->Custumer->Reseller->User->name }}</div>
+		<div class="form-control">{{ $model->Customer->Reseller->User->name }}</div>
 	</div>
 </div>
 
 <div class="col-sm-12">
 	<div class="form-body">
 		<label class="control-label">{{ __('Revendedor') }}</label>
-		<div class="form-control">{{ $model->Custumer->User->name }}</div>
+		<div class="form-control">{{ $model->Customer->User->name }}</div>
 	</div>
 </div>
 
 <div class="col-sm-12">
 	<div class="form-body">
 		<label class="control-label">{{ $model->labels['customer_id'] }}</label>
-		<div class="form-control">{{ $model->Custumer->User->name }}</div>
+		<div class="form-control">{{ $model->Customer->User->name }}</div>
 	</div>
 </div>
 

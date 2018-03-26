@@ -95,9 +95,9 @@
 			<label class="control-label">{{ __('Distribuidor') }}  <span class="request">*</span></label>
 			
 			@if(empty($model->id))
-				{{ Form::select('distributor_id', app_fetch('Distributors', 'name', 'id'), $model->Custumer->Reseller->distributor_id, ['class' => 'form-control select2']) }}
+				{{ Form::select('distributor_id', app_fetch('Distributors', 'name', 'id'), $model->Customer->Reseller->distributor_id, ['class' => 'form-control select2']) }}
 			@else
-				<div class="form-control">{{ $model->Custumer->Reseller->Distributor->User->name }}</div>
+				<div class="form-control">{{ $model->Customer->Reseller->Distributor->User->name }}</div>
 			@endif
 			
 			@if ($errors->has('distributor_id'))
@@ -115,9 +115,9 @@
 		<label class="control-label">{{ __('Revendedor') }}  <span class="request">*</span></label>
 		
 		@if(empty($model->id))
-			{{ Form::select('reseller_id', $resellers, $model->Custumer->reseller_id, ['class' => 'form-control select2']) }}
+			{{ Form::select('reseller_id', $resellers, $model->Customer->reseller_id, ['class' => 'form-control select2']) }}
 		@else
-			<div class="form-control">{{ $model->Custumer->Reseller->User->name }}</div>
+			<div class="form-control">{{ $model->Customer->Reseller->User->name }}</div>
 		@endif
 		
 		@if ($errors->has('reseller_id'))
@@ -136,7 +136,7 @@
 		@if(empty($model->id))
 			{{ Form::select('customer_id', app_fetch('Clients', 'name', 'id'), $model->customer_id, ['class' => 'form-control select2']) }}
 		@else
-			<div class="form-control">{{ $model->Custumer->User->name }}</div>
+			<div class="form-control">{{ $model->Customer->User->name }}</div>
 		@endif
 		
 		@if ($errors->has('customer_id'))

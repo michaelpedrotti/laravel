@@ -41,7 +41,7 @@ class LicensesController extends Controller {
 					return $query->Type->name;
 				})
 				->addColumn('customer_id', function ($query) {
-					return $query->Custumer->User->name;
+					return $query->Customer->User->name;
 				})
 				->editColumn('expiration_app', function ($query) {
 					return app_date($query->expiration_app, 'Y-m-d', 'd/m/Y');
@@ -109,7 +109,7 @@ class LicensesController extends Controller {
 		$view->with('model', $model);
 		
 		$view->with('resellers', \App\Models\Resellers::getModel()
-			->toHash($model->Custumer->Reseller->distributor_id));
+			->toHash($model->Customer->Reseller->distributor_id));
 		
 		$view->with('customers', \App\Models\Clients::getModel()
 			->toHash($model->customer_id));

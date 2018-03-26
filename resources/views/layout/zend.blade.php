@@ -1,5 +1,5 @@
 Product-Name = {{ $model->Product->name }}
-Registered-To = {{ $model->Custumer->User->name }}
+Registered-To = {{ $model->Customer->User->name }}
 Expires = {{ app_date($model->expiration_app, 'Y-m-d', 'd-M-Y') }}
 Host-ID = {{ $model->zend_id }}
 Hardware-Locked = Yes

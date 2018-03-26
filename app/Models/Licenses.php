@@ -141,7 +141,7 @@ class Licenses extends \Eloquent {
 	 *
      * @return clients 
      */
-    public function Custumer() {
+    public function Customer() {
         return $this->hasOne('App\Models\Clients', 'id', 'customer_id')->withDefault();
     }
     /**
@@ -178,13 +178,13 @@ class Licenses extends \Eloquent {
 		$user_id = \Auth::user()->id;
 
 		// Cliente
-		if($user_id == $this->Custumer->User->id) return true;
+		if($user_id == $this->Customer->User->id) return true;
 		
 		// Revendedor
-		if($user_id == $this->Custumer->Reseller->User->id) return true;	
+		if($user_id == $this->Customer->Reseller->User->id) return true;	
 		
 		// Distribuidor
-		if($user_id == $this->Custumer->Reseller->Distributor->User->id) return true;	
+		if($user_id == $this->Customer->Reseller->Distributor->User->id) return true;	
 
 		app_abort('403', __('Vão não tem permissão para acesso')); 
     }
@@ -329,7 +329,7 @@ class Licenses extends \Eloquent {
 				'title' => __('Licenciamento'),  
 				'route' => '/licenses',
 				'msg' => __('Licença para o cliente :custumer com a situação :status', [
-					'custumer' => $license->Custumer->User->name,
+					'custumer' => $license->Customer->User->name,
 					'status' => $license->statusMapperName()
 				])
 			]);
@@ -379,11 +379,11 @@ class Licenses extends \Eloquent {
 			->get();
 
 		// Adiciona o cliente
-		$collection->add($this->Custumer->User);
+		$collection->add($this->Customer->User);
 		// Adiciona o revendedor
-		$collection->add($this->Custumer->Reseller->User);	
+		$collection->add($this->Customer->Reseller->User);	
 		// Adiciona o distribuidor
-		$collection->add($this->Custumer->Reseller->Distributor->User);
+		$collection->add($this->Customer->Reseller->Distributor->User);
 		
 		return $collection;
 	}

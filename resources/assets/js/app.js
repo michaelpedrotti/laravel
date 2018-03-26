@@ -420,11 +420,11 @@ APP.Crud.CheckAll = function(){
     
     if(checkbox.is(':checked')) {
 
-        fn = function(checkbox){ checkbox.attr('checked', 'checked'); };
+        fn = function(checkbox){ checkbox.get(0).checked = true; };
     }
     else {
 
-        fn = function(checkbox){ checkbox.removeAttr('checked'); };
+        fn = function(checkbox){ checkbox.get(0).checked = false; };
     }
     
     checkbox.parents('table:first').find('tbody').find('input[type=checkbox]').each(function(index, el){
@@ -525,6 +525,24 @@ $(document).ready(function() {
    
         $(this).find('input[data-check-all]').click(APP.Crud.CheckAll);
     });
+        
+    $("table.dataTable").on('dblclick','td',function(e){
+        
+        var col = $(this);
+        
+        if(col.index() <= 0) return false;
+        
+        var row = $(this).closest('tr');
+        var input = row.find('input[type=checkbox]');
+        
+        if(input.is(':checked')){
+            input.get(0).checked = false;
+        }
+        else {
+            input.get(0).checked = true;
+        }
+    });
+    
     
     $('.modal').on('shown.bs.modal', APP.Crud.Load);
     

@@ -61,6 +61,6 @@ class Kernel extends HttpKernel
 		'first-login' => \App\Http\Middleware\FirstLogin::class,
 		
 		//'rest' => \App\Http\Middleware\Rest::class,
-        //'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class,
+        'jwt.auth' => \Tymon\JWTAuth\Middleware\GetUserFromToken::class,
     ];
 }

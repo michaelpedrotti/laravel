@@ -57,7 +57,7 @@ class CheckLicenses extends Command {
 
 			$collection->each(function(Licenses $license){
 				
-				$this->warn(__(sprintf('%s: %s', $license->Product->name, $license->Custumer->User->name)));
+				$this->warn(__(sprintf('%s: %s', $license->Product->name, $license->Customer->User->name)));
 				
 				if($license->isNearToExpires()){
 					
@@ -66,7 +66,7 @@ class CheckLicenses extends Command {
 						'route' => '/licenses',
 						'msg' => __('Licença de :product de :custumer vai expirar', [
 							'product' => $license->Product->name,
-							'custumer' => $license->Custumer->User->name,
+							'custumer' => $license->Customer->User->name,
 						])
 					]);
 					
