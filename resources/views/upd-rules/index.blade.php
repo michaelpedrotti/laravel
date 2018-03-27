@@ -1,28 +1,23 @@
 @extends('layout.app')
 @section('breadcrumb')
-<h1><small>Regra</small></h1>
+<h1><small>@lang('Assinaturas de SPAM')</small></h1>
 <ol class="breadcrumb">
-	<li><a href="{{ url('/') }}"><i class="fa fa-home"></i> Home</a></li>
-	<li class="active">Regra</li>
+	<li><a href="{{ url('/') }}"><i class="fa fa-home"></i> @lang('Home')</a></li>
+	<li>@lang('Extreme Update')</li>
+	<li class="active">@lang('Assinaturas de SPAM')</li>
 </ol>
 @stop
 @section('search')
 <div class="col-sm-6">
 	<div class="form-body">
 		<label class="control-label">{{ $model->labels['type'] }}</label>
-		{{ Form::text('type', $model->type, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
+		{{ Form::select('type', ["body" => "body", "header" => "header", "uri" => "uri", "rowbody" => "rowbody", "meta" => "meta"], '', ['class' => 'form-control', 'placeholder' => '']) }}
 	</div>
 </div>
 <div class="col-sm-6">
 	<div class="form-body">
 		<label class="control-label">{{ $model->labels['name'] }}</label>
-		{{ Form::text('name', $model->name, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
-	</div>
-</div>
-<div class="col-sm-6">
-	<div class="form-body">
-		<label class="control-label">{{ $model->labels['value'] }}</label>
-		{{ Form::text('value', $model->value, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
+		{{ Form::text('name', $model->name, ['class' => 'form-control', 'placeholder' => '']) }}
 	</div>
 </div>
    

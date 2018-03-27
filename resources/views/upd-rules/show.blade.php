@@ -22,7 +22,7 @@
 					<div class="col-sm-12">
 						<div class="form-body">
 							<label class="control-label">{{ $model->labels['value'] }}</label>
-							<div class="form-control">{{ $model->value }}</div>
+							{{ Form::textarea('value', $model->value, ['class' => 'form-control', 'readonly' => 'readonly']) }}
 						</div>
 					</div>
 				</fieldset>    

@@ -67,10 +67,24 @@ class Users extends \Eloquent {
 		$this->attributes['password'] = bcrypt($value);
 	}
 	
+	public function getCurrentAcl(){
+		
+		$model = Acls::select('acls.*')
+			->join('user_acls', 'user_acls.acl_id', 'acls.id')
+			->where('user_acls.user_id', $this->id)
+				->get()
+					->first();
+		
+		if(empty($model)) {
+			$model = Acls::where('uid', 'ADMIN')->first();
+		}
+		
+		return $model;
+	}
+	
 	public function Distributor(){
 		return $this->hasOne('\App\Models\Distributors', 'distributor_id', 'id')->withDefault();
 	}
-
 
     /**
      * Relations com Acls 
@@ -78,8 +92,12 @@ class Users extends \Eloquent {
 	 * @return Acls     
 	 */
     public function Acls() {
-        return $this->hasMany('\App\Models\UserAcls', 'user_id', 'id');
+        return $this->hasMany('\App\Models\UserAcls', 'user_id', 'id')->withDefault();
     }
+	
+    public function UserAcl() {
+        return $this->hasOne('\App\Models\UserAcls', 'user_id', 'id')->withDefault();
+    }	
 
     /**
      * Verifica se o usuário tem permissão pra acessar o registro
@@ -104,7 +122,6 @@ class Users extends \Eloquent {
             }
         } 
     }
-    
     
     /**
      * Realiza a consulta da tabela

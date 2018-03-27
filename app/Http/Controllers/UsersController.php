@@ -48,20 +48,16 @@ class UsersController extends Controller {
      * @return Illuminate\View\View
      */
     public function form(Request $request) {
-    
+		
         $this->authorize(($request->route('id') ? 'USERS_EDIT' : 'USERS_ADD'));
         
         $model = Model::findOrNew($request->route('id'));
         //$model->authorize();
         $model->fill($request->all());
-		
+			
 		$view = view('users.form', [
             'model' => $model,
-			'acls' => \App\Models\Acls::getModel()
-				->search()
-					->pluck('name', 'id')
-					->prepend('Selecione', '')
-						->toArray()
+			'acl' => $model->getCurrentAcl()
         ]);
         
         if($request->isMethod('post')) {
@@ -106,7 +102,8 @@ class UsersController extends Controller {
         //$model->authorize($request->route('id'));
         
         return view('users.show', [
-            'model' => $model
+            'model' => $model,
+			'acl' => $model->getCurrentAcl()
         ]);
     }
 

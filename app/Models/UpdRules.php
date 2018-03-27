@@ -48,9 +48,6 @@ class UpdRules extends \Eloquent {
         'name' => 'Nome',
         'value' => 'Valor',
     ];
-	
-	
-    
 
 
     /**
@@ -100,11 +97,7 @@ class UpdRules extends \Eloquent {
         }
            
         if(array_has($filter, 'name')) {
-            $builder->where('name', array_get($filter, 'name'));
-        }
-           
-        if(array_has($filter, 'value')) {
-            $builder->where('value', array_get($filter, 'value'));
+            $builder->where('name', 'LIKE', '%'.array_get($filter, 'name').'%');
         }
         
         

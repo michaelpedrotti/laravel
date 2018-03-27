@@ -24,10 +24,10 @@
 										</div>
                                     </div>	
 									<div class="col-sm-12">
-                                        <div class="form-body {{ $errors->first("acl_id", "has-error") }}">
-                                            <label class="control-label">Perfil:  <span class="request">*</span></label>
-                                            {{ Form::select('acl_id', $acls, ($model->Acls->count() > 0 ? $model->Acls->first()->id : null ), ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
-											<span class="help-block">{{ $errors->first("acl_id") }}</span>
+                                        <div class="form-body">
+                                            <label class="control-label">Perfil</label>
+											<div class="form-control">{{ $acl->name }}</div>
+											{{ Form::hidden('acl_id', $acl->id) }}
 										</div>
                                     </div>
                                                  
