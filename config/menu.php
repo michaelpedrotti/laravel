@@ -60,10 +60,17 @@ return [
                 'label' => 'Assinaturas de SPAM',
                 'url' => 'upd-rules',
                 'icon' => 'fa-paint-brush',
-                //'acl' => 'PRODUCTS_LIST'
-            ]
+                'acl' => 'UPDRULES_LIST'
+            ],
+			[
+				
+				'label' => 'Smart Defender',
+                'url' => 'upd-sdfndrs',
+                'icon' => 'fa-paint-brush',
+                'acl' => ''	
+			]
 		],
-        //'acl' => 'DOCUMENTS_LIST'
+        'acl' => ['UPDRULES_LIST']
     ],
 	[
         'label' => 'Documentos',

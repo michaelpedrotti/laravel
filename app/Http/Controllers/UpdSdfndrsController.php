@@ -3,61 +3,72 @@ namespace App\Http\Controllers;
 
 use Yajra\Datatables\Facades\Datatables;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UsersFormRequest as FormRequest;
-use App\Models\Users as Model; 
+use App\Http\Requests\UpdSdfndrsFormRequest as FormRequest;
+use App\Models\UpdSdfndrs as Model; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Validation\ValidationException;
 
 /**
- * Controlador Usuário
+ * Controlador Smart Defender
  *
  * @author Michael Pedrotti <michael.pedrotti@hscbrasil.com.br>
  */
-class UsersController extends Controller {
+class UpdSdfndrsController extends Controller {
         
     /**
-     * Monta a listagem dos Usuários
+     * Monta a listagem dos Smart Defender
      *
      * @param Illuminate\Http\Request $request
      * @return Illuminate\View\View | Illuminate\Http\JsonResponse
      */
     public function index(Request $request) {
     
-        $this->authorize('USERS_LIST');
+        $this->authorize('UPDSDFNDRS_LIST');
         
 		$model = Model::getModel()->fill($request->all());
 
         if ($request->isXmlHttpRequest()) {
-            return Datatables::eloquent($model->search())
-				->addColumn('acl', function ($query) {
-					return $query->getCurrentAcl()->name;
+            return Datatables::eloquent($model->search($request->all()))
+				//->editColumn('id', function ($query) {
+				//	return $query->id;
+				//})
+				->editColumn('user_id', function ($query) {
+					return $query->User->name;
+				})
+				->editColumn('type', function ($query) {
+					return array_get($query->types, $query->type, $query->type);
+				})
+				//->editColumn('value', function ($query) {
+				//	return $query->value;
+				//})
+				->editColumn('status', function ($query) {
+					return array_get($query->arrStatus, $query->status, $query->status);
 				})
 				->make(true);
         }
        
-        return view('users.index', [
+        return view('upd-sdfndrs.index', [
             'model' => $model
         ]);
     }
         
     /**
-     * Mostra o formulário para criar/editar um Usuário
+     * Mostra o formulário para criar/editar um Smart Defender
      * 
      * @param Illuminate\Http\Request $request
      * @return Illuminate\View\View
      */
     public function form(Request $request) {
-		
-        $this->authorize(($request->route('id') ? 'USERS_EDIT' : 'USERS_ADD'));
+    
+        $this->authorize(($request->route('id') ? 'UPDSDFNDRS_EDIT' : 'UPDSDFNDRS_ADD'));
         
         $model = Model::findOrNew($request->route('id'));
         //$model->authorize();
         $model->fill($request->all());
-			
-		$view = view('users.form', [
-            'model' => $model,
-			'acl' => $model->getCurrentAcl()
+		
+		$view = view('upd-sdfndrs.form', [
+            'model' => $model
         ]);
         
         if($request->isMethod('post')) {
@@ -68,10 +79,11 @@ class UsersController extends Controller {
 			
 				app(FormRequest::class);
                 
+				$model->user_id = \Auth::user()->id;
                 $model->save();
                 $model->getConnection()->commit();
                 
-                $this->setMessage('Usuário foi salva com sucesso!', 'success'); 
+                $this->setMessage('Smart Defender foi salva com sucesso!', 'success'); 
             }
 			catch(ValidationException $e){
                 
@@ -96,26 +108,25 @@ class UsersController extends Controller {
      */
     public function show(Request $request) {
     
-        $this->authorize('USERS_SHOW');
+        $this->authorize('UPDSDFNDRS_SHOW');
     
         $model = Model::findOrFail($request->route('id')); 
         //$model->authorize($request->route('id'));
         
-        return view('users.show', [
-            'model' => $model,
-			'acl' => $model->getCurrentAcl()
+        return view('upd-sdfndrs.show', [
+            'model' => $model
         ]);
     }
 
     /**
-     * Ação de destruir/excluir um Usuário
+     * Ação de destruir/excluir um Smart Defender
      *
      * @param Illuminate\Http\Request $request
      * @return Illuminate\Http\JsonResponse 
      */
     public function remove(Request $request) {
         
-        $this->authorize('USERS_REM');
+        $this->authorize('UPDSDFNDRS_REM');
     
 		$model = Model::getModel();
         $model->getConnection()->beginTransaction();
@@ -127,7 +138,7 @@ class UsersController extends Controller {
 			$ids = $request->get('id');
 			
 			if(!is_array($ids) || count($ids) <= 0) {
-				throw new Exception('Nenhum Usuário foi especificado');
+				throw new Exception('Nenhum Smart Defender foi especificado');
 			}
 			
 			$model->query()
@@ -141,7 +152,7 @@ class UsersController extends Controller {
             $model->getConnection()->commit();
 
             $output['success'] = true;
-            $output['msg'] = (count($ids) > 1) ? 'Usuários foram excluídos com sucesso' : 'Usuário foi excluido com sucesso';
+            $output['msg'] = (count($ids) > 1) ? 'Smart Defender foram excluídos com sucesso' : 'Smart Defender foi excluido com sucesso';
         } 
         catch (\Exception $e) {
 
@@ -151,75 +162,4 @@ class UsersController extends Controller {
 
         return Response::json($output);
     }
-	
-	public function address(Request $request) {
-    
-		$model = \App\Models\Address::query()
-			->where('user_id', \Auth::user()->id)
-				->first();
-		
-		if(!$model) $model = \App\Models\Address::newModelInstance(['user_id' => \Auth::user()->id]);
-
-		if($request->isMethod('post')) {
-			
-			app(\App\Http\Requests\AddressFormRequest::class);
-			
-			$model->getConnection()->beginTransaction();
-			
-			try {
-				
-				$model->fill($request->all());
-				$model->save();				
-				$model->getConnection()->commit();
-				
-                $this->setMessage('Endereço foi alterado com sucesso', 'success');
-            } 
-            catch (\Exception $e) {
-
-				$model->getConnection()->rollBack();
-                $this->setMessage($e->getMessage(), 'danger');
-            }			
-		}
-		
-        return view('users.address', [
-			'model' => $model,
-			'states' => \App\Models\States::getModel()
-				->all()
-					->pluck('name', 'id')
-					->prepend('Selecione', '')
-						->toArray()
-		]);
-    }
-	
-	public function password(Request $request){
-		
-		$model = \App\Models\Users::findOrFail(\Auth::user()->id);
-        $model->fill($request->all());
-        
-        if($request->isMethod('post')) {
-
-            app(\App\Http\Requests\UpdatePasswordFormRequest::class);
-			
-			$model->getConnection()->beginTransaction();
-			
-            try {
-                
-				$model->update([
-					'password' => $request->get('password'),
-					'first_login' => 'N'
-				]);
-				
-				$model->getConnection()->commit();
-				
-                $this->setMessage('Senha foi alterada com sucesso', 'success');
-            } 
-            catch (\Exception $e) {
-
-				$model->getConnection()->rollBack();
-                $this->setMessage($e->getMessage(), 'danger');
-            }
-        }
-		
-		return view('users.password');
-	}
 }

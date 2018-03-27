@@ -92,11 +92,11 @@ class Users extends \Eloquent {
 	 * @return Acls     
 	 */
     public function Acls() {
-        return $this->hasMany('\App\Models\UserAcls', 'user_id', 'id')->withDefault();
+        return $this->hasMany('\App\Models\UserAcls', 'user_id', 'id');
     }
 	
     public function UserAcl() {
-        return $this->hasOne('\App\Models\UserAcls', 'user_id', 'id')->withDefault();
+        return $this->hasOne('\App\Models\UserAcls', 'user_id', 'id');
     }	
 
     /**
