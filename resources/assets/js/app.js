@@ -385,6 +385,15 @@ APP.Crud.Remove = function(e){
     });
 };
 
+
+APP.Crud.afterLoadQueue = [];
+
+APP.Crud.AddAfterLoad = function(func){
+    if(typeof(func) == 'function') {   
+        APP.Crud.afterLoadQueue.push(func);
+    }
+}
+
 /**
  * Ao carregar campos por ajax os eventos não são atachados e em alguns momentos
  * o delegate não funciona. Então atachamos os eventos manualmente
@@ -400,6 +409,12 @@ APP.Crud.Bootstrap = function(selector){
     selector.find('.cnpj').inputmask('99.999.999/9999-99');
     selector.find('.ip').inputmask('9{1,3}.9{1,3}.9{1,3}.9{1,3}');
     selector.find(".integer").inputmask('integer', {min:1, max:99999});
+    
+    $.each(APP.Crud.afterLoadQueue, function(index, func){
+        if(typeof(func) == 'function') {
+            func(selector); 
+        }
+    });
 };
 
 APP.Crud.Refresh = function(button){
