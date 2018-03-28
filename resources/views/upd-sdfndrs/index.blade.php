@@ -10,13 +10,13 @@
 <div class="col-sm-6">
 	<div class="form-body">
 		<label class="control-label">{{ $model->labels['type'] }}</label>
-		{{ Form::select('type', $model->types, $model->type, ['class' => 'form-control select2', 'placeholder' => __('Selecione')]) }}
+		{{ Form::select('type', $model->types, '', ['class' => 'form-control select2', 'placeholder' => __('Selecione')]) }}
 	</div>
 </div>
 <div class="col-sm-6">
 	<div class="form-body">
 		<label class="control-label">{{ $model->labels['status'] }}</label>
-		{{ Form::select('status', $model->arrStatus, $model->status, ['class' => 'form-control select2', 'placeholder' => __('Selecione')]) }}
+		{{ Form::select('status', $model->arrStatus, '', ['class' => 'form-control select2', 'placeholder' => __('Selecione')]) }}
 	</div>
 </div>
 @stop

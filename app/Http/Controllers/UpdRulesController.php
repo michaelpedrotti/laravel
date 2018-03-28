@@ -40,7 +40,7 @@ class UpdRulesController extends Controller {
 				//	return $query->name;
 				//})
 				->editColumn('value', function ($query) {
-					return substr($query->value, 0, 50);
+					return addslashes(utf8_encode(substr($query->value, 0, 50)));
 				})
 				->make(true);
         }

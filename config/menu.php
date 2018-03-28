@@ -66,7 +66,7 @@ return [
 				
 				'label' => 'Smart Defender',
                 'url' => 'upd-sdfndrs',
-                'icon' => 'fa-paint-brush',
+                'icon' => 'fa-shield',
                 'acl' => ''	
 			]
 		],
