@@ -19,7 +19,7 @@
 <div class="col-sm-12">
    <div class="form-body {{ $errors->first('verification_code', 'has-error') }}">
 		<label class="control-label">{{ $model->labels['verification_code'] }}</label>
-		@if(app_can('ADMIN') && empty($model->verification_code))
+		@if(app_can('ADMIN') && (empty($model->id) || (!empty($model->id) && empty($model->verification_code))))
 			{{ Form::text('verification_code', $model->verification_code, ['class' => 'form-control']) }}
 			@if ($errors->has('verification_code'))
 			<span class="help-block">

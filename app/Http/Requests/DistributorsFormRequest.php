@@ -40,6 +40,7 @@ class DistributorsFormRequest extends FormRequest
         return [  
 			'name.required' => 'O campo "Nome" não foi preenchido.',
 			'email.required' => 'O campo "E-mail" não foi preenchido.',
+			'email.exists' => 'E-mail já esta sendo utilizado por outro usuário',
             'cnpj.required' => 'O campo "CNPJ" não foi preenchido.',
         ];
     }
@@ -50,16 +51,25 @@ class DistributorsFormRequest extends FormRequest
      *
      * @return Illuminate\Validation\Validator
      */
-    /*
     protected function getValidatorInstance() {
         
         return parent::getValidatorInstance()->after(function($validator) {
 
-            $messages = $validator->getCustomMessages();
+            $messages = $this->messages();
             $data = $validator->getData();
-
-            $validator->errors()->add('id', $messages['id.required']);
+            
+			if(app_has($data, 'email')) {
+				
+				$builder = \App\Models\Users::query()->where('email', $data['email']);
+				
+				if(!empty(request()->route('id'))) {
+					$builder->where('id', '<>', \App\Models\Distributors::findOrNew(request()->route('id'))->user_id);
+				}
+				
+				if($builder->get()->count() > 0) { 
+					$validator->errors()->add('email', $messages['email.exists']);
+				}
+			}
         });
     }
-    */
 }

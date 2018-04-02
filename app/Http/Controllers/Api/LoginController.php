@@ -12,7 +12,7 @@ class LoginController extends Controller {
 	
 	public function login(Request $request){
 		
-		$output = ['success' => false];   
+		$output = [];   
         
         try {
             
@@ -25,11 +25,11 @@ class LoginController extends Controller {
 					->first();
 			
 			if(empty($model)) {
-				throw new \Exception('Dados do login incorretos');
+				throw new \Exception('invalid_credentials');
 			}
 			
 			if($model->Customer->User->name != $request->get('username')) {
-				throw new \Exception('Dados do login incorretos');
+				throw new \Exception('invalid_credentials');
 			}
 			
 			$authenticatable = \App\User::find($model->Customer->User->id);
@@ -42,7 +42,6 @@ class LoginController extends Controller {
             }
             else {
                 
-                $output['success'] = true;
                 $output['token'] = $token;
             }
         } 
@@ -50,7 +49,7 @@ class LoginController extends Controller {
             $output['error'] = 'invalid_credentials';
         }
         catch(\Exception $e) {
-            $output['msg'] = $e->getMessage();
+            $output['error'] = $e->getMessage();
         }
                
         return \Response::json($output);

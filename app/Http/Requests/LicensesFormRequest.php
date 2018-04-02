@@ -30,7 +30,7 @@ class LicensesFormRequest extends FormRequest
 		
 		if(empty(app('request')->route('id'))){
 		
-			$rules['zend_id'] = ['required'];
+			//$rules['zend_id'] = ['required'];
 			$rules['product_id'] = ['required'];
 			$rules['type_id'] = ['required'];
 			$rules['customer_id'] = ['required'];
@@ -76,8 +76,13 @@ class LicensesFormRequest extends FormRequest
 
             $messages = $this->messages();
             $data = $validator->getData();
-
-            //$validator->errors()->add('id', $messages['id.required']);
+			
+			if(empty(app('request')->route('id'))){
+				
+				if(!app_has($data, 'verification_code') && !app_has($data, 'zend_id')){		
+					$validator->errors()->add('zend_id', $messages['zend_id.required']);
+				}
+			}
         });
     }
 }

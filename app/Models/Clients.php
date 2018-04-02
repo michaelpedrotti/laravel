@@ -55,9 +55,16 @@ class Clients extends \Eloquent {
 		'inscricao_estadual' => 'Inscrição Estadual',
     ];
 	
-	
-    
+	//--------------------------------------------------------------------------
+	// Mutators
+	//--------------------------------------------------------------------------
+	public function setRazaoSocialAttribute($value) {
+		$this->attributes['razao_social'] = strtoupper($value);
+	}
 
+	//--------------------------------------------------------------------------
+	// Relations
+	//--------------------------------------------------------------------------		
     /**
      * Busca o modelo de resellers 
 	 *
@@ -75,6 +82,9 @@ class Clients extends \Eloquent {
         return $this->hasOne('App\Models\Users', 'id', 'user_id')->withDefault();
     }
 	
+	//--------------------------------------------------------------------------
+	// Métodos próprios
+	//--------------------------------------------------------------------------
     /**
      * Verifica se o usuário tem permissão pra acessar o registro
      *
@@ -199,7 +209,7 @@ class Clients extends \Eloquent {
 		if(empty($model)) {
 			
 			$model = Users::create([
-				'name' => $data['name'],
+				'name' => strtoupper($data['name']),
 				'email' => $data['email'],
 				'password' => str_shuffle(date('Ymd')),
 				'acl_id' => $acl_id,
@@ -209,7 +219,11 @@ class Clients extends \Eloquent {
 		}
 		else {
 			
-			$model->fill(['name' => $data['name'], 'email' => $data['email'], 'acl_id' => $acl_id]);
+			$model->fill([
+				'name' => strtoupper($data['name']), 
+				'email' => $data['email'], 
+				'acl_id' => $acl_id
+			]);
 			$model->save();
 		}
 

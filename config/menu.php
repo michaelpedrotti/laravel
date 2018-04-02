@@ -101,5 +101,20 @@ return [
 		'url' => 'licenses',
 		'icon' => ' fa-registered',
 		'acl' => 'LICENSES_LIST'
-	]
+	],
+	    [
+        'label' => 'Dashboards',
+        'url' => '',
+        'icon' => 'fa-tachometer',
+        'child' => [
+
+            [
+                'label' => 'Smart Defender',
+                'url' => 'dash-sdfndrs',
+                'icon' => 'fa-shield',
+                'acl' => 'ADMIN'
+            ]
+        ],
+        'acl' => ['ADMIN']
+    ],
 ];

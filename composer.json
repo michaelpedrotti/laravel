@@ -8,6 +8,7 @@
         "php": ">=7.0.0",
         "barryvdh/laravel-ide-helper": "^2.4",
         "fideloper/proxy": "~3.3",
+        "guzzle/guzzle": "v3.8.0",
         "laracasts/flash": "^3.0",
         "laracasts/utilities": "^3.0",
         "laravel/framework": "5.5.*",

@@ -83,10 +83,10 @@ class Licenses extends \Eloquent {
 	public function statusMapper(){
 		
 		return [
-			'S' => 'Solicitado',
-			'A' => 'Em geração',
-			'R' => 'Rejeitada',
-			'G' => 'Gerada'
+			'S' => 'Aguardando aprovação', // Solicitada
+			'A' => 'Gerando',// Aguardando
+			'R' => 'Rejeitada',// Rejeitada
+			'G' => 'Gerada'// Gerada
 		];
 	}
 	
