@@ -1,21 +1,32 @@
 <?php
+namespace App\Http\Controllers;
 
-namespace App\Http\Controllers\Api;
-
+use Yajra\Datatables\Facades\Datatables;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DocumentTypesFormRequest as FormRequest;
+use App\Models\DocumentTypes as Model; 
 use Illuminate\Http\Request;
-use Tymon\JWTAuth\Exceptions\JWTException;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Validation\ValidationException;
 
-class LoginController extends Controller {
-
+/**
+ * Controlador Tipo de documento
+ *
+ * @author Michael Pedrotti <michael.pedrotti@hscbrasil.com.br>
+ */
+class SmartDefenderController extends Controller {
 	
-	public function login(Request $request){
+	/**
+	 * Verifica se o smartdefender ainda está valido
+	 * 
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+	public function valid(Request $request){
 		
 		$output = [];   
         
         try {
-            
+
             if(!$request->isMethod('post')) {
                 throw new \Exception('invalid_method');   
             }
@@ -36,11 +47,10 @@ class LoginController extends Controller {
 			
 			// Verifica se o IP é o mesmo que o de registro
 			$bool = false;
-			$addr = $request->ip();
+			$addr = $request->get('addr');
 			
 			$model->Networks->each(function($model) use(&$bool, $addr){
 
-		
 				if($model->network ==  $addr){
 					$bool = true;
 					return false;
@@ -53,28 +63,15 @@ class LoginController extends Controller {
 			
 			if($bool === false){
 				throw new \Exception('unregistered_network');
-			}
+			}	
 			
-			$authenticatable = \App\User::find($model->Customer->User->id);
-			
-            $token = JWTAuth::fromUser($authenticatable);
-            
-            if (!$token) {
-                
-                $output['error'] = "invalid_credentials";
-            }
-            else {
-                
-                $output['token'] = $token;
-            }
-        } 
-        catch(JWTException $e) {
-            $output['error'] = 'invalid_credentials';
-        }
+			$output['error'] = false;
+		}
         catch(\Exception $e) {
             $output['error'] = $e->getMessage();
         }
                
         return \Response::json($output);
+		
 	}
 }

@@ -80,7 +80,7 @@ class ClientsController extends Controller {
 			
 				app(FormRequest::class);
                 
-                $model->storage($request->all());
+                $model->save();
                 $model->getConnection()->commit();
                 
                 $this->setMessage('Cliente foi salva com sucesso!', 'success'); 

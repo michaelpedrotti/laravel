@@ -76,7 +76,7 @@ class ResellersController extends Controller {
 			
 				app(FormRequest::class);
                 
-                $model->storage($request->all());
+                $model->save();
                 $model->getConnection()->commit();
                 
                 $this->setMessage('Revendedor foi salva com sucesso!', 'success'); 

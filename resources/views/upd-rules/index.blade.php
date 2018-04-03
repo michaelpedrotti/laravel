@@ -30,5 +30,7 @@
 		'type' => $model->labels['type'],
 		'name' => $model->labels['name'],
 		'value' => $model->labels['value'],
+		'created_at' => __('Criado'),
+		'updated_at' => __('Atualizado'),
 	]
 ])

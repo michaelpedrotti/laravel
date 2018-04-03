@@ -264,3 +264,31 @@ if(!function_exists('app_elapsed_time')) {
 	}
 
 }
+
+if(!function_exists('app_cidr_range')){
+	
+	/**
+	 * Verifica se um IP esta no Range de IPs
+	 * 
+	 * @param string $cidr Range de IPs
+	 * @param string $chkip IP contido no range
+	 * @example http://php.net/manual/en/ref.network.php
+	 * @return bool
+	 */
+	function app_cidr_range($cidr = '127.0/16', $chkip = '127.0.0.1') {
+		// Assign IP / mask
+		list($ip, $mask) = explode("/", $cidr);
+
+		// Sanitize IP
+		$ip1 = preg_replace('_(\d+\.\d+\.\d+\.\d+).*$_', '$1', "$ip.0.0.0");
+
+		// Calculate range
+		$ip2 = long2ip(ip2long($ip1) - 1 + ( 1 << ( 32 - $mask) ));
+
+		// are we cidr range cheking?
+		if (!filter_var($chkip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false) {
+			return ip2long($ip1) <= ip2long($chkip) && ip2long($ip2) >= ip2long($chkip) ? true : false;
+		}
+	}
+
+}

@@ -70,7 +70,7 @@ class DistributorsController extends Controller {
 			
 				app(FormRequest::class);
                 
-                $model->storage($request->all());
+                $model->save();
                 $model->getConnection()->commit();
                 
                 $this->setMessage('Distribuidor foi salva com sucesso!', 'success'); 

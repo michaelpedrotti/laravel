@@ -68,6 +68,7 @@ class UsersController extends Controller {
 			
 				app(FormRequest::class);
                 
+				$model->addHidden(['acl_id' => $request->get('acl_id')]); 
                 $model->save();
                 $model->getConnection()->commit();
                 

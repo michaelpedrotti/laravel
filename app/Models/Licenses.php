@@ -86,7 +86,7 @@ class Licenses extends \Eloquent {
 			'S' => 'Aguardando aprovação', // Solicitada
 			'A' => 'Gerando',// Aguardando
 			'R' => 'Rejeitada',// Rejeitada
-			'G' => 'Gerada'// Gerada
+			'G' => '-'// Gerada
 		];
 	}
 	
@@ -111,7 +111,9 @@ class Licenses extends \Eloquent {
 		
 		return $array;
 	}
-	
+    //--------------------------------------------------------------------------
+	// Mutators
+	//--------------------------------------------------------------------------
 	/**
 	 * Mutator para Data de expiração	 *
 	 * @link https://laravel.com/docs/5.5/eloquent-mutators 
@@ -135,11 +137,13 @@ class Licenses extends \Eloquent {
 		}		
 		$this->attributes['expiration_upd'] = $value;
 	}
-    
+	//--------------------------------------------------------------------------
+	// Relations
+	//--------------------------------------------------------------------------
     /**
      * Busca o modelo de clients 
 	 *
-     * @return clients 
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne 
      */
     public function Customer() {
         return $this->hasOne('App\Models\Clients', 'id', 'customer_id')->withDefault();
@@ -147,25 +151,47 @@ class Licenses extends \Eloquent {
     /**
      * Busca o modelo de products 
 	 *
-     * @return products 
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne 
      */
-    
 	public function Product() {
         return $this->hasOne('App\Models\Products', 'id', 'product_id')->withDefault();
     }
     /**
      * Busca o modelo de license_types 
 	 *
-     * @return license_types 
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne 
      */
     public function Type() {
         return $this->hasOne('App\Models\LicenseTypes', 'id', 'type_id')->withDefault();
     }
 	
+	/**
+	 * 
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
 	public function Attributes(){
 		return $this->hasMany('App\Models\LicenseAttributes', 'license_id', 'id');
 	}
-
+	
+	/**
+	 * 
+	 * @return \Illuminate\Database\Eloquent\Relations\HasMany
+	 */
+	public function Networks(){
+		return $this->hasMany('App\Models\LicenseNetworks', 'license_id', 'id');
+	}
+	
+	//--------------------------------------------------------------------------
+	// Overrrides
+	//--------------------------------------------------------------------------
+	public static function boot() {
+		
+		parent::observe(\App\Observers\LicensesObserver::class);
+		parent::boot();
+	}
+	//--------------------------------------------------------------------------
+	// Métodos próprios
+	//--------------------------------------------------------------------------
     /**
      * Verifica se o usuário tem permissão pra acessar o registro
      *
@@ -258,110 +284,7 @@ class Licenses extends \Eloquent {
 
         return $builder;
     }
-	
-	/**
-	 * Gera uma chave
-	 */
-	
-	public function save(array $options = array()) {
 		
-		if(app_can('ADMIN')) {
-			
-			if(!empty($this->verification_code)){
-				$this->status =  'G'; 
-			}
-		}
-		else {
-			// Se a solicitação de criação de licença é nova e o usuário não é o
-			// admin sempre deverá passar para o status de Solicitado
-			if(empty($this->id)) { 
-				$this->status =  'S'; 
-			}
-			else {
-				// Não deixa mudar o status da licença caso não seja o admin
-				unset($this->status);
-			}
-		}
-		if(!parent::save($options)) return false;
-		
-		//----------------------------------------------------------------------
-		// IP/Rede
-		//----------------------------------------------------------------------
-		\App\Models\LicenseNetworks::select()
-			->where('license_id', $this->id)
-				->delete();
-		
-		foreach(request('networks', []) as $network){
-			
-			\App\Models\LicenseNetworks::create([
-				'license_id' => $this->id,
-				'network' => $network
-			]);
-		}
-
-		//----------------------------------------------------------------------
-		// Atributos do produto
-		//----------------------------------------------------------------------
-		\App\Models\LicenseAttributes::select()
-			->where('license_id', $this->id)
-				->delete();
-		
-		foreach(request('attributes', []) as $attr_id => $bool){
-			
-			\App\Models\LicenseAttributes::create([
-				'license_id' => $this->id,
-				'attr_id' => $attr_id
-			]);
-		}
-		//----------------------------------------------------------------------
-	}
-	
-	public static function boot() {
-		
-		static::saved(function(Licenses $license){
-			
-			//------------------------------------------------------------------
-			// Envia alerta para os envolvidos
-			//------------------------------------------------------------------
-			$collection = $license->stakeholders();
-
-			$alert = \App\Models\Alerts::create([
-				'title' => __('Licenciamento'),  
-				'route' => '/licenses',
-				'msg' => __('Licença para o cliente :custumer com a situação :status', [
-					'custumer' => $license->Customer->User->name,
-					'status' => $license->statusMapperName()
-				])
-			]);
-
-			$collection->each(function($model) use($alert, $license){
-
-				\App\Models\AlertUsers::create([
-					'alert_id' => $alert->id, 
-					'user_id' => $model->id, 
-					'readed' => 'N'
-				]);
-				
-				\Mail::to($model->email)->send(app(\App\Mail\NewLicense::class)
-					->subject(__('Licenciamento'))
-					->with('model', $license)
-				);
-			});
-		});
-		
-		static::retrieved(function(Licenses $model){
-			
-			$filepath = storage_path('app/'.$model->hash);
-			
-			if(!file_exists($filepath)){
-				file_put_contents($filepath, $model->stream);
-			}			
-		});
-		
-		parent::boot();
-	}
-	
-	
 	/**
 	 * Retorna todos os envolvidos com a licenças selecionada
 	 * 

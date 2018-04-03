@@ -38,7 +38,7 @@
 									<div class="form-body">
 										<label class="control-label">IP/Rede</label>
 										<div class="input-group">
-											{{ Form::text('network', '', ['class' => 'form-control ip']) }}
+											{{ Form::text('network', '', ['class' => 'form-control network']) }}
 											<a href="javascript:void(0)" data-action="add-network" class="input-group-addon btn btn-link btn-default">
 												<i class="fa fa-plus"></i>	
 											</a>

@@ -11,11 +11,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Distributors extends \Eloquent {
     
     use SoftDeletes;
-    protected $primaryKey = 'id';
+    
+	const UID = 'DISTRIBUTOR';
+	
+	protected $primaryKey = 'id';
     
     public $table = 'distributors';
     public $timestamps = true;
-    
+    	
     /**
      * Variaveis seguras para uso e guardar dados 
      * @var array 
@@ -53,6 +56,15 @@ class Distributors extends \Eloquent {
     ];
 	
 	//--------------------------------------------------------------------------
+	// Overrides
+	//--------------------------------------------------------------------------
+	public static function boot() {
+		
+		// Persiste um usuário de acesso antes de salvar este regitro
+		parent::registerModelEvent('saving', \App\Listeners\UserSaving::class);
+		parent::boot();
+	}
+	//--------------------------------------------------------------------------
 	// Mutators
 	//--------------------------------------------------------------------------
 	public function setRazaoSocialAttribute($value) {
@@ -63,7 +75,10 @@ class Distributors extends \Eloquent {
 	// Relations
 	//--------------------------------------------------------------------------	
     /**
-     * Busca o modelo de resellers     * @return resellers     */
+     * Busca o modelo de resellers     
+	 * 
+	 * @return resellers     
+	 */
     public function Resellers() {
         return $this->hasMany('App\Models\Resellers', 'distributor_id', 'id');
     }
@@ -149,33 +164,4 @@ class Distributors extends \Eloquent {
 
         return $builder;
     }
-	
-	public function storage($data = array()) {
-		
-		$model = Users::find($this->user_id);
-		$acl_id = Acls::query()->where('UID', 'DISTRIBUTOR')->first()->id;
-
-		if(empty($model)) {
-			
-			$model = Users::create([
-				'name' => strtoupper($data['name']),
-				'email' => $data['email'],
-				'password' => str_shuffle(date('Ymd')),
-				'acl_id' => $acl_id,
-			]);
-			
-			$this->user_id = $model->id;
-		}
-		else {
-			
-			$model->fill([
-				'name' => strtoupper($data['name']), 
-				'email' => $data['email'], 
-				'acl_id' => $acl_id
-			]);
-			$model->save();
-		}
-		
-		return parent::save();
-	}
 }

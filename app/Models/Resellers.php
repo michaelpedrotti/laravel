@@ -11,6 +11,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Resellers extends \Eloquent {
     
     use SoftDeletes;
+	
+	const UID = 'RESELLER';
+	
     protected $primaryKey = 'id';
     
     public $table = 'resellers';
@@ -55,6 +58,15 @@ class Resellers extends \Eloquent {
 		'inscricao_estadual' => 'Inscrição Estadual',
     ];
 	
+	//--------------------------------------------------------------------------
+	// Overrides
+	//--------------------------------------------------------------------------
+	public static function boot() {
+		
+		// Persiste um usuário de acesso antes de salvar este regitro
+		parent::registerModelEvent('saving', \App\Listeners\UserSaving::class);
+		parent::boot();
+	}
 	//--------------------------------------------------------------------------
 	// Mutators
 	//--------------------------------------------------------------------------

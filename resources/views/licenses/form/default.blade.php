@@ -73,24 +73,6 @@
 
 @can('ADMIN', 'Permission')
 	<div class="col-sm-12">
-		<div class="form-body {{ $errors->first("status", "has-error") }}">
-			<label class="control-label">{{ $model->labels['status'] }} <span class="request">*</span></label>
-			
-			@if($model->status == 'S' || empty($model->id))
-				{{ Form::select('status', $model->statusMapperWithRoles(), $model->status, ['class' => 'form-control select2']) }}
-			@else
-				<div class="form-control">{{ array_get($model->statusMapper(), $model->status, $model->status) }}</div>
-			@endif
-			
-			@if ($errors->has('status'))
-			<span class="help-block">
-				<strong>{{ $errors->first('status') }}</strong>
-			</span>
-			@endif
-		</div>
-	</div>
-
-	<div class="col-sm-12">
 		<div class="form-body {{ $errors->first("distributor_id", "has-error") }}">
 			<label class="control-label">{{ __('Distribuidor') }}  <span class="request">*</span></label>
 			

@@ -15,7 +15,7 @@ class Users extends \Eloquent {
     
     public $table = 'users';
     public $timestamps = true;
-    
+	    
     /**
      * Variaveis seguras para uso e guardar dados 
      * @var array 
@@ -171,77 +171,10 @@ class Users extends \Eloquent {
 
         return $builder;
     }
-	
-	public function save(array $options = array()) {
 		
-		if(empty($this->id)){
-			$this->password = str_shuffle(date('Ymd'));
-		}
-		
-		$acl_id = $this->acl_id;
-
-		unset($this->acl_id);// Remove do fillable		
-		
-		if(parent::save($options)) {
-			
-			if($acl_id) {
-			
-				$model = UserAcls::query()
-					->where('user_id', $this->id)
-					->where('acl_id', $acl_id)
-						->get()
-							->first();
-
-				if(!$model) {
-					$model = UserAcls::newModelInstance([
-						'user_id' => $this->id,
-						'acl_id' => $acl_id
-					]);
-				}
-
-				return $model->save();
-			}
-		}
-		return false;
-	}
-	
 	public static function boot() {
 		
-		static::creating(function($model){
-            
-			$data = $model->getHidden();
-			
-			if(!empty($data) && array_has($data, 'password_plain')) {
-			
-				$mailable = app(\App\Mail\WelcomeMail::class)
-					->subject(__('Portal HSC'))
-					->with('password', $data['password_plain'])
-					->with('model', $model);
-				
-				\Mail::to($model->email)->send($mailable);
-			}
-        });
-		
-		static::updating(function($model){
-			
-			$data = $model->getHidden();
-			
-			if(!empty($data) && array_has($data, 'password_plain')) {
-			
-				$mailable = app(\App\Mail\ResetPassMail::class)
-					->subject(__('Troca de senha'))
-					->with('password', $data['password_plain'])
-					->with('model', $model);
-				
-				try {	
-					\Mail::to($model->email)->send($mailable);
-				} 
-				catch (\Exception $e) {
-					flash(__('Falha ao enviar o e-mail de boas vindas'), 'warning');
-				}
-			}
-		});
-		
+		parent::observe(\App\Observers\UsersObserver::class);
 		parent::boot();
 	}
 }

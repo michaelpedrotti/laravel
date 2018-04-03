@@ -30,15 +30,12 @@ class UpdRulesController extends Controller {
 
         if ($request->isXmlHttpRequest()) {
             return Datatables::eloquent($model->search($request->all()))
-				//->editColumn('id', function ($query) {
-				//	return $query->id;
-				//})
-				//->editColumn('type', function ($query) {
-				//	return $query->type;
-				//})
-				//->editColumn('name', function ($query) {
-				//	return $query->name;
-				//})
+				->editColumn('created_at', function ($query) {
+					return app_date($query->created_at, 'Y-m-d H:i:s', 'd/m/Y');
+				})
+				->editColumn('updated_at', function ($query) {
+					return app_date($query->updated_at, 'Y-m-d H:i:s', 'd/m/Y');
+				})
 				->editColumn('value', function ($query) {
 					return addslashes(utf8_encode(substr($query->value, 0, 50)));
 				})
@@ -158,4 +155,12 @@ class UpdRulesController extends Controller {
 
         return Response::json($output);
     }
+	
+	public function all(Request $request){
+		
+		return \Response::json([
+			'success' => true,
+			'rows' => Model::all()->toArray()
+		]);
+	}
 }

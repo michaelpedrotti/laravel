@@ -11,6 +11,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Clients extends \Eloquent {
     
     use SoftDeletes;
+	
+	const UID = 'CUSTUMER';
+	
     protected $primaryKey = 'id';
     
     public $table = 'clients';
@@ -55,6 +58,15 @@ class Clients extends \Eloquent {
 		'inscricao_estadual' => 'Inscrição Estadual',
     ];
 	
+	//--------------------------------------------------------------------------
+	// Overrides
+	//--------------------------------------------------------------------------
+	public static function boot() {
+		
+		// Persiste um usuário de acesso antes de salvar este regitro
+		parent::registerModelEvent('saving', \App\Listeners\UserSaving::class);
+		parent::boot();
+	}
 	//--------------------------------------------------------------------------
 	// Mutators
 	//--------------------------------------------------------------------------
@@ -190,45 +202,6 @@ class Clients extends \Eloquent {
 
         return $builder;
     }
-	
-	public function storage($data = array()) {
-		
-		// Usuário que esta logado é uma revenda recebe seu próprio login
-		if(app_can('RESELLER')) {
-			
-			$this->reseller_id = \App\Models\Resellers::select()
-				->where('user_id', \Auth::user()->id)
-					->firstOrFail()
-						->id;
-		}
-		
-		
-		$model = Users::find($this->user_id);
-		$acl_id = Acls::query()->where('UID', 'CUSTUMER')->first()->id;
-
-		if(empty($model)) {
-			
-			$model = Users::create([
-				'name' => strtoupper($data['name']),
-				'email' => $data['email'],
-				'password' => str_shuffle(date('Ymd')),
-				'acl_id' => $acl_id,
-			]);
-			
-			$this->user_id = $model->id;
-		}
-		else {
-			
-			$model->fill([
-				'name' => strtoupper($data['name']), 
-				'email' => $data['email'], 
-				'acl_id' => $acl_id
-			]);
-			$model->save();
-		}
-
-		return parent::save();
-	}
 	
 	public function getColumns(){
 		
