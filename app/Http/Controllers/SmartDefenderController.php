@@ -41,7 +41,7 @@ class SmartDefenderController extends Controller {
 			}
 			
 			// Tenta casar com o nome de registro do cliente
-			if($model->Customer->User->name != $request->get('username')) {
+			if(strtoupper($model->Customer->User->name) != strtoupper($request->get('username'))) {
 				throw new \Exception('invalid_credentials');
 			}
 			

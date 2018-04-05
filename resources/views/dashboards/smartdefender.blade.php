@@ -1,7 +1,6 @@
 @extends('layout.app')
 @section('javascript')
 <script type="text/javascript">
-
 $(document).ready(function(){
 	
 	
@@ -75,7 +74,7 @@ $(document).ready(function(){
 	function getData() {
 		// Retrieve dashboard data
 		$.ajax({
-			url:     '{{ url("dash-sdfndrs/load") }}',
+			url:     '{{ url("dashboards/smartdefender") }}',
 			success: function(result,statis,xhr) {
 				var obj = JSON.parse(result);
 				// Total de requisições
