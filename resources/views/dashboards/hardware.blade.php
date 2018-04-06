@@ -12,10 +12,10 @@ NS.SmartDefender = new (function(){
 	 */
 	function setKnob(selector, id, label, percent){
 
-		var content = $('#' + id);
+		var content = selector.find('#' + id);
 
 		if(content.length == 0) {
-
+			
 			content = $('#knob-clone').clone();
 			content.attr('id', id);
 			content.removeAttr('hidden');
@@ -42,11 +42,12 @@ NS.SmartDefender = new (function(){
 			dataType: 'json',
 			success: function(records) {
 
-				var index = 1;
+				var index = 1, selector, prefix;
 
 				$.each(records, function(hostname, record){
 
-					var selector = $('#container-' + index);
+					selector = $('#container-' + index);
+					prefix = hostname.replace(/\W+/g, '-');
 					
 					if(selector.length == 0) {
 						return true;
@@ -58,15 +59,15 @@ NS.SmartDefender = new (function(){
 					selector.find('[data-bind=ram]').html(record.mem.total);
 					selector.find('[data-bind=ip]').html(record.net.pop().ip4);
 
-					setKnob(selector, 'knob-cpu', 'CPU', '20');
-					setKnob(selector, 'knob-swap', 'SWAP', '50');
+					setKnob(selector, prefix + '-knob-cpu', 'CPU', parseInt(record.currentLoad.currentload));
+					setKnob(selector, prefix + '-knob-swap', 'SWAP', parseInt(( record.mem.swapused * 100 ) / record.mem.swaptotal));
 
 					$.each(record.fsSize, function(index, disk){
 
-						setKnob(selector, 'knob-disk-' + disk.fs.replace(/\//g , '-'), 'Disk '+ disk.mount, disk.use);
+						setKnob(selector, prefix + 'knob-disk-' + disk.fs.replace(/\//g , '-'), 'Disk '+ disk.mount, disk.use);
 					});
 					
-					setCharts(selector, hostname.replace(/\W+/g, '-'), record);
+					setCharts(selector, prefix, record);
 
 					index++;
 				});
@@ -121,7 +122,7 @@ NS.SmartDefender = new (function(){
 
 		if(!this[key]) {
 			this[key] = Morris.Line({
-				data:[],
+				data:[{ 'period':'{{ date("Y-m-d H:i") }}', '1':0, '5':0, '15':0 }],
 				ymin:0,
 				xkey: 'period',
 				ykeys: ['1', '5', '15'],
@@ -133,7 +134,10 @@ NS.SmartDefender = new (function(){
 				resize: true,
 				pointFillColors: ['#ffffff'],
 				pointStrokeColors: ['black'],
-				element:selector.find('[data-bind=linechart]').get(0)
+				element:selector.find('[data-bind=linechart]').get(0),
+				yLabelFormat:function(str) { 
+					return (''+str).substring(0, 4);
+				}
 			});
 		}
 		
@@ -150,43 +154,44 @@ NS.SmartDefender = new (function(){
 		
 		this[key].setData(rows);
 		
+		//----------------------------------------------------------------------
+		key = basename + '-areachart';
 		
+		if(!this[key]) {
+			this[key] = Morris.Area({
+				data:[{ 'period':'{{ date("Y-m-d H:i") }}', 'down':0, 'up':0 }],
+				xkey: 'period',
+				ykeys: ['down', 'up'],
+				//labels: ['0', '5', '10'],
+				fillOpacity: 0.6,
+				hideHover: 'auto',
+				behaveLikeLine: true,
+				resize: true,
+				pointFillColors: ['#ffffff'],
+				pointStrokeColors: ['black'],
+				lineColors: ['gray', 'red', 'blue'],
+				element:selector.find('[data-bind=areachart]').get(0)
+			});
+		}
 		
+		var rows = push(basename + '-linechart-rows', {
+			'period':parseDate(record.time.current), 
+			'down':record.networkStats.rx, 
+			'up':record.networkStats.tx
+		});
 		
-			
-
-//		if(this[basename + '-areachart']){
-//			
-//		}
-//		else {
-//			this[basename + '-areachart'] = Morris.Area({
-//				data:[
-//					{y: '2014', a: 50, b: 90, c:0.5},
-//					{y: '2015', a: 65,  b: 75, c:10},
-//					{y: '2016', a: 50, b: 50, c:12},
-//					{y: '2017', a: 75, b: 60, c:33},
-//					{y: '2018', a: 80, b: 65, c:10},
-//					{y: '2019', a: 90, b: 70, c:44},
-//					{y: '2020', a: 100, b: 75, c:10},
-//					{y: '2021', a: 115, b: 75, c:54},
-//					{y: '2022', a: 120, b: 85, c:10},
-//					{y: '2023', a: 145, b: 85, c:22},
-//					{y: '2024', a: 160, b: 95, c:12}
-//				],
-//				xkey: 'y',
-//				ykeys: ['a', 'b', 'c'],
-//				labels: ['0', '5', '10'],
-//				fillOpacity: 0.6,
-//				hideHover: 'auto',
-//				behaveLikeLine: true,
-//				resize: true,
-//				pointFillColors: ['#ffffff'],
-//				pointStrokeColors: ['black'],
-//				lineColors: ['gray', 'red', 'blue'],
-//				element:selector.find('[data-bind=areachart]').get(0)
-//			});
-//		}
-	}
+		if(rows.length > 10) {
+			rows = rows.slice(0);
+		}
+		
+		this[key].setData(rows);
+		//----------------------------------------------------------------------
+		
+//		rx = rxN - rxN-1
+//		tx = txN - txN-1
+//
+//		rxs = rx / i
+	}	
 	
 	this.init = function(e) {
 		
@@ -218,7 +223,11 @@ $(document).ready(NS.SmartDefender.init);
 							<tbody>
 								<tr>
 									<td style="border:none; text-align:right"><b>Smart Defender API</b></td>
-									<td style="border:none">Ok</td>
+									<td style="border:none">
+										<span class="pull-right-container">
+											<small class="label pull-left bg-green">Ok</small>
+										</span>	
+									</td>
 								</tr>
 								<tr>
 									<td style="text-align:right">Tempo de Resposta</td>
@@ -235,63 +244,10 @@ $(document).ready(NS.SmartDefender.init);
 
 <div class="row">
 	<div class="col-lg-6">
-		<div id="container-1" class="box box-primary">
-			<div class="box-header with-border">
-				<h3 class="box-title">Carregando...</h3>
-            </div>
-            <div class="box-body" style="padding-top:0">
-				<div class="row">
-					<div class="col-lg-12">
-						<table class="table" style="width:100%">
-							<tbody>
-								<tr>
-									<td style="border:none; text-align:right; width:30%">Status</td>
-									<td style="border:none">Ok</td>
-								</tr>
-								<tr>
-									<td style="text-align:right">Endereço</td>
-									<td data-bind="ip">-</td>
-								</tr>
-								<tr>
-									<td style="text-align:right">Processador</td>
-									<td data-bind="processor">-</td>
-								</tr>
-								<tr>
-									<td style="text-align:right">RAM (MB)</td>
-									<td data-bind="ram">-</td>
-								</tr>
-								<tr>
-									<td style="text-align:right">Latência</td>
-									<td data-bind="latencia">-</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-sm-12" data-bind="tron" style="min-height:80px"></div>
-				</div>
-				<div class="row">
-					<div class="col-lg-12">
-						<div data-bind="linechart" style="min-height: 200px;"></div>
-					</div>
-					<br />
-					<div class="col-lg-12">
-						<div data-bind="areachart" style="min-height: 200px;"></div>
-					</div>
-				</div>
-            </div>
-		</div>
+		@include('dashboards.hardware.node', ['id' => 'container-1'])
 	</div>
 	<div class="col-lg-6">
-		<div class="box box-primary">
-			<div class="box-header with-border">
-				<h3 class="box-title">smartdefender02.mliclound.com</h3>
-            </div>
-            <div class="box-body">
-				Hello World
-            </div>
-		</div>
+		@include('dashboards.hardware.node', ['id' => 'container-2'])
 	</div>
 </div>
 

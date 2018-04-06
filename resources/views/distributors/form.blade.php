@@ -64,6 +64,19 @@
 									@endif
 								</div>
 							</div>
+
+							<div class="col-sm-12" style="margin-top:10px">
+								<p class="text-muted">@lang('Agragar a este cadastro')</p>
+								<div class="form-check">
+									{{ Form::checkbox('is_relleser', 1, null, ['class' => 'form-check-input', 'id' => 'checkbox-relleser']) }}
+									<label class="form-check-label" for="checkbox-relleser">@lang('Revendedor')</label>
+								</div>
+								<div class="form-check">
+									{{ Form::checkbox('is_customer', 1, null, ['class' => 'form-check-input', 'id' => 'checkbox-customer']) }}
+									<label class="form-check-label" for="checkbox-customer">@lang('Cliente')</label>
+								</div>
+							</div>
+
 						</fieldset> 
                     </div>
                 {{ Form::close() }}

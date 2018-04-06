@@ -70,6 +70,8 @@ class DistributorsController extends Controller {
 			
 				app(FormRequest::class);
                 
+				$request->request->set('is_distribuitor', 1);
+
                 $model->save();
                 $model->getConnection()->commit();
                 

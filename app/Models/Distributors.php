@@ -61,7 +61,8 @@ class Distributors extends \Eloquent {
 	public static function boot() {
 		
 		// Persiste um usuário de acesso antes de salvar este regitro
-		parent::registerModelEvent('saving', \App\Listeners\UserSaving::class);
+		parent::registerModelEvent('saving', \App\Listeners\StakeholderSaving::class);
+		parent::registerModelEvent('saved', \App\Listeners\StakeholderSaved::class);
 		parent::boot();
 	}
 	//--------------------------------------------------------------------------

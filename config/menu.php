@@ -110,8 +110,14 @@ return [
 
             [
                 'label' => 'Smart Defender',
-                'url' => 'dash-sdfndrs',
+                'url' => 'dashboards/smartdefender',
                 'icon' => 'fa-shield',
+                'acl' => 'ADMIN'
+            ],
+			[
+                'label' => 'Hardware',
+                'url' => 'dashboards/hardware',
+                'icon' => 'fa-server',
                 'acl' => 'ADMIN'
             ]
         ],

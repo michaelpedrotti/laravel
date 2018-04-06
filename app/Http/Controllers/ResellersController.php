@@ -30,18 +30,9 @@ class ResellersController extends Controller {
 
         if ($request->isXmlHttpRequest()) {
             return Datatables::eloquent($model->search($request->all()))
-				//->editColumn('id', function ($query) {
-				//	return $query->id;
-				//})
-				//->editColumn('user_id', function ($query) {
-				//	return $query->user_id;
-				//})
 				->addColumn('distributor', function ($query) {
 					return $query->Distributor->User->name;
 				})
-				//->editColumn('cnpj', function ($query) {
-				//	return $query->cnpj;
-				//})
 				->make(true);
         }
        
@@ -75,11 +66,13 @@ class ResellersController extends Controller {
             try {
 			
 				app(FormRequest::class);
-                
+				
+				$request->request->set('is_relleser', 1);
+				
                 $model->save();
                 $model->getConnection()->commit();
                 
-                $this->setMessage('Revendedor foi salva com sucesso!', 'success'); 
+                $this->setMessage(__('Revendedor foi salva com sucesso'), 'success'); 
             }
 			catch(ValidationException $e){
                 

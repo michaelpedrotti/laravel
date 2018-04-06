@@ -79,6 +79,8 @@ class ClientsController extends Controller {
             try {
 			
 				app(FormRequest::class);
+				
+				$request->request->set('is_customer', 1);
                 
                 $model->save();
                 $model->getConnection()->commit();

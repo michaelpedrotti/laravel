@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Users;
+use App\Models\Acls;
 use App\Models\UserAcls;
 
 class UsersObserver {
@@ -36,22 +37,48 @@ class UsersObserver {
 	}	
 
 	/**
-	 * Depois de salvar a model
+	 * Depois de salvar a model de Users adicionar um perfil ao usuário de acesso
+	 * 
 	 */
 	public function saved(Users $model){
-		
-		UserAcls::query()
-			->where('user_id', $model->id)
-				->delete();
-					
-		$data = $model->getHidden();
-			
-		if(array_has($data, 'acl_id')) {
-			
-			UserAcls::create([
-				'user_id' => $model->id,
-				'acl_id' => $data['acl_id']
-			]);
+
+		if(request('acl_id') | request('is_distribuitor') | request('is_relleser') | request('is_customer')) {
+
+			// Remove todas as permissões do usuário de acesso
+			UserAcls::query()
+				->where('user_id', $model->id)
+					->delete();
+
+			$id = request('acl_id');
+
+			if(!empty($id)) {
+				UserAcls::create([
+					'user_id' => $model->id, 
+					'acl_id' => $id
+				]);
+			}
+
+			// Adicionar permissão de Distribuidor
+			if(!empty(request('is_distribuitor'))) {
+				UserAcls::create([
+					'user_id' => $model->id, 
+					'acl_id' => Acls::query()->where('UID', 'DISTRIBUTOR')->first()->id
+				]);
+			}
+
+			if(!empty(request('is_relleser'))) {
+				UserAcls::create([
+					'user_id' => $model->id, 
+					'acl_id' => Acls::query()->where('UID', 'RESELLER')->first()->id
+				]);
+			}
+
+			if(!empty(request('is_customer'))) {
+				UserAcls::create([
+					'user_id' => $model->id, 
+					'acl_id' => Acls::query()->where('UID', 'CUSTUMER')->first()->id
+				]);
+			}
 		}
 	}
 
