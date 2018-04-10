@@ -13,7 +13,7 @@
 <div class="col-sm-6">
 	<div class="form-body">
 		<label class="control-label">{{ $model->labels['permission'] }}</label>
-		{{ Form::text('desc', $model->desc, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
+		{{ Form::text('desc', $model->desc, ['class' => 'form-control', 'placeholder' => '']) }}
 	</div>
 </div>
 @stop

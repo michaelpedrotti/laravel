@@ -42,7 +42,7 @@ class UsersObserver {
 	 */
 	public function saved(Users $model){
 
-		if(request('acl_id') | request('is_distribuitor') | request('is_relleser') | request('is_customer')) {
+		if(request('acl_id') | request('is_distribuitor') | request('is_reseller') | request('is_customer')) {
 
 			// Remove todas as permissões do usuário de acesso
 			UserAcls::query()
@@ -66,7 +66,7 @@ class UsersObserver {
 				]);
 			}
 
-			if(!empty(request('is_relleser'))) {
+			if(!empty(request('is_reseller'))) {
 				UserAcls::create([
 					'user_id' => $model->id, 
 					'acl_id' => Acls::query()->where('UID', 'RESELLER')->first()->id

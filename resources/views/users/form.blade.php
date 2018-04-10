@@ -12,14 +12,14 @@
                                     <div class="col-sm-12">
                                         <div class="form-body {{ $errors->first("name", "has-error") }}">
                                             <label class="control-label">{{ $model->labels['name'] }}: <span class="request">*</span></label>
-                                            {{ Form::text('name', $model->name, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
+                                            {{ Form::text('name', $model->name, ['class' => 'form-control', 'placeholder' => '']) }}
 											<span title="Hello World" class="help-block">{{ $errors->first("name") }}</span>
 										</div>
                                     </div>
                                     <div class="col-sm-12">
                                         <div class="form-body {{ $errors->first("email", "has-error") }}">
                                             <label class="control-label">{{ $model->labels['email'] }}:  <span class="request">*</span></label>
-                                            {{ Form::text('email', $model->email, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
+                                            {{ Form::text('email', $model->email, ['class' => 'form-control', 'placeholder' => '']) }}
 											<span class="help-block">{{ $errors->first("email") }}</span>
 										</div>
                                     </div>	

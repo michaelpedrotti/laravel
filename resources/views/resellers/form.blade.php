@@ -10,7 +10,7 @@
 							<div class="col-sm-12">
 								<div class="form-body {{ $errors->first("name", "has-error") }}">
 									<label class="control-label">Nome  <span class="request">*</span></label>
-									{{ Form::text('name', $model->User->name, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
+									{{ Form::text('name', $model->User->name, ['class' => 'form-control', 'placeholder' => '']) }}
 									@if ($errors->has('name'))
 									<span class="help-block">
 										<strong>{{ $errors->first('name') }}</strong>
@@ -21,7 +21,7 @@
 							<div class="col-sm-12">
 								<div class="form-body {{ $errors->first("email", "has-error") }}">
 									<label class="control-label">E-mail  <span class="request">*</span></label>
-									{{ Form::text('email', $model->User->email, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
+									{{ Form::text('email', $model->User->email, ['class' => 'form-control', 'placeholder' => '']) }}
 									@if ($errors->has('email'))
 									<span class="help-block">
 										<strong>{{ $errors->first('email') }}</strong>
@@ -33,7 +33,7 @@
 							<div class="col-sm-12">
 								<div class="form-body {{ $errors->first("distributor_id", "has-error") }}">
 									<label class="control-label">{{ $model->labels['distributor_id'] }}  <span class="request">*</span></label>
-									{{ Form::select('distributor_id', app_fetch('Distributors', 'name', 'id'), $model->distributor_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
+									{{ Form::select('distributor_id', app_fetch('Distributors', 'name', 'id'), $model->distributor_id, ['class' => 'form-control select2']) }}
 									@if ($errors->has('distributor_id'))
 									<span class="help-block">
 										<strong>{{ $errors->first('distributor_id') }}</strong>

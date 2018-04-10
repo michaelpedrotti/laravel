@@ -10,19 +10,19 @@
 <div class="col-sm-6">
 	<div class="form-body">
 		<label class="control-label">Revendedor</label>
-		{{ Form::text('reseller', '', ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
+		{{ Form::text('reseller', '', ['class' => 'form-control', 'placeholder' => '']) }}
 	</div>
 </div>
 <div class="col-sm-6">
 	<div class="form-body">
 		<label class="control-label">Cliente</label>
-		{{ Form::text('name', '', ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
+		{{ Form::text('name', '', ['class' => 'form-control', 'placeholder' => '']) }}
 	</div>
 </div>
 <div class="col-sm-6">
 	<div class="form-body">
 		<label class="control-label">{{ $model->labels['cnpj'] }}</label>
-		{{ Form::text('cnpj', '', ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control cnpj', 'placeholder' => '']) }}
+		{{ Form::text('cnpj', '', ['class' => 'form-control cnpj', 'placeholder' => '']) }}
 	</div>
 </div>
    
@@ -59,5 +59,6 @@ $(document).ready(function(){
 @include('layout.partials.datatable', [
 	'url' => url("clients/index"),
 	'permission' => 'CLIENTS',
-	'columns' => $columns
+	'columns' => $columns,
+	'order' => ['user_id' => 'asc']
 ])

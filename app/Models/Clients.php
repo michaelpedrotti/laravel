@@ -147,7 +147,7 @@ class Clients extends \Eloquent {
         if(array_key_exists('reseller_id', $filter) && !empty($filter['reseller_id'])) {
             $builder->where('reseller_id', $filter['reseller_id']);
         }
-           
+		           
         if(array_key_exists('cnpj', $filter) && !empty($filter['cnpj'])) {
             $builder->where('cnpj', $filter['cnpj']);
         }
@@ -189,11 +189,8 @@ class Clients extends \Eloquent {
         }
 		
 		
-        if(array_key_exists('groupBy', $filter) && !empty($filter['groupBy'])) {
-            $builder->orderBy($filter['groupBy'], 'ASC');
-        }
-        else {
-            $builder->orderBy('id', 'DESC');
+        if(array_key_exists('orderBy', $filter) && !empty($filter['orderBy'])) {
+            $builder->orderBy($filter['orderBy'], 'ASC');
         }
         
         // Grava em laravel.log
@@ -208,7 +205,7 @@ class Clients extends \Eloquent {
 		
 		$arr = [
 			'id' => $this->labels['id'],
-			'user' => __('Cliente'),
+			'user_id' => __('Cliente'),
 			'reseller_id' => __('Revendedor')
 		];
 

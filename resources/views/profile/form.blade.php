@@ -28,7 +28,7 @@ echo LayoutBuilder::gerarBreadCrumb(array(
                             <div class="col-sm-6">
                                 <div class="form-body {{$errors->first("nome", "has-error") }}">
                                 <label class="control-label">{{ $model->labels['nome'] }} <span class="request"> *</span></label>
-                                    {{ Form::text('nome', $model->nome, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
+                                    {{ Form::text('nome', $model->nome, ['class' => 'form-control', 'placeholder' => '']) }}
                                 </div>
                             </div>
                                                               

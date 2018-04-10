@@ -139,29 +139,17 @@ class Users extends \Eloquent {
         }
            
         if(array_key_exists('name', $filter) && !empty($filter['name'])) {
-            $builder->where('name', $filter['name']);
+            $builder->where('name', 'LIKE', '%'.$filter['name'].'%');
         }
            
         if(array_key_exists('email', $filter) && !empty($filter['email'])) {
             $builder->where('email', $filter['email']);
         }
-           
-        if(array_key_exists('password', $filter) && !empty($filter['password'])) {
-            $builder->where('password', $filter['password']);
-        }
-           
-        if(array_key_exists('remember_token', $filter) && !empty($filter['remember_token'])) {
-            $builder->where('remember_token', $filter['remember_token']);
-        }
         
-        
-        if(array_key_exists('groupBy', $filter) && !empty($filter['groupBy'])) {
-            $builder->orderBy($filter['groupBy'], 'ASC');
+        if(array_key_exists('orderBy', $filter) && !empty($filter['orderBy'])) {
+            $builder->orderBy($filter['orderBy'], 'ASC');
         }
-        else {
-            $builder->orderBy('id', 'DESC');
-        }
-        
+
         // Grava em laravel.log
         //
         //\Log::info($builder->getBindings());

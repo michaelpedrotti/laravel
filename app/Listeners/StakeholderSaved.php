@@ -110,7 +110,7 @@ class StakeholderSaved {
 	public function handle($model) {
 
 		if(!($model instanceof Distributors)) $this->distributor($model);
-		if(!($model instanceof Resellers)) $this->reseller($model, request('is_relleser', false));
+		if(!($model instanceof Resellers)) $this->reseller($model, request('is_reseller', false));
 		if(!($model instanceof Clients)) $this->customer($model, request('is_customer', false));
 	}
 }

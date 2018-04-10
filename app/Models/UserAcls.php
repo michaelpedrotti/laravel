@@ -119,11 +119,8 @@ class UserAcls extends \Eloquent {
         }
         
         
-        if(array_key_exists('groupBy', $filter) && !empty($filter['groupBy'])) {
-            $builder->orderBy($filter['groupBy'], 'ASC');
-        }
-        else {
-            $builder->orderBy('id', 'DESC');
+        if(array_key_exists('orderBy', $filter) && !empty($filter['orderBy'])) {
+            $builder->orderBy($filter['orderBy'], 'ASC');
         }
         
         // Grava em laravel.log

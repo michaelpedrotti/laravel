@@ -10,13 +10,13 @@
 <div class="col-sm-6">
 	<div class="form-body">
 		<label class="control-label">Distribuidor</label>
-		{{ Form::text('name', '', ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
+		{{ Form::text('name', '', ['class' => 'form-control', 'placeholder' => '']) }}
 	</div>
 </div>
 <div class="col-sm-6">
 	<div class="form-body">
 		<label class="control-label">{{ $model->labels['cnpj'] }}</label>
-		{{ Form::text('cnpj', '', ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control cnpj', 'placeholder' => '']) }}
+		{{ Form::text('cnpj', '', ['class' => 'form-control cnpj', 'placeholder' => '']) }}
 	</div>
 </div>
 @stop
@@ -48,5 +48,6 @@ $(document).ready(function(){
 		'id' => $model->labels['id'],
 		'name' => 'Distribuidor',
 		'cnpj' => $model->labels['cnpj'],
-	]
+	],
+	'order' => ['name' => 'asc']
 ])

@@ -96,12 +96,12 @@ class DocumentTypes extends \Eloquent {
         }
            
         if(array_key_exists('name', $filter) && !empty($filter['name'])) {
-            $builder->where('name', $filter['name']);
+            $builder->where('name', 'LIKE', '%'.$filter['name'].'%');
         }
         
         
-        if(array_key_exists('groupBy', $filter) && !empty($filter['groupBy'])) {
-            $builder->orderBy($filter['groupBy'], 'ASC');
+        if(array_key_exists('orderBy', $filter) && !empty($filter['orderBy'])) {
+            $builder->orderBy($filter['orderBy'], 'ASC');
         }
         else {
             $builder->orderBy('id', 'DESC');

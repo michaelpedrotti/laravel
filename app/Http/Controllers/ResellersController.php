@@ -30,7 +30,7 @@ class ResellersController extends Controller {
 
         if ($request->isXmlHttpRequest()) {
             return Datatables::eloquent($model->search($request->all()))
-				->addColumn('distributor', function ($query) {
+				->addColumn('distributor_id', function ($query) {
 					return $query->Distributor->User->name;
 				})
 				->make(true);
@@ -67,7 +67,7 @@ class ResellersController extends Controller {
 			
 				app(FormRequest::class);
 				
-				$request->request->set('is_relleser', 1);
+				$request->request->set('is_reseller', 1);
 				
                 $model->save();
                 $model->getConnection()->commit();

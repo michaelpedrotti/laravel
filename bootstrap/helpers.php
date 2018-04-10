@@ -292,3 +292,13 @@ if(!function_exists('app_cidr_range')){
 	}
 
 }
+
+if(!function_exists('app_is_stakeholder')){
+	
+	/**
+	 * 
+	 */
+	function app_is_stakeholder($model, $user_id) {
+		
+	}
+}

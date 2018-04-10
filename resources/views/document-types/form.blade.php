@@ -12,7 +12,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-body {{ $errors->first("name", "has-error") }}">
                                             <label class="control-label">{{ $model->labels['name'] }}  <span class="request">*</span>:</label>
-                                            {{ Form::text('name', $model->name, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
+                                            {{ Form::text('name', $model->name, ['class' => 'form-control', 'placeholder' => '']) }}
                                         </div>
                                     </div>
                                                   

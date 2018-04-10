@@ -11,7 +11,7 @@ class CreateUpdSdfndrsTable extends Migration {
             $table->increments("id");
             $table->integer("user_id")->unsigned();
             $table->string("type");
-            $table->string("value", 255);
+            $table->text("value");
             $table->string("status");
         $table->timestamps();        $table->softDeletes();        
         $table->foreign('user_id')

@@ -11,7 +11,7 @@
 						<div class="col-sm-12">
 							<div class="form-body {{ $errors->first("type_id", "has-error") }}">
 								<label class="control-label">{{ $model->labels['type_id'] }}  <span class="request">*</span></label>
-								{{ Form::select('type_id', app_fetch('DocumentTypes', 'name', 'id'), $model->type_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
+								{{ Form::select('type_id', app_fetch('DocumentTypes', 'name', 'id'), $model->type_id, ['class' => 'form-control select2']) }}
 								@if ($errors->has('type_id'))
 									<span class="help-block">
 										<strong>{{ $errors->first('type_id') }}</strong>
@@ -23,7 +23,7 @@
 						<div class="col-sm-12">
 							<div class="form-body {{ $errors->first("acl_id", "has-error") }}">
 								<label class="control-label">Nível de acesso <span class="request">*</span></label>
-								{{ Form::select('acl_id', app_fetch('Acls', 'name', 'id'), $model->type_id, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control select2']) }}
+								{{ Form::select('acl_id', app_fetch('Acls', 'name', 'id'), $model->type_id, ['class' => 'form-control select2']) }}
 								@if ($errors->has('acl_id'))
 									<span class="help-block">
 										<strong>{{ $errors->first('acl_id') }}</strong>
@@ -35,7 +35,7 @@
 						<div class="col-sm-12">
 							<div class="form-body {{ $errors->first("name", "has-error") }}">
 								<label class="control-label">{{ $model->labels['name'] }}  <span class="request">*</span></label>
-								{{ Form::text('name' , $model->name, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control']) }}
+								{{ Form::text('name' , $model->name, ['class' => 'form-control']) }}
 								@if ($errors->has('name'))
 									<span class="help-block">
 										<strong>{{ $errors->first('name') }}</strong>
@@ -48,10 +48,10 @@
 							<div class="form-body {{ $errors->first("attach", "has-error") }}">
 								<label class="control-label">Documento <span class="request">*</span></label>
 								@if(empty($model->id))
-									{{ Form::file('attach', ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control']) }}
+									{{ Form::file('attach', ['class' => 'form-control']) }}
 								@else
 								<div class="input-group">
-									{{ Form::file('attach', ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control']) }}
+									{{ Form::file('attach', ['class' => 'form-control']) }}
 									<a href="{{ url('documents/download/'.$model->id ) }}" title="Baixar o documento" class="input-group-addon btn btn-link btn-default">
 										<i class="fa fa-download"></i>	
 									</a>

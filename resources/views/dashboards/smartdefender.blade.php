@@ -122,10 +122,11 @@ $(document).ready(function(){
 				var tbody = $('.offline_users_table').find('tbody')	
 				tbody.empty();
 				
-				$.each(obj.online, function(key, row){
-					
-					tbody.append('<tr><td>' + row['Registered-To'] + '</td><td>' + row['Remote-Address'] + '</td><td>' + row['Requests'] + '</td></tr>');
+				$.each(obj.offline, function(key, row){
+
+					tbody.append('<tr><td>' + row['username'] + '</td><td>' + row['addr'] + '</td></tr>');
 				});
+
 
 			}
 		}).always(function() {

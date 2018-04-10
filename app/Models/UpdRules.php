@@ -104,9 +104,6 @@ class UpdRules extends \Eloquent {
         if(array_has($filter, 'groupBy')) {
             $builder->orderBy(array_get($filter, 'groupBy'), 'ASC');
         }
-        else {
-            $builder->orderBy('id', 'DESC');
-        }
         
         // Grava em laravel.log
         //

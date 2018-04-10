@@ -10,19 +10,19 @@
 <div class="col-sm-6">
 	<div class="form-body">
 		<label class="control-label">Distribuidor</label>
-		{{ Form::text('distributor', '', ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
+		{{ Form::text('distributor', '', ['class' => 'form-control', 'placeholder' => '']) }}
 	</div>
 </div>
 <div class="col-sm-6">
 	<div class="form-body">
 		<label class="control-label">Revendedor</label>
-		{{ Form::text('name', '', ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
+		{{ Form::text('name', '', ['class' => 'form-control', 'placeholder' => '']) }}
 	</div>
 </div>
 <div class="col-sm-6">
 	<div class="form-body">
 		<label class="control-label">{{ $model->labels['cnpj'] }}</label>
-		{{ Form::text('cnpj', $model->cnpj, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control cnpj', 'placeholder' => '']) }}
+		{{ Form::text('cnpj', $model->cnpj, ['class' => 'form-control cnpj', 'placeholder' => '']) }}
 	</div>
 </div>
    
@@ -54,7 +54,8 @@ $(document).ready(function(){
 	'columns' => [
 		'id' => $model->labels['id'],
 		'name' => 'Revendedor',
-		'distributor' => $model->labels['distributor_id'],
+		'distributor_id' => $model->labels['distributor_id'],
 		'cnpj' => $model->labels['cnpj'],
-	]
+	],
+	'order' => ['name' => 'asc']
 ])

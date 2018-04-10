@@ -30,10 +30,10 @@ class DistributorsController extends Controller {
 
         if ($request->isXmlHttpRequest()) {
             return Datatables::eloquent($model->search($request->all()))
-				->addColumn('name', function ($query) {
+				->addColumn('name', function($query) {
 					return \App\Models\Users::findOrNew($query->user_id)->name;
 				})
-				->editColumn('cnpj', function ($query) {
+				->editColumn('cnpj', function($query) {
 					return $query->cnpj;
 				})
 				->make(true);

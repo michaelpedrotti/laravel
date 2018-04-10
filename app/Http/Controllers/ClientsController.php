@@ -31,7 +31,7 @@ class ClientsController extends Controller {
         if ($request->isXmlHttpRequest()) {
 
             $engine = Datatables::eloquent($model->search($request->all()))
-				->editColumn('user', function ($query) {
+				->editColumn('user_id', function ($query) {
 					return $query->User->name;
 				})
 				->editColumn('reseller_id', function ($query) {

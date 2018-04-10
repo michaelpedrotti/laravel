@@ -77,6 +77,10 @@ $(function (){
                 });
 			}
 		},
+		@if(isset($order))
+		@php $keys = array_keys($columns) @endphp
+		order:[@foreach($order as $key => $dir) [{{ intval(array_search($key, $keys)) }}, '{{ $dir }}'], @endforeach],
+		@endif 
 		columns: [
 			@foreach($columns as $key => $label)
 			{data: '{{ $key }}', name: '{{ $key }}', className: 'text-left'},

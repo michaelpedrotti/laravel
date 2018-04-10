@@ -10,7 +10,7 @@
 							<div class="col-sm-12">
 								<div class="form-body {{ $errors->first("name", "has-error") }}">
 									<label class="control-label">Nome  <span class="request">*</span></label>
-									{{ Form::text('name', $model->User->name, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
+									{{ Form::text('name', $model->User->name, ['class' => 'form-control', 'placeholder' => '']) }}
 									@if ($errors->has('name'))
 									<span class="help-block">
 										<strong>{{ $errors->first('name') }}</strong>
@@ -21,7 +21,7 @@
 							<div class="col-sm-12">
 								<div class="form-body {{ $errors->first("email", "has-error") }}">
 									<label class="control-label">E-mail  <span class="request">*</span></label>
-									{{ Form::text('email', $model->User->email, ['data-required' => 1,'aria-required' => 'true' ,'class' => 'form-control', 'placeholder' => '']) }}
+									{{ Form::text('email', $model->User->email, ['class' => 'form-control', 'placeholder' => '']) }}
 									@if ($errors->has('email'))
 									<span class="help-block">
 										<strong>{{ $errors->first('email') }}</strong>
@@ -68,7 +68,7 @@
 							<div class="col-sm-12" style="margin-top:10px">
 								<p class="text-muted">@lang('Agragar a este cadastro')</p>
 								<div class="form-check">
-									{{ Form::checkbox('is_relleser', 1, null, ['class' => 'form-check-input', 'id' => 'checkbox-relleser']) }}
+									{{ Form::checkbox('is_reseller', 1, false, ['class' => 'form-check-input', 'id' => 'checkbox-relleser']) }}
 									<label class="form-check-label" for="checkbox-relleser">@lang('Revendedor')</label>
 								</div>
 								<div class="form-check">
