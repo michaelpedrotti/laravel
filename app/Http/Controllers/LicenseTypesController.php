@@ -37,7 +37,7 @@ class LicenseTypesController extends Controller {
         }
        
         return view('license-types.index', [
-            'model' => $model
+            'model' => $model			
         ]);
     }
         

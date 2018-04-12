@@ -16,7 +16,7 @@
 <div class="col-sm-6">
 	<div class="form-body">
 		<label class="control-label">{{ $model->labels['type_id'] }}</label>
-		{{ Form::select('type_id', app_fetch('LicenseTypes', 'name', 'id'), '', ['class' => 'form-control select2']) }}
+		{{ Form::select('type_id', [], '', ['class' => 'form-control select2', 'placeholder' => 'Selecione']) }}
 	</div>
 </div>
 <div class="col-sm-6">
@@ -28,7 +28,7 @@
 <div class="col-sm-6">
 	<div class="form-body">
 		<label class="control-label">{{ $model->labels['status'] }}</label>
-		{{ Form::select('status', array_merge(['' => 'Selecione'], $model->statusMapper()), '', ['class' => 'form-control select2']) }}
+		{{ Form::select('status', $model->statusMapper(), '', ['class' => 'form-control select2', 'placeholder' => 'Selecione']) }}
 	</div>
 </div>
 @stop
@@ -177,6 +177,13 @@ $(function(){
 	modal.delegate('[data-action=rem-network]', 'click', NS.remNetwork);
 	
 	$('button[data-action=generate-license]').click(NS.GenerateLicense);
+	
+	
+	$('select[name=product_id]').change(function(){
+		APP.loadCombo($('select[name=type_id]'), 'LicenseTypes', {
+			product_id:$(this).val()
+		});
+	});
 });
 
 </script>

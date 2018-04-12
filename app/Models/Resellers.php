@@ -188,44 +188,6 @@ class Resellers extends \Eloquent {
         return $builder;
     }
 	
-	public function storage($data = array()){
-		
-		// Usuário logado é um distribuidor cadastrando uma 
-		if(app_can('DISTRIBUTOR')) {
-			
-			$this->distributor_id = \App\Models\Distributors::select()
-				->where('user_id', \Auth::user()->id)
-				->firstOrNew([])
-					->id;
-		}
-		
-		$model = Users::find($this->user_id);
-		$acl_id = Acls::query()->where('UID', 'RESELLER')->first()->id;
-
-		if(empty($model)) {
-			
-			$model = Users::create([
-				'name' => strtoupper($data['name']),
-				'email' => $data['email'],
-				'password' => str_shuffle(date('Ymd')),
-				'acl_id' => $acl_id,
-			]);
-			
-			$this->user_id = $model->id;
-		}
-		else {
-			
-			$model->fill([
-				'name' => strtoupper($data['name']), 
-				'email' => $data['email'], 
-				'acl_id' => $acl_id
-			]);
-			$model->save();
-		}
-		
-		return parent::save();
-	}
-	
 	public function toHash($default){
 		
 		if(app_can('ADMIN')) {

@@ -109,7 +109,7 @@ class Acls extends \Eloquent {
         }
            
         if(array_key_exists('uid', $filter) && !empty($filter['uid'])) {
-            $builder->where('uid', $filter['uid']);
+            $builder->where('uid', 'LIKE', '%'.$filter['uid'].'%');
         }
         
         

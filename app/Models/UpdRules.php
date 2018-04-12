@@ -99,6 +99,10 @@ class UpdRules extends \Eloquent {
         if(array_has($filter, 'name')) {
             $builder->where('name', 'LIKE', '%'.array_get($filter, 'name').'%');
         }
+		
+		if(array_has($filter, 'value')) {
+            $builder->where('value', 'LIKE', '%'.array_get($filter, 'value').'%');
+        }
         
         
         if(array_has($filter, 'groupBy')) {

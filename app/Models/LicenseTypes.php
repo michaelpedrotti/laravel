@@ -114,8 +114,12 @@ class LicenseTypes extends \Eloquent {
             $builder->where('product_id', $filter['product_id']);
         }
         
-        if(array_has($filter, 'groupBy')) {
+        if(array_has($filter, 'orderBy')) {
             $builder->orderBy($filter['orderBy'], 'ASC');
+        }
+		
+		if(array_has($filter, 'groupBy')) {
+            $builder->groupBy($filter['groupBy']);
         }
         
         // Grava em laravel.log

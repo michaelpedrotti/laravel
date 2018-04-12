@@ -143,7 +143,7 @@ class Users extends \Eloquent {
         }
            
         if(array_key_exists('email', $filter) && !empty($filter['email'])) {
-            $builder->where('email', $filter['email']);
+            $builder->where('email', 'LIKE', '%'.$filter['email'].'%');
         }
         
         if(array_key_exists('orderBy', $filter) && !empty($filter['orderBy'])) {

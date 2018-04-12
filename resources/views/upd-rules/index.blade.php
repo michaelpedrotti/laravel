@@ -20,6 +20,12 @@
 		{{ Form::text('name', $model->name, ['class' => 'form-control', 'placeholder' => '']) }}
 	</div>
 </div>
+<div class="col-sm-6">
+	<div class="form-body">
+		<label class="control-label">{{ $model->labels['value'] }}</label>
+		{{ Form::text('value', $model->value, ['class' => 'form-control', 'placeholder' => '']) }}
+	</div>
+</div>
    
 @stop
 @include('layout.partials.datatable', [
